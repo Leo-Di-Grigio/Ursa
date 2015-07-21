@@ -25,6 +25,6 @@ public final class Location {
 
 	public void addObj(World world, Obj object, float x, float y, float sizex, float sizey) {
 		ObjBuilder.buildObj(world, object, x, y, sizex, sizey);
-		objects.put(object.id(), object);
+		objects.put(object.id, object);
 	}
 }

@@ -34,6 +34,7 @@ public final class Game extends Scene {
 	private void initAssets() {
 		// textures
 		Assets.loadTex(Const.TEX_NULL);
+		Assets.loadTex(Const.TEX_BLOCK);
 		Assets.loadTex(Const.TEX_BEAR_1);
 		
 		// fonts
@@ -42,7 +43,7 @@ public final class Game extends Scene {
 	
 	@Override
 	protected void update(OrthographicCamera camera) {
-		if(UserInput.key(Keys.W)){
+		if(UserInput.key(Keys.SPACE) || UserInput.key(Keys.W)){
 			gamedata.playerMoveUp();
 		}
 		
@@ -65,6 +66,7 @@ public final class Game extends Scene {
 	
 	@Override
 	protected void draw(SpriteBatch batch) {
+		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		gamedata.draw(batch);
 	}
 	

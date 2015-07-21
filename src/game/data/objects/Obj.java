@@ -17,10 +17,12 @@ abstract public class Obj {
 
 	private static int ID;
 
-	private final int id;
-	private final int type;
+	public final int id;
+	public final int type;
 	
 	// Physics
+	private float sizex;
+	private float sizey;
 	private Body body;
 	private Fixture fixture;
 	
@@ -40,23 +42,19 @@ abstract public class Obj {
 		this.body = body;
 		
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(sizex, sizey);
+		
+		this.sizex = sizex;
+		this.sizey = sizey;
+		shape.setAsBox(this.sizex/2, this.sizey/2);
 		
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
+        fixtureDef.friction = 0.0f;
 
         fixture = body.createFixture(fixtureDef);
 		
 		shape.dispose();
-	}
-	
-	public final int id(){
-		return id;
-	}
-	
-	public final int type(){
-		return type;
 	}
 	
 	public final void setPos(float x, float y){
@@ -71,16 +69,17 @@ abstract public class Obj {
 		return body.getPosition().y;
 	}
 	
-	public int sizeX() {
-		return tex.getWidth();
+	public final float sizeX() {
+		return sizex;
 	}
 
-	public int sizeY() {
-		return tex.getHeight();
+	public final float sizeY() {
+		return sizey;
 	}
 	
 	public final void moveUp() {
 		if(isGrounded()){
+			//body.applyLinearImpulse(0.0f, Const.BEAR_JUMP_IMPULSE, x(), y(), true);
 			body.setLinearVelocity(body.getLinearVelocity().x, Const.BEAR_SPEED_JUMP);
 		}
 	}
@@ -136,11 +135,15 @@ abstract public class Obj {
 		return false;
 	}
 	
+	public final Vector2 getSpeed(){
+		return body.getLinearVelocity();
+	}
+
 	public final void setTex(Texture tex) {
 		this.tex = tex;
 	}
 
 	public void draw(SpriteBatch batch) {
-
+		batch.draw(tex, x() - sizeX()/2, y() - sizeY()/2, sizeX(), sizeY());
 	}
 }

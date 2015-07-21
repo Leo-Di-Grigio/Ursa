@@ -8,6 +8,6 @@ public class Block extends Obj {
 
 	public Block() {
 		super(Const.OBJ_BOX);
-		setTex(Assets.getTex(Const.TEX_NULL));
+		setTex(Assets.getTex(Const.TEX_BLOCK));
 	}
 }

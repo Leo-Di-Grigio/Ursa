@@ -10,6 +10,8 @@ public class Const {
 	// texture
 	public static final String TEX_NULL = "assets/tex/null.png";
 	
+	public static final String TEX_BLOCK = "assets/tex/location/block.png";
+	
 	public static final String TEX_BEAR_1 = "assets/tex/creatures/bear.png";
 	
 	// font
@@ -37,6 +39,9 @@ public class Const {
 	public static final int OBJ_BOX = 100;
 	
 	// Animation
+	public static final int ANIMATION_DIRECT_LEFT = 0;
+	public static final int ANIMATION_DIRECT_RIGHT = 1;
+	
 	public static final int ANIMATION_ARRAY_SIZE = 7;
 	public static final int ANIMATION_IDLE_0 = 0;
 	public static final int ANIMATION_MOVE_1 = 1;
@@ -60,6 +65,7 @@ public class Const {
 
 	public static final float BEAR_SPEED = 30.0f;
 	public static final float BEAR_SPEED_JUMP = 50.0f;
+	public static final float BEAR_JUMP_IMPULSE = 2000.0f;
 	
 	// Map blocks
 	public static final int MAP_NULL = 0;

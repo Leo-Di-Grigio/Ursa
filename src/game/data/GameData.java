@@ -1,5 +1,7 @@
 package game.data;
 
+import tools.Const;
+import main.Config;
 import game.data.location.Location;
 import game.data.objects.Block;
 import game.data.objects.ObjBuilder;
@@ -33,30 +35,34 @@ public final class GameData implements Disposable {
 		//
 		world = new World(new Vector2(0.0f, -140f), true);
 		
-		debugRenderer = new Box2DDebugRenderer();
+		if(Config.debug()){
+			debugRenderer = new Box2DDebugRenderer();
+		}
 		
 		//
 		loc = new Location();
 		
 		// objects
 		this.player = new Player();
-		loc.addObj(world, player, 0, 0, 6, 4);
+		loc.addObj(world, player, 0, 0, 12, 8);
 		
 		// location test
-		loc.addObj(world, new Block(), 0, -2, 100, 2);
-		loc.addObj(world, new Block(), 0, 20, 100, 2);
-		loc.addObj(world, new Block(), -102, 115, 2, 100);
-		loc.addObj(world, new Block(), -102, -95, 2, 100);
-		
-		loc.addObj(world, new Block(), 15, 15, 2, 2);
-		loc.addObj(world, new Block(), 10, 6, 2, 2);
-		loc.addObj(world, new Block(), 20, 6, 2, 2);
+		loc.addObj(world, new Block(), 0, -2, 200, 4);
+		loc.addObj(world, new Block(), -20, 20, 40, 4);
+		loc.addObj(world, new Block(), 12, 6, 10, 4);
+		loc.addObj(world, new Block(), 30, 12, 10, 4);
+		loc.addObj(world, new Block(), -80, 20, 40, 4);
+		loc.addObj(world, new Block(), -102, 116, 4, 200);
+		loc.addObj(world, new Block(), -102, -96, 4, 200);
 	}
 	
 	public void update(OrthographicCamera camera) {
-		world.step(Gdx.graphics.getDeltaTime(), 1, 1);
+		world.step(Gdx.graphics.getDeltaTime(), 6, 4);
 		camera.position.set(player.x(), player.y(), 0.0f);
-		debugRenderer.render(world, camera.combined);
+		
+		if(Config.debug() && debugRenderer != null){
+			debugRenderer.render(world, camera.combined);
+		}
 	}
 
 	public void draw(SpriteBatch batch) {
@@ -65,8 +71,11 @@ public final class GameData implements Disposable {
 
 	@Override
 	public void dispose() {
-		debugRenderer.dispose();
 		world.dispose();
+		
+		if(Config.debug() && debugRenderer != null){
+			debugRenderer.dispose();
+		}
 	}
 
 	// Player movement
@@ -80,10 +89,12 @@ public final class GameData implements Disposable {
 	
 	public void playerMoveLeft() {
 		player.moveLeft();
+		player.setDirect(Const.ANIMATION_DIRECT_LEFT);
 	}
 	
 	public void playerMoveRight() {
 		player.moveRight();
+		player.setDirect(Const.ANIMATION_DIRECT_RIGHT);
 	}
 
 	public void playerStopX() {

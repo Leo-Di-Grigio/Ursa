@@ -5,12 +5,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-final class Config {
-	
+public final class Config {
+
+	private static boolean debug;
 	private static boolean fullscreen;
 	private static int frameHight;
 	private static int frameWidth;
-
+	
 	public Config() {
 		try {
 			File file = new File("config.cfg");
@@ -23,6 +24,8 @@ final class Config {
 				out.println("frame-witdh: " + 1366);
 				out.println("frame-hight: " + 768);
 				out.println("fullscreen: false");
+				out.println();
+				out.println("debug: true");
 				
 				out.flush();
 				out.close();
@@ -51,6 +54,10 @@ final class Config {
 								case "fullscreen":
 									fullscreen = Boolean.parseBoolean(arr[1]);
 									break;
+									
+								case "debug":
+									debug = Boolean.parseBoolean(arr[1]);
+									break;
 							}
 						}
 					}
@@ -78,5 +85,9 @@ final class Config {
 
 	public static boolean resizable() {
 		return false;
+	}
+	
+	public static boolean debug(){
+		return debug;
 	}
 }

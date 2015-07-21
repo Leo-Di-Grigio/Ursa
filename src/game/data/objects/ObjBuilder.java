@@ -24,11 +24,11 @@ public final class ObjBuilder {
 	public static void buildObj(World world, Obj object, float x, float y, float sizex, float sizey){
 		BodyDef def = null;
 		
-		if(object.type() == Const.CREATURE_BEAR_1){
+		if(object.type == Const.CREATURE_BEAR_1){
 			def = dynamicDef;		
 		}
 		
-		if(object.type() == Const.OBJ_BOX){
+		if(object.type == Const.OBJ_BOX){
 			def = staticDef;
 		}
 		
