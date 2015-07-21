@@ -1,17 +1,17 @@
 package game.data.objects;
 
+import game.data.sql.Database;
+import game.data.sql.properties.ObjectProperties;
 import tools.Const;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.WorldManifold;
-import com.badlogic.gdx.utils.Array;
 
 abstract public class Obj {
 
@@ -23,8 +23,8 @@ abstract public class Obj {
 	// Physics
 	private float sizex;
 	private float sizey;
-	private Body body;
-	private Fixture fixture;
+	protected Body body;
+	protected Fixture fixture;
 	
 	// Graphics
 	protected Texture tex;
@@ -40,6 +40,7 @@ abstract public class Obj {
 
 	public final void setBody(Body body, float sizex, float sizey){
 		this.body = body;
+		this.body.setUserData(new ObjData(id, type));
 		
 		PolygonShape shape = new PolygonShape();
 		
@@ -49,11 +50,23 @@ abstract public class Obj {
 		
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 1f;
-        fixtureDef.friction = 0.0f;
-
-        fixture = body.createFixture(fixtureDef);
-		
+        fixtureDef.isSensor = false;
+        
+        ObjectProperties property = Database.getObject(type);
+        fixtureDef.density = property.dencity;
+        fixtureDef.friction = property.friction;
+        fixtureDef.isSensor = property.interact;
+        
+        Filter filter = new Filter();
+        
+        if(type == Const.OBJ_STAIRS)
+        	filter.groupIndex = Const.BODY_FILTER_2;
+        else
+        	filter.groupIndex = Const.BODY_FILTER_1;
+        
+        fixture = this.body.createFixture(fixtureDef);
+        fixture.setFilterData(filter);
+        
 		shape.dispose();
 	}
 	
@@ -77,22 +90,21 @@ abstract public class Obj {
 		return sizey;
 	}
 	
-	public final void moveUp() {
+	public void moveUp() {
 		if(isGrounded()){
-			//body.applyLinearImpulse(0.0f, Const.BEAR_JUMP_IMPULSE, x(), y(), true);
 			body.setLinearVelocity(body.getLinearVelocity().x, Const.BEAR_SPEED_JUMP);
 		}
 	}
 	
-	public final void moveDown(){
+	public void moveDown(){
 		
 	}
 
-	public final void moveLeft() {
+	public void moveLeft() {
 		body.setLinearVelocity(-Const.BEAR_SPEED, body.getLinearVelocity().y);
 	}
 
-	public final void moveRight() {
+	public void moveRight() {
 		body.setLinearVelocity( Const.BEAR_SPEED, body.getLinearVelocity().y);
 	}
 
@@ -100,38 +112,7 @@ abstract public class Obj {
 		body.setLinearVelocity(   0.0f, body.getLinearVelocity().y);
 	}
 	
-	public boolean isGrounded(){
-		Array<Contact> contacts = body.getWorld().getContactList();
-		
-		for(int i = 0; i < contacts.size; ++i){
-			Contact contact = contacts.get(i);
-		    
-			if(contact.isTouching() && contact.getFixtureA() == fixture){
-				WorldManifold worldManifold = contact.getWorldManifold();
-				Vector2 pos = body.getPosition();
-			        
-				boolean below = true;
-			        
-				for(int j = 0; j < worldManifold.getNumberOfContactPoints(); ++j){
-					below &= worldManifold.getPoints()[j].y < pos.y;
-				}
-			        
-				if(below){
-					if(contact.getFixtureA().getUserData() != null && contact.getFixtureA().getUserData().equals("p")) {
-						body = (Body)contact.getFixtureA().getBody().getUserData();                     
-					}
-				   
-					if(contact.getFixtureB().getUserData() != null && contact.getFixtureB().getUserData().equals("p")) {
-						body = (Body)contact.getFixtureB().getBody().getUserData();
-					}
-				
-					return true;
-				}
-				
-				return false;
-			}
-		}
-		
+	public boolean isGrounded(){		
 		return false;
 	}
 	

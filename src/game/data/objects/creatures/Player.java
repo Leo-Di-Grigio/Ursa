@@ -1,8 +1,13 @@
-package game.data.objects;
+package game.data.objects.creatures;
+
+import java.util.HashSet;
+
+import game.data.objects.Creature;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.owlengine.resources.Assets;
 
 import tools.Const;
@@ -22,13 +27,21 @@ public final class Player extends Creature {
 	
 	private TextureRegion [][] texAtlas;
 	
+	//
+	private HashSet<Fixture> collisions;
+	
+	// Interact
+	private boolean stair;
+	
 	public Player() {
-		super(Const.CREATURE_BEAR_1);
+		super(Const.OBJ_PLAYER);
 		loadAssets();
+		
+		collisions = new HashSet<Fixture>();
 	}
 	
 	private void loadAssets() {
-		Texture tex = Assets.getTex(Const.TEX_BEAR_1);
+		Texture tex = Assets.getTex(Const.TEX_PLAYER);
 		
 		texAtlas = new TextureRegion[Const.ANIMATION_ARRAY_SIZE][2];
 		
@@ -41,6 +54,67 @@ public final class Player extends Creature {
 	
 	public void setDirect(int direct){
 		this.direct = direct;
+	}
+	
+	public void interactStair(boolean value) {
+		this.stair = value;
+		
+		if(value){
+			body.setGravityScale(0.0f);
+		}
+		else{
+			body.setGravityScale(1.0f);
+		}
+	}
+	
+	public void interactBlock(boolean value, Fixture objectFixture) {
+		
+		if(value){
+			if(objectFixture.getBody().getPosition().y < y()){
+				collisions.add(objectFixture);
+			}
+		}
+		else{
+			collisions.remove(objectFixture);
+		}
+	}
+	
+	@Override
+	public void moveUp() {
+		if(stair){
+			body.setLinearVelocity(body.getLinearVelocity().x, Const.BEAR_SPEED);
+		}
+		else{
+			super.moveUp();
+		}
+	}
+	
+	@Override
+	public void moveDown() {
+		if(stair){
+			body.setLinearVelocity(body.getLinearVelocity().x, -Const.BEAR_SPEED);
+		}
+	}
+
+	public void moveStopY() {
+		if(stair){
+			body.setLinearVelocity(body.getLinearVelocity().x, 0.0f);
+		}
+	}
+	
+	@Override
+	public void moveLeft() {
+		super.moveLeft();
+	}
+	
+	@Override
+	public void moveRight() {
+		super.moveRight();
+	}
+	
+	@Override
+	public boolean isGrounded() {
+		return !collisions.isEmpty();
 	}
 	
 	@Override

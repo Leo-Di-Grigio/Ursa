@@ -2,10 +2,13 @@ package game.data;
 
 import tools.Const;
 import main.Config;
+import game.data.location.GameContactListener;
 import game.data.location.Location;
-import game.data.objects.Block;
 import game.data.objects.ObjBuilder;
-import game.data.objects.Player;
+import game.data.objects.ObjData;
+import game.data.objects.creatures.Player;
+import game.data.objects.statics.Block;
+import game.data.objects.statics.Stairs;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -13,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
 
@@ -34,6 +38,7 @@ public final class GameData implements Disposable {
 		
 		//
 		world = new World(new Vector2(0.0f, -140f), true);
+		world.setContactListener(new GameContactListener(this));
 		
 		if(Config.debug()){
 			debugRenderer = new Box2DDebugRenderer();
@@ -47,17 +52,28 @@ public final class GameData implements Disposable {
 		loc.addObj(world, player, 0, 0, 12, 8);
 		
 		// location test
+		loc.addObj(world, new Stairs(), -50, 60, 4, 120);
+		
 		loc.addObj(world, new Block(), 0, -2, 200, 4);
+		
 		loc.addObj(world, new Block(), -20, 20, 40, 4);
-		loc.addObj(world, new Block(), 12, 6, 10, 4);
-		loc.addObj(world, new Block(), 30, 12, 10, 4);
 		loc.addObj(world, new Block(), -80, 20, 40, 4);
+		
+		loc.addObj(world, new Block(), -20, 50, 40, 4);
+		loc.addObj(world, new Block(), -80, 50, 40, 4);
+		
+		loc.addObj(world, new Block(), -20, 80, 40, 4);
+		loc.addObj(world, new Block(), -80, 80, 40, 4);
+		
+		loc.addObj(world, new Block(), -20, 110, 40, 4);
+		loc.addObj(world, new Block(), -80, 110, 40, 4);
+		
 		loc.addObj(world, new Block(), -102, 116, 4, 200);
 		loc.addObj(world, new Block(), -102, -96, 4, 200);
 	}
 	
 	public void update(OrthographicCamera camera) {
-		world.step(Gdx.graphics.getDeltaTime(), 6, 4);
+		world.step(Gdx.graphics.getDeltaTime(), 8, 3);
 		camera.position.set(player.x(), player.y(), 0.0f);
 		
 		if(Config.debug() && debugRenderer != null){
@@ -99,5 +115,25 @@ public final class GameData implements Disposable {
 
 	public void playerStopX() {
 		player.moveStopX();
+	}
+
+	public void playerStopY() {
+		player.moveStopY();
+	}
+
+	public void playerInteract(Fixture objectFixture, ObjData data, boolean value) {
+		
+		switch (data.type) {
+			case Const.OBJ_STAIRS:
+				player.interactStair(value);
+				break;
+				
+			case Const.OBJ_BLOCK:
+				player.interactBlock(value, objectFixture);
+				break;
+
+			default:
+				break;
+		}
 	}
 }

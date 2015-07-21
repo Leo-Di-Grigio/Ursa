@@ -1,6 +1,7 @@
 package game;
 
 import game.data.GameData;
+import game.data.sql.Database;
 import tools.Const;
 import tools.Version;
 
@@ -24,10 +25,11 @@ public final class Game extends Scene {
 	private GameData gamedata;
 	
 	public Game() {
+		new Database();
 		initAssets();
+		gamedata = new GameData();
 		
-		this.gamedata = new GameData();
-		
+		// camera scaling
 		GameAPI.camera().zoom = 0.13f;
 	}
 	
@@ -35,7 +37,8 @@ public final class Game extends Scene {
 		// textures
 		Assets.loadTex(Const.TEX_NULL);
 		Assets.loadTex(Const.TEX_BLOCK);
-		Assets.loadTex(Const.TEX_BEAR_1);
+		Assets.loadTex(Const.TEX_STAIRS);
+		Assets.loadTex(Const.TEX_PLAYER);
 		
 		// fonts
 		font = Assets.getFont(Const.FONT_DEFAULT);
@@ -46,9 +49,11 @@ public final class Game extends Scene {
 		if(UserInput.key(Keys.SPACE) || UserInput.key(Keys.W)){
 			gamedata.playerMoveUp();
 		}
-		
-		if(UserInput.key(Keys.S)){
+		else if(UserInput.key(Keys.S)){
 			gamedata.playerMoveDown();
+		}
+		else {
+			gamedata.playerStopY();
 		}
 		
 		if(UserInput.key(Keys.A)){
@@ -66,7 +71,7 @@ public final class Game extends Scene {
 	
 	@Override
 	protected void draw(SpriteBatch batch) {
-		Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		//Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		gamedata.draw(batch);
 	}
 	

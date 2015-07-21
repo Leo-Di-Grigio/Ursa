@@ -9,34 +9,19 @@ public class Const {
 	// Assets
 	// texture
 	public static final String TEX_NULL = "assets/tex/null.png";
-	
 	public static final String TEX_BLOCK = "assets/tex/location/block.png";
-	
-	public static final String TEX_BEAR_1 = "assets/tex/creatures/bear.png";
+	public static final String TEX_STAIRS = "assets/tex/location/stairs.png";
+	public static final String TEX_PLAYER = "assets/tex/creatures/bear.png";
 	
 	// font
 	public static final String FONT_DEFAULT = "assets/font/font.ttf";
 	
 	// Objects type
-	public static final int CREATURE_NULL = 0;
-	
-	public static final int CREATURE_BEAR_1 = 1;
-	public static final int CREATURE_BEAR_2 = 2;
-	public static final int CREATURE_BEAR_3 = 3;
-	public static final int CREATURE_BEAR_4 = 4;
-	public static final int CREATURE_BEAR_5 = 5;
-	public static final int CREATURE_BEAR_6 = 6;
-	public static final int CREATURE_BEAR_7 = 7;
-	public static final int CREATURE_BEAR_8 = 8;
-	public static final int CREATURE_BEAR_9 = 9;
-	
-	public static final int CREATURE_CHILD = 10;
-	public static final int CREATURE_MOTHER = 11;
-	public static final int CREATURE_FATHER = 12;
-	public static final int CREATURE_POLICE = 13;
-	public static final int CREATURE_SWAT = 14;
-	
-	public static final int OBJ_BOX = 100;
+	public static final int OBJ_NULL = 0;
+	public static final int OBJ_PLAYER = 1;
+	public static final int OBJ_BLOCK = 2;
+	public static final int OBJ_BACKGROUND_WALL = 3;
+	public static final int OBJ_STAIRS = 4;
 	
 	// Animation
 	public static final int ANIMATION_DIRECT_LEFT = 0;
@@ -50,16 +35,28 @@ public class Const {
 	public static final int ANIMATION_MOVE_4 = 4;
 	public static final int ANIMATION_MOVE_5 = 5;
 	public static final int ANIMATION_MOVE_6 = 6;
-	
-	// Navigation	
-	public static final int MAP_NODE_PIXEL_SIZE = 32;
-	public static final int MAP_NODE_SIZE_X = 128;
-	public static final int MAP_NODE_SIZE_Y = 32;
-	
-	public static final int MAP_PIXEL_SIZE_X = Const.MAP_NODE_PIXEL_SIZE * Const.MAP_NODE_SIZE_X;
-	public static final int MAP_PIXEL_SIZE_Y = Const.MAP_NODE_PIXEL_SIZE * Const.MAP_NODE_SIZE_Y;
-	
+
 	// Physic
+	public static final int BODY_TYPE_STATIC = 0;
+	public static final int BODY_TYPE_DYNAMIC = 1;
+	public static final int BODY_TYPE_KINEMATIC = 2;
+	
+	public static final short BODY_FILTER_1 = 0x0001;
+	public static final short BODY_FILTER_2 = 0x0002;
+	public static final short BODY_FILTER_3 = 0x0004;
+	public static final short BODY_FILTER_4 = 0x0008;
+	public static final short BODY_FILTER_5 = 0x0010;
+	public static final short BODY_FILTER_6 = 0x0020;
+	public static final short BODY_FILTER_7 = 0x0040;
+	public static final short BODY_FILTER_8 = 0x0080;
+	public static final short BODY_FILTER_9 = 0x0100;
+	public static final short BODY_FILTER_10 = 0x0200;
+	public static final short BODY_FILTER_11 = 0x0400;
+	public static final short BODY_FILTER_12 = 0x0800;
+	public static final short BODY_FILTER_13 = 0x1000;
+	public static final short BODY_FILTER_14 = 0x2000;
+	public static final short BODY_FILTER_15 = 0x4000;
+	
 	public static final float PHYSICS_GRAVITY_X =  0.0f;
 	public static final float PHYSICS_GRAVITY_Y = -0.4f;
 
@@ -70,4 +67,43 @@ public class Const {
 	// Map blocks
 	public static final int MAP_NULL = 0;
 	public static final int MAP_BLOCK = 1;
+	
+	public static int getBodyType(final String type) {
+		switch (type) {
+		
+			case "dynamic":
+				return Const.BODY_TYPE_DYNAMIC;
+				
+			case "kinematic":
+				return Const.BODY_TYPE_KINEMATIC;
+		
+			case "static":
+			default:
+				return Const.BODY_TYPE_STATIC;
+		}
+	}
+
+	public static short getFilterType(int filter) {
+		switch (filter) {
+		
+			case 1: return BODY_FILTER_1;
+			case 2: return BODY_FILTER_2;
+			case 3: return BODY_FILTER_3;
+			case 4: return BODY_FILTER_4;
+			case 5: return BODY_FILTER_5;
+			case 6: return BODY_FILTER_6;
+			case 7: return BODY_FILTER_7;
+			case 8: return BODY_FILTER_8;
+			case 9: return BODY_FILTER_9;
+			case 10: return BODY_FILTER_10;
+			case 11: return BODY_FILTER_11;
+			case 12: return BODY_FILTER_12;
+			case 13: return BODY_FILTER_13;
+			case 14: return BODY_FILTER_14;
+			case 15: return BODY_FILTER_15;
+			
+			default:
+				return BODY_FILTER_1;
+		}
+	}
 }
