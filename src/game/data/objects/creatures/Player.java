@@ -3,6 +3,7 @@ package game.data.objects.creatures;
 import java.util.HashSet;
 
 import game.data.objects.Creature;
+import game.data.objects.Obj;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -67,10 +68,10 @@ public final class Player extends Creature {
 		}
 	}
 	
-	public void interactBlock(boolean value, Fixture objectFixture) {
+	public void interactBlock(boolean value, Fixture objectFixture, Obj obj) {
 		
 		if(value){
-			if(objectFixture.getBody().getPosition().y < y()){
+			if(objectFixture.getBody().getPosition().y + obj.sizeY()/2 <= y()){
 				collisions.add(objectFixture);
 			}
 		}

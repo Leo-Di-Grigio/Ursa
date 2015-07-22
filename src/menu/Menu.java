@@ -6,6 +6,7 @@ import tools.Version;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.owlengine.interfaces.Event;
 import com.owlengine.interfaces.Script;
 import com.owlengine.resources.Assets;
 import com.owlengine.scenes.Scene;
@@ -69,7 +70,15 @@ public final class Menu extends Scene {
 			});
 		}
 	}
-
+	
+	@Override
+	public void event(final int code) {
+		if(code == Event.SCENE_LOAD){
+			Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+			GameAPI.camera().zoom = 1.0f;
+		}
+	}
+	
 	@Override
 	protected void drawHUD(SpriteBatch batch) {
 		font.draw(batch, Version.TITLE_VERSION, 5, 15);

@@ -16,6 +16,10 @@ public class Const {
 	// font
 	public static final String FONT_DEFAULT = "assets/font/font.ttf";
 	
+	// Editor
+	public static final int GRID_STEP = 20;
+	public static final int EDITOR_BACKGROUND_BLUEPRINT_COLOR = 0x2F4E81;
+	
 	// Objects type
 	public static final int OBJ_NULL = 0;
 	public static final int OBJ_PLAYER = 1;

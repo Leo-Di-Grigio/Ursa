@@ -27,4 +27,8 @@ public final class Location {
 		ObjBuilder.buildObj(world, object, x, y, sizex, sizey);
 		objects.put(object.id, object);
 	}
+
+	public Obj getObj(final int id) {
+		return objects.get(id);
+	}
 }

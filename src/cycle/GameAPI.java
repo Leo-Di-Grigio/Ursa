@@ -14,6 +14,10 @@ public final class GameAPI {
 
 	private static SceneMng scenes;
 	private static OrthographicCamera camera;
+	
+	// scenes
+	private static Menu sceneMenu;
+	private static Game sceneGame;
 
 	public GameAPI(SceneMng scenes, OrthographicCamera camera) {
 		GameAPI.scenes = scenes;
@@ -27,11 +31,18 @@ public final class GameAPI {
 	}
 	
 	public static void loadMenu() {
-		scenes.loadScene(new Menu());
+		sceneMenu = new Menu();
+		scenes.loadScene(sceneMenu);
 	}
 	
 	public static void loadGame() {
-		scenes.loadScene(new Game());
+		sceneGame = new Game();
+		scenes.loadScene(sceneGame);
+	}
+	
+	public static void exitGame() {
+		scenes.loadScene(sceneMenu);
+		sceneGame = null;
 	}
 
 	public static void exit() {
