@@ -61,6 +61,10 @@ abstract public class Obj {
 		shape.dispose();
 	}
 	
+	public Body getBody() {
+		return body;
+	}
+	
 	public final void setPos(float x, float y){
 		body.getPosition().set(x, y);
 	}
@@ -111,7 +115,7 @@ abstract public class Obj {
 		return body.getLinearVelocity();
 	}
 
-	public final void setTex(Texture tex) {
+	public void setTex(Texture tex) {
 		this.tex = tex;
 	}
 

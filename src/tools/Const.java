@@ -9,9 +9,15 @@ public class Const {
 	// Assets
 	// texture
 	public static final String TEX_NULL = "assets/tex/null.png";
+	
+	// textures location
 	public static final String TEX_BLOCK = "assets/tex/location/block.png";
+	public static final String TEX_BACKGROUND_WALL = "assets/tex/location/background_wall.png";
 	public static final String TEX_STAIRS = "assets/tex/location/stairs.png";
-	public static final String TEX_PLAYER = "assets/tex/creatures/bear.png";
+	public static final String TEX_WATER = "assets/tex/location/water.png";
+	
+	// textures creatures
+	public static final String TEX_PLAYER = "assets/tex/creatures/player.png";
 	
 	// font
 	public static final String FONT_DEFAULT = "assets/font/font.ttf";
@@ -21,11 +27,17 @@ public class Const {
 	public static final int EDITOR_BACKGROUND_BLUEPRINT_COLOR = 0x2F4E81;
 	
 	// Objects type
+	public static final int OBJ_TYPE_NULL = 0;
+	public static final int OBJ_TYPE_OBJECT = 1;
+	public static final int OBJ_TYPE_CREATURE = 2;
+	
+	// Objects ID's
 	public static final int OBJ_NULL = 0;
 	public static final int OBJ_PLAYER = 1;
 	public static final int OBJ_BLOCK = 2;
 	public static final int OBJ_BACKGROUND_WALL = 3;
 	public static final int OBJ_STAIRS = 4;
+	public static final int OBJ_WATER = 5;
 	
 	// Animation
 	public static final int ANIMATION_DIRECT_LEFT = 0;
@@ -73,6 +85,7 @@ public class Const {
 	public static final int MAP_BLOCK = 1;
 	
 	public static int getBodyType(final String type) {
+		
 		switch (type) {
 		
 			case "dynamic":
@@ -87,27 +100,19 @@ public class Const {
 		}
 	}
 
-	public static short getFilterType(int filter) {
-		switch (filter) {
+	public static int getObjType(final String type) {
 		
-			case 1: return BODY_FILTER_1;
-			case 2: return BODY_FILTER_2;
-			case 3: return BODY_FILTER_3;
-			case 4: return BODY_FILTER_4;
-			case 5: return BODY_FILTER_5;
-			case 6: return BODY_FILTER_6;
-			case 7: return BODY_FILTER_7;
-			case 8: return BODY_FILTER_8;
-			case 9: return BODY_FILTER_9;
-			case 10: return BODY_FILTER_10;
-			case 11: return BODY_FILTER_11;
-			case 12: return BODY_FILTER_12;
-			case 13: return BODY_FILTER_13;
-			case 14: return BODY_FILTER_14;
-			case 15: return BODY_FILTER_15;
+		switch (type) {
 			
+			case "object":
+				return Const.OBJ_TYPE_OBJECT;
+				
+			case "creature":
+				return Const.OBJ_TYPE_CREATURE;
+
+			case "null":
 			default:
-				return BODY_FILTER_1;
+				return Const.OBJ_TYPE_NULL;
 		}
 	}
 }

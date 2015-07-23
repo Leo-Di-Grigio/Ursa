@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.owlengine.resources.Assets;
 
 import tools.Const;
 
@@ -33,17 +32,15 @@ public final class Player extends Creature {
 	
 	// Interact
 	private boolean stair;
+	private boolean water;
 	
 	public Player() {
-		super(Const.OBJ_PLAYER);
-		loadAssets();
-		
+		super(Const.OBJ_PLAYER);		
 		collisions = new HashSet<Fixture>();
 	}
 	
-	private void loadAssets() {
-		Texture tex = Assets.getTex(Const.TEX_PLAYER);
-		
+	@Override
+	public void setTex(Texture tex) {
 		texAtlas = new TextureRegion[Const.ANIMATION_ARRAY_SIZE][2];
 		
 		for(int i = 0; i < Const.ANIMATION_ARRAY_SIZE; ++i){
@@ -66,6 +63,10 @@ public final class Player extends Creature {
 		else{
 			body.setGravityScale(1.0f);
 		}
+	}
+
+	public void interactWater(boolean value) {
+		this.water = value;
 	}
 	
 	public void interactBlock(boolean value, Fixture objectFixture, Obj obj) {

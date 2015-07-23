@@ -98,6 +98,16 @@
 				"texture_select": "assets/tex/ui/button_selected.png",
 				"visible": true,
 			},
+			
+			{
+				"content": "button",
+				"title": "button_editor_water",
+				"font": "assets/font/font.ttf", "text": "Water",
+				"alignment": "UP_LEFT", "pos_x": 2, "pos_y": -138, "size_x": 70, "size_y": 32,
+				"texture_normal": "assets/tex/ui/button_normal.png",
+				"texture_select": "assets/tex/ui/button_selected.png",
+				"visible": true,
+			},
 		],
 	},
 ]

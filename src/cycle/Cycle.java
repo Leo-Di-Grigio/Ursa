@@ -68,6 +68,9 @@ public final class Cycle implements ApplicationListener {
 		scenes.update(camera);
 		camera.update();
 		sceneBatch.setProjectionMatrix(camera.combined);
+
+		// post update
+		scenes.postUpdate();
 		
 		// render
 		scenes.draw(sceneBatch, uiBatch);

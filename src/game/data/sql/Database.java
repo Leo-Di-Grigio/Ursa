@@ -43,17 +43,26 @@ public final class Database {
 			ResultSet result = state.executeQuery("SELECT * FROM OBJECTS;");
 			
 			while(result.next()) {
-				int id = result.getInt("id");
+				int id = result.getInt("type_id");
 				String title = result.getString("title");
-				int bodyType = Const.getBodyType(result.getString("body_type"));
+				
+				int type = Const.getObjType(result.getString("obj_type"));
+				int bodyType = Const.getBodyType(result.getString("physic_type"));
+				
 				boolean interact = result.getBoolean("interact");
 				float dencity = result.getFloat("dencity");
 				float friction = result.getFloat("friction");
 				float mass = result.getFloat("mass");
+				int drawLayer = result.getInt("draw_layer");
+				
+				int sizex = result.getInt("size_x");
+				int sizey = result.getInt("size_y");
+				
+				String texture = result.getString("texture");
 				
 				//
-				ObjectProperties property = new ObjectProperties(id, title, bodyType, interact, dencity, friction, mass);
-				objects.put(property.id, property);
+				ObjectProperties property = new ObjectProperties(id, title, type, bodyType, interact, dencity, friction, mass, drawLayer, sizex, sizey, texture);
+				objects.put(property.typeId, property);
 			}
 			
 			state.close();

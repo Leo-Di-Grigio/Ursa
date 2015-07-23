@@ -3,7 +3,6 @@ package game;
 import game.data.GameData;
 import game.data.sql.Database;
 import tools.Const;
-import tools.Version;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -30,7 +29,7 @@ public final class Game extends Scene {
 	private GameData gamedata;
 	
 	public Game() {
-		// Gamedata
+		// Game data
 		new Database();
 		initAssets();
 		gamedata = new GameData();
@@ -38,6 +37,11 @@ public final class Game extends Scene {
 		// UI
 		setUI(Const.UI_GAME);
 		initUI();
+	}
+
+	private void initAssets() {		
+		// fonts
+		font = Assets.getFont(Const.FONT_DEFAULT);
 	}
 	
 	private void initUI() {
@@ -179,17 +183,26 @@ public final class Game extends Scene {
 		else{
 			Log.err("Game.initEditFrame(): button button_editor_stair is null ");
 		}
-	}
-
-	private void initAssets() {
-		// textures
-		Assets.loadTex(Const.TEX_NULL);
-		Assets.loadTex(Const.TEX_BLOCK);
-		Assets.loadTex(Const.TEX_STAIRS);
-		Assets.loadTex(Const.TEX_PLAYER);
 		
-		// fonts
-		font = Assets.getFont(Const.FONT_DEFAULT);
+		// Stair
+		button = (Button)getUI().getWidget("button_editor_water");
+		if(button != null){
+			button.setScriptOnAction(new Script() {
+				
+				@Override
+				public void execute(String key) {
+					
+				}
+				
+				@Override
+				public void execute() {
+					gamedata.setEditObject(Const.OBJ_WATER);
+				}
+			});
+		}
+		else{
+			Log.err("Game.initEditFrame(): button button_editor_water is null ");
+		}
 	}
 	
 	@Override
@@ -219,16 +232,18 @@ public final class Game extends Scene {
 	
 	@Override
 	public void event(final int code) {
-		
 		if(code == Event.SCENE_LOAD){
 			GameAPI.camera().zoom = 0.13f;
 			Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 		else if(code == Event.MOUSE_KEY_LEFT){
-			gamedata.sceneClick();
+			gamedata.sceneLeftClick();
 		}
-		else if(code == Event.MOUSE_DRAG){
-			gamedata.sceneDrag();
+		else if(code == Event.MOUSE_KEY_RIGHT){
+			gamedata.sceneRightClick();
+		}
+		else if(code == Event.MOUSE_MOVE){
+			gamedata.sceneMouseMove();
 		}
 	}
 	
@@ -238,11 +253,11 @@ public final class Game extends Scene {
 			gamedata.cameraZoom(data);
 		}
 		else if(code == Event.KEY_DOWN){
-			if(data == Keys.ENTER){
-				gamedata.sceneEnter();
-			}
-			else if(data == Keys.ESCAPE){
+			if(data == Keys.ESCAPE){
 				gamedata.sceneEscape();
+			}
+			else if(data == Keys.FORWARD_DEL){
+				gamedata.sceneDel();
 			}
 		}
 	}
@@ -255,6 +270,11 @@ public final class Game extends Scene {
 	@Override
 	protected void drawHUD(SpriteBatch batch) {
 		gamedata.drawHUD(font, batch);
+	}
+	
+	@Override
+	protected void postUpdate() {
+		gamedata.postUpdate();
 	}
 	
 	@Override

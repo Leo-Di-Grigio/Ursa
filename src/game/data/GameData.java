@@ -1,5 +1,7 @@
 package game.data;
 
+import java.util.Set;
+
 import tools.Const;
 import tools.Version;
 import main.Config;
@@ -9,8 +11,8 @@ import game.data.objects.Obj;
 import game.data.objects.ObjBuilder;
 import game.data.objects.ObjData;
 import game.data.objects.creatures.Player;
-import game.data.objects.statics.Block;
-import game.data.objects.statics.Stairs;
+import game.data.sql.Database;
+import game.data.sql.properties.ObjectProperties;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -30,35 +32,34 @@ import cycle.GameAPI;
 
 public final class GameData implements Disposable {
 	
-	//
+	// GameObjets
 	private Location loc;
 	
 	// Objects
 	private Player player;
 	
-	//
-	private Box2DDebugRenderer debugRenderer;
+	// Physics
 	private World world;
 
 	// modes
 	private boolean editMode;
-	private int editObject = Const.OBJ_NULL;
+	private ObjectProperties editObjProto = null;
 	
 	// mouse selecting
 	private boolean editSelect;
+	private boolean editSelectMapPart;
 	private Vector3 select1;
-	private Vector3 select2;
+	private Obj selectedObj;
 	
-	// 
+	//
+	private Box2DDebugRenderer debugRenderer;
 	private Vector3 cameraResoultion;
 	private ShapeRenderer shapeBatch;
 	
 	public GameData() {
 		shapeBatch = new ShapeRenderer();
 		cameraResoultion = new Vector3();
-		
 		select1 = new Vector3();
-		select2 = new Vector3();
 		
 		//
 		Box2D.init();
@@ -76,11 +77,10 @@ public final class GameData implements Disposable {
 		loc = new Location();
 		
 		// objects
-		this.player = new Player();
-		loc.addObj(world, player, 0, 0, 12, 8);
+		this.player = (Player)loc.addObj(world, Const.OBJ_PLAYER, 0, 0);
 		
 		// location test
-		loc.addObj(world, new Block(), 0, -2, 200, 4);
+		loc.addObj(world, Const.OBJ_BLOCK, 0, -2);
 	}
 	
 	public void update(OrthographicCamera camera) {
@@ -93,26 +93,42 @@ public final class GameData implements Disposable {
 		if(Config.debug() && debugRenderer != null){
 			debugRenderer.render(world, camera.combined);
 		}
-		
-		if(editMode){
-			drawEdit();
-		}
 	}
 
 	public void draw(SpriteBatch batch) {
 		loc.draw(batch);
 	}
-
+	
+	public void drawHUD(BitmapFont font, SpriteBatch batch) {
+		if(editMode){
+			font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		}
+		else{
+			font.setColor(0.0f, 0.0f, 0.0f, 1.0f);
+		}
+		
+		font.draw(batch, Version.TITLE_VERSION, 5, 15);
+		font.draw(batch, "Game", 5, 30);
+		font.draw(batch, "FPS: "+Gdx.graphics.getFramesPerSecond(), 5, 45);
+	}
+	
+	public void postUpdate() {
+		if(editMode){
+			drawEdit();
+		}
+	}
+	
 	private void drawEdit() {
 		shapeBatch.setProjectionMatrix(GameAPI.camera().combined);
-		
-
 		shapeBatch.begin(ShapeType.Line);
 
 		drawEditGrid();
 		
-		if(editSelect){
+		if(editMode && editObjProto != null){
 			drawEditObj();
+		}
+		else if(editSelectMapPart){
+			drawEditSelectedMapPart();
 		}
 	
 		shapeBatch.end();
@@ -141,19 +157,14 @@ public final class GameData implements Disposable {
 	private void drawEditObj() {
 		Gdx.gl.glLineWidth(1.0f);
 		shapeBatch.setColor(1.0f, 0.0f, 0.0f, 1.0f);
-		
-		final int x1 = (int)select1.x;
-		final int y1 = (int)select1.y;
-		
-		final int x2 = (int)select2.x;
-		final int y2 = (int)select2.y;
-		
-		final int sizex = (int)Math.abs(x1 - x2);
-		final int sizey = (int)Math.abs(y1 - y2);
-		
-		shapeBatch.rect(Math.min(x1, x2), Math.min(y1, y2), sizex, sizey);
+		shapeBatch.rect((int)select1.x, (int)select1.y, editObjProto.sizex, editObjProto.sizey);
 	}
-
+	
+	private void drawEditSelectedMapPart() {
+		shapeBatch.setColor(1.0f, 0.0f, 0.0f, 1.0f);
+		shapeBatch.rect(select1.x, select1.y, selectedObj.sizeX(), selectedObj.sizeY());
+	}
+	
 	@Override
 	public void dispose() {
 		world.dispose();
@@ -171,6 +182,10 @@ public final class GameData implements Disposable {
 				player.interactStair(value);
 				break;
 				
+			case Const.OBJ_WATER:
+				player.interactWater(value);
+				break;
+				
 			case Const.OBJ_BLOCK:
 				player.interactBlock(value, objectFixture, loc.getObj(data.id));
 				break;
@@ -183,7 +198,7 @@ public final class GameData implements Disposable {
 	// Player movement
 	public void playerMoveUp() {
 		if(editMode){
-			GameAPI.camera().position.add(0.0f, 1.0f, 0.0f);
+			GameAPI.camera().translate(0.0f, 1.0f);
 		}
 		else{
 			player.moveUp();
@@ -192,7 +207,7 @@ public final class GameData implements Disposable {
 
 	public void playerMoveDown() {
 		if(editMode){
-			GameAPI.camera().position.add(0.0f, -1.0f, 0.0f);
+			GameAPI.camera().translate(0.0f, -1.0f);
 		}
 		else{
 			player.moveDown();
@@ -201,7 +216,7 @@ public final class GameData implements Disposable {
 	
 	public void playerMoveLeft() {
 		if(editMode){
-			GameAPI.camera().position.add(-1.0f, 0.0f, 0.0f);
+			GameAPI.camera().translate(-1.0f, 0.0f);
 		}
 		else{
 			player.moveLeft();
@@ -211,7 +226,7 @@ public final class GameData implements Disposable {
 	
 	public void playerMoveRight() {
 		if(editMode){
-			GameAPI.camera().position.add(1.0f, 0.0f, 0.0f);
+			GameAPI.camera().translate(1.0f, 0.0f);
 		}
 		else{
 			player.moveRight();
@@ -231,18 +246,25 @@ public final class GameData implements Disposable {
 		this.editMode = value;
 		
 		if(this.editMode){
-			Gdx.gl.glClearColor(0.18431f, 0.30588f, 0.50588f, 1.0f);
+			Gdx.gl.glClearColor(0.18431f, 0.30588f, 0.50588f, 1.0f); // blueprint color
 		}
 		else{
+			editSelectMapPart = false;
 			editSelect = false;
-			editObject = Const.OBJ_NULL;
+			editObjProto = null;
+			selectedObj = null;
 			GameAPI.camera().zoom = 0.13f;
 			Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 	}
 
-	public void setEditObject(int objId) {
-		this.editObject = objId;
+	public void setEditObject(int typeId) {
+		if(typeId == Const.OBJ_NULL){
+			editObjProto = null;
+		}
+		else{
+			editObjProto = Database.getObject(typeId);
+		}
 	}
 	
 	public void cameraZoom(int data) {
@@ -255,59 +277,24 @@ public final class GameData implements Disposable {
 		}
 	}
 
-	public void sceneEnter() {
-		if(editMode && editObject != Const.OBJ_NULL){
-			commitEdit();
-			editSelect = false;
-		}
-	}
-
 	public void sceneEscape() {
-		if(editMode && editObject != Const.OBJ_NULL){
+		if(editMode && editObjProto != null){
 			cancelEdit();
 			editSelect = false;
 		}
 	}
-
-	private void commitEdit() {
-		Obj obj = null;
-		
-		switch (editObject) {
-			
-			case Const.OBJ_BLOCK:
-				obj = new Block();
-				break;
-				
-			case Const.OBJ_STAIRS:
-				obj = new Stairs();
-				break;
+	
+	public void sceneDel() {
+		if(editMode && editSelectMapPart && selectedObj != null){
+			loc.removeObj(world, selectedObj);
+			editSelectMapPart = false;
+			editSelect = false;
 		}
-		
-		if(obj != null){
-			final int posx = (int)select1.x;
-			final int posy = (int)select1.y;
-			
-			final int sizex = Math.abs((int)select2.x - posx);
-			final int sizey = Math.abs((int)select2.y - posy);
-			
-			if(sizex != 0 && sizey != 0){
-				if(select1.x < select2.x){
-					if(select1.y < select2.y){
-						loc.addObj(world, obj, posx + sizex/2, posy + sizey/2, sizex, sizey);
-					}
-					else{
-						loc.addObj(world, obj, posx + sizex/2, posy - sizey/2, sizex, sizey);
-					}
-				}
-				else{
-					if(select1.y < select2.y){
-						loc.addObj(world, obj, posx - sizex/2, posy + sizey/2, sizex, sizey);
-					}
-					else{
-						loc.addObj(world, obj, posx - sizex/2, posy - sizey/2, sizex, sizey);
-					}
-				}	
-			}
+	}
+
+	public void sceneMouseMove() {
+		if(editMode && editObjProto != null){
+			pickPixel(select1);
 		}
 	}
 	
@@ -315,33 +302,54 @@ public final class GameData implements Disposable {
 		
 	}
 
-	public void sceneClick() {
-		if(editMode && editObject != Const.OBJ_NULL && !editSelect){
-			// first click (first part)
-			pickPixel(select1);
-			editSelect = true;
+	public void sceneLeftClick() {
+		if(editMode){
+			if(editObjProto != null && !editSelect){
+				placeObj();
+			}
+			else{
+				pickPixel(select1);
+				
+				Set<Obj> objects = loc.searchObj(select1.x, select1.y);
+				
+				if(objects.size() > 0){
+					this.editSelectMapPart = true;
+
+					for(Obj obj: objects){
+						select1.set(obj.x() - obj.sizeX()/2, obj.y() -obj.sizeY()/2, 0.0f);
+						selectedObj = obj; 
+						break;
+					}
+				}
+				else{
+					this.editSelectMapPart = false;
+				}
+			}
 		}
 	}
 	
-	public void sceneDrag() {
-		pickPixel(select2);
+	private void placeObj() {
+		pickPixel(select1);
+		
+		final int posx = (int)select1.x;
+		final int posy = (int)select1.y;
+		
+		final int sizex = editObjProto.sizex;
+		final int sizey = editObjProto.sizey;
+		
+		loc.addObj(world, editObjProto.typeId, posx + sizex/2, posy + sizey/2);
+	}
+
+	public void sceneRightClick() {
+		if(editMode){
+			editObjProto = null;
+			editSelect = false;
+			editSelectMapPart = false;
+		}
 	}
 
 	private void pickPixel(Vector3 vector){
-        vector.set(Gdx.input.getX() , Gdx.input.getY(), 0);
+        vector.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         GameAPI.camera().unproject(vector);
-	}
-
-	public void drawHUD(BitmapFont font, SpriteBatch batch) {
-		if(editMode){
-			font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		}
-		else{
-			font.setColor(0.0f, 0.0f, 0.0f, 1.0f);
-		}
-		
-		font.draw(batch, Version.TITLE_VERSION, 5, 15);
-		font.draw(batch, "Game", 5, 30);
-		font.draw(batch, "FPS: "+Gdx.graphics.getFramesPerSecond(), 5, 45);
 	}
 }
