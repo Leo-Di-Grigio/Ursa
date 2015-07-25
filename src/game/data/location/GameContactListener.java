@@ -37,11 +37,11 @@ public class GameContactListener implements ContactListener {
 	
 	@Override
 	public void preSolve(Contact contact, Manifold mainfold) {
-
+		
 	}
 	
 	@Override
 	public void postSolve(Contact contact, ContactImpulse impulse) {
-
+		
 	}
 }

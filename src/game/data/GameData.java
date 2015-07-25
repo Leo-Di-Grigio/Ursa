@@ -176,7 +176,6 @@ public final class GameData implements Disposable {
 
 	// Player interact
 	public void playerInteract(Fixture objectFixture, ObjData data, boolean value) {
-		
 		switch (data.type) {
 			case Const.OBJ_STAIRS:
 				player.interactStair(value);

@@ -6,18 +6,7 @@
 		"alignment": "CENTER", "pos_x": 0, "pos_y": 0, "size_x": 200, "size_y": 200,
 		
 		"visible": true,
-				
-		"background": [
-			{
-				"content": "image",
-				"title": "background",
-				"alignment": "ABSOLUTE", "pos_x": 0, "pos_y": 0, "size_x": 200, "size_y": 200,
-				"texture_normal": "assets/tex/ui/back_menu.png",
-				"texture_select": "assets/tex/ui/back_menu.png",
-				"visible": true,
-			},
-		],
-		
+
 		"highlight": [
 			{
 				"content": "button",

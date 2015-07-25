@@ -31,8 +31,7 @@ public final class Player extends Creature {
 	private HashSet<Fixture> collisions;
 	
 	// Interact
-	private boolean stair;
-	private boolean water;
+	private int stair;
 	
 	public Player() {
 		super(Const.OBJ_PLAYER);		
@@ -55,18 +54,20 @@ public final class Player extends Creature {
 	}
 	
 	public void interactStair(boolean value) {
-		this.stair = value;
-		
 		if(value){
-			body.setGravityScale(0.0f);
+			stair++;
+			
+			if(stair > 0){
+				body.setGravityScale(0.0f);
+			}
 		}
 		else{
-			body.setGravityScale(1.0f);
+			stair--;
+			
+			if(stair == 0){
+				body.setGravityScale(1.0f);
+			}
 		}
-	}
-
-	public void interactWater(boolean value) {
-		this.water = value;
 	}
 	
 	public void interactBlock(boolean value, Fixture objectFixture, Obj obj) {
@@ -81,9 +82,13 @@ public final class Player extends Creature {
 		}
 	}
 	
+	public void interactWater(boolean value) {
+		
+	}
+	
 	@Override
 	public void moveUp() {
-		if(stair){
+		if(stair > 0){
 			body.setLinearVelocity(body.getLinearVelocity().x, Const.BEAR_SPEED);
 		}
 		else{
@@ -93,13 +98,13 @@ public final class Player extends Creature {
 	
 	@Override
 	public void moveDown() {
-		if(stair){
+		if(stair > 0){
 			body.setLinearVelocity(body.getLinearVelocity().x, -Const.BEAR_SPEED);
 		}
 	}
 
 	public void moveStopY() {
-		if(stair){
+		if(stair > 0){
 			body.setLinearVelocity(body.getLinearVelocity().x, 0.0f);
 		}
 	}

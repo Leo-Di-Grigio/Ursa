@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -54,9 +55,27 @@ abstract public class Obj {
         ObjectProperties property = Database.getObject(type);
         fixtureDef.density = property.dencity;
         fixtureDef.friction = property.friction;
-        fixtureDef.isSensor = property.interact;
+        fixtureDef.isSensor = property.interact;        
         
-        fixture = this.body.createFixture(fixtureDef);
+        this.fixture = this.body.createFixture(fixtureDef);
+        
+        // Collide filter
+        Filter filter = new Filter();
+        
+        if(type == Const.OBJ_PLAYER){
+        	filter.categoryBits = Const.CATEGORY_PLAYER;
+        	filter.maskBits = Const.MASK_PLAYER;
+        }
+        else if(type == Const.OBJ_BLOCK){
+        	filter.categoryBits = Const.CATEGORY_BLOCK;
+        	filter.maskBits = Const.MASK_BLOCK;
+        }
+        else if(type == Const.OBJ_STAIRS){
+        	filter.categoryBits = Const.CATEGORY_INTERACTABLE;
+        	filter.maskBits = Const.MASK_INTERACT;
+        }
+        
+        this.fixture.setFilterData(filter);
         
 		shape.dispose();
 	}

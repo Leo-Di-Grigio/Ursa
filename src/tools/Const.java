@@ -22,6 +22,9 @@ public class Const {
 	// font
 	public static final String FONT_DEFAULT = "assets/font/font.ttf";
 	
+	// OST
+	public static final String OST_MENU = "assets/music/menu.ogg";
+	
 	// Editor
 	public static final int GRID_STEP = 20;
 	public static final int EDITOR_BACKGROUND_BLUEPRINT_COLOR = 0x2F4E81;
@@ -57,21 +60,30 @@ public class Const {
 	public static final int BODY_TYPE_DYNAMIC = 1;
 	public static final int BODY_TYPE_KINEMATIC = 2;
 	
-	public static final short BODY_FILTER_1 = 0x0001;
-	public static final short BODY_FILTER_2 = 0x0002;
-	public static final short BODY_FILTER_3 = 0x0004;
-	public static final short BODY_FILTER_4 = 0x0008;
-	public static final short BODY_FILTER_5 = 0x0010;
-	public static final short BODY_FILTER_6 = 0x0020;
-	public static final short BODY_FILTER_7 = 0x0040;
-	public static final short BODY_FILTER_8 = 0x0080;
-	public static final short BODY_FILTER_9 = 0x0100;
-	public static final short BODY_FILTER_10 = 0x0200;
-	public static final short BODY_FILTER_11 = 0x0400;
-	public static final short BODY_FILTER_12 = 0x0800;
-	public static final short BODY_FILTER_13 = 0x1000;
-	public static final short BODY_FILTER_14 = 0x2000;
-	public static final short BODY_FILTER_15 = 0x4000;
+	// Collide FileterCategory
+	public static final short CATEGORY_NULL = 0x0000;
+	public static final short CATEGORY_PLAYER = 0x0001;
+	public static final short CATEGORY_NPC = 0x0002;
+	public static final short CATEGORY_BLOCK = 0x0004;
+	public static final short CATEGORY_INTERACTABLE = 0x0008;
+	public static final short CATEGORY_5 = 0x0010;
+	public static final short CATEGORY_6 = 0x0020;
+	public static final short CATEGORY_7 = 0x0040;
+	public static final short CATEGORY_8 = 0x0080;
+	public static final short CATEGORY_9 = 0x0100;
+	public static final short CATEGORY_10 = 0x0200;
+	public static final short CATEGORY_11 = 0x0400;
+	public static final short CATEGORY_12 = 0x0800;
+	public static final short CATEGORY_13 = 0x1000;
+	public static final short CATEGORY_14 = 0x2000;
+	public static final short CATEGORY_15 = 0x4000;
+	
+	// Collide FilterMask
+	public static final short MASK_NULL     = CATEGORY_NULL;
+	public static final short MASK_PLAYER   = CATEGORY_BLOCK;
+	public static final short MASK_NPC      = CATEGORY_BLOCK;
+	public static final short MASK_BLOCK    = CATEGORY_PLAYER | CATEGORY_NPC;
+	public static final short MASK_INTERACT = CATEGORY_INTERACTABLE;
 	
 	public static final float PHYSICS_GRAVITY_X =  0.0f;
 	public static final float PHYSICS_GRAVITY_Y = -0.4f;
