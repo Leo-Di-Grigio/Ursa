@@ -77,25 +77,31 @@ public final class GameData implements Disposable {
 		loc = new Location();
 		
 		// objects
-		this.player = (Player)loc.addObj(world, Const.OBJ_PLAYER, 0, 0);
+		this.player = (Player)loc.addObj(world, Const.OBJ_PLAYER, 0, Database.getObject(Const.OBJ_PLAYER).sizey);
+		GameAPI.camera().position.set(player.x(), player.y(), 0.0f);
 		
 		// location test
-		loc.addObj(world, Const.OBJ_BLOCK, 0, -2);
+		for(int i = -50; i < 50; ++i){
+			loc.addObj(world, Const.OBJ_BLOCK, Database.getObject(Const.OBJ_BLOCK).sizex*i, -2.0f);
+		}
 	}
 	
 	public void update(OrthographicCamera camera) {
 		world.step(Gdx.graphics.getDeltaTime(), 8, 3);
 		
 		if(!editMode){
-			camera.position.set(player.x(), player.y(), 0.0f);
-		}
-		
-		if(Config.debug() && debugRenderer != null){
-			debugRenderer.render(world, camera.combined);
+			float deltax = player.x() - camera.position.x;
+			float deltay = player.y() - camera.position.y;
+			camera.translate(deltax, deltay);
+			loc.scroll(deltax, deltay);
 		}
 	}
 
-	public void draw(SpriteBatch batch) {		
+	public void draw(SpriteBatch batch) {
+		if(!editMode){
+			loc.drawBackGround(batch);
+		}
+		
 		loc.draw(batch);
 	}
 	
@@ -115,6 +121,10 @@ public final class GameData implements Disposable {
 	public void postUpdate() {
 		if(editMode){
 			drawEdit();
+		}
+		
+		if(Config.debug() && debugRenderer != null){
+			debugRenderer.render(world, GameAPI.camera().combined);
 		}
 	}
 	
@@ -254,7 +264,8 @@ public final class GameData implements Disposable {
 			editObjProto = null;
 			selectedObj = null;
 			GameAPI.camera().zoom = 0.13f;
-			Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+			GameAPI.camera().position.set(player.x(), player.y(), 0.0f);
+			loc.setLocColor();
 			world.setGravity(world.getGravity().set(Const.PHYSICS_GRAVITY_X, Const.PHYSICS_GRAVITY_Y));
 		}
 	}
@@ -352,5 +363,9 @@ public final class GameData implements Disposable {
 	private void pickPixel(Vector3 vector){
         vector.set(Gdx.input.getX(), Gdx.input.getY(), 0);
         GameAPI.camera().unproject(vector);
+	}
+
+	public void setLocColor() {
+		loc.setLocColor();
 	}
 }

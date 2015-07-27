@@ -4,7 +4,6 @@ import game.data.GameData;
 import game.data.sql.Database;
 import tools.Const;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -69,7 +68,7 @@ public final class Game extends Scene {
 	public void event(final int code) {
 		if(code == Event.SCENE_LOAD){
 			GameAPI.camera().zoom = 0.13f;
-			Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+			gamedata.setLocColor();
 		}
 		else if(code == Event.MOUSE_KEY_LEFT){
 			gamedata.sceneLeftClick();

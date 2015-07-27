@@ -115,7 +115,22 @@ public final class Player extends Creature {
 		}
 		else{
 			if(stairs.size() > 0){
-				setStairMode(true);
+				boolean jump = false;
+				
+				for(Obj obj: stairs){
+					// check stairs top
+					if((int)(obj.y() + obj.sizeY()/2) == (int)(y() - sizeY()/2)){
+						jump = true;
+						break;
+					}
+				}
+				
+				if(jump){
+					super.moveUp();
+				}
+				else{
+					setStairMode(true);	
+				}
 			}
 			else{
 				super.moveUp();

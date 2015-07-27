@@ -25,7 +25,7 @@ public final class Config {
 				out.println("frame-hight: " + 768);
 				out.println("fullscreen: false");
 				out.println();
-				out.println("debug: true");
+				out.println("debug: false");
 				
 				out.flush();
 				out.close();

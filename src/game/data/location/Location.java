@@ -10,8 +10,12 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeMap;
 
+import tools.Const;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
+import com.owlengine.resources.Assets;
 import com.owlengine.tools.Log;
 
 public final class Location {
@@ -42,9 +46,25 @@ public final class Location {
 	// Tmp
 	private Set<Obj> set;
 	
+	// Background
+	private float colorR = 183.0f;
+	private float colorG = 207.0f;
+	private float colorB = 208.0f;
+	private ScrollBackground [] background;
+	
 	public Location() {
 		objects = new HashMap<Integer, Obj>();
 		draw = new TreeMap<Integer, HashSet<Obj>>(new DrawSort());
+		
+		// background
+		Assets.loadTex(Const.TEX_BACKGROUND_LAYER_1);
+		Assets.loadTex(Const.TEX_BACKGROUND_LAYER_2);
+		Assets.loadTex(Const.TEX_BACKGROUND_LAYER_3);
+		
+		background = new ScrollBackground[3];
+		background[0] = new ScrollBackground(Const.TEX_BACKGROUND_LAYER_1, 0.85f, 0.0f, 0.1f);
+		background[1] = new ScrollBackground(Const.TEX_BACKGROUND_LAYER_2, 0.76f, 0.0f, 0.1f);
+		background[2] = new ScrollBackground(Const.TEX_BACKGROUND_LAYER_3, 0.0f,  0.0f, 0.1f);
 		
 		// tmp
 		set = new HashSet<Obj>();
@@ -101,6 +121,22 @@ public final class Location {
 		}
 		
 		return set;
+	}
+	
+	public void setLocColor() {
+		Gdx.gl.glClearColor(colorR/255.0f, colorG/255.0f, colorB/255.0f, 1.0f);
+	}
+
+	public void scroll(float deltax, float deltay) {
+		for(int i = 0; i < background.length; ++i){
+			background[i].scroll(deltax, deltay);
+		}
+	}
+
+	public void drawBackGround(SpriteBatch batch){
+		for(int i = 0; i < background.length; ++i){
+			background[i].draw(batch);
+		}
 	}
 	
 	public void draw(SpriteBatch batch){
