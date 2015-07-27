@@ -44,6 +44,8 @@ public final class ObjBuilder {
 				break;
 				
 			case Const.OBJ_BLOCK:
+			case Const.OBJ_BLOCK_VERTICAL:
+			case Const.OBJ_BLOCK_CUBE:
 				object = new Block();
 				break;
 				

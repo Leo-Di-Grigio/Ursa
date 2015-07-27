@@ -63,15 +63,15 @@ abstract public class Obj {
         Filter filter = new Filter();
         
         if(type == Const.OBJ_PLAYER){
-        	filter.categoryBits = Const.CATEGORY_PLAYER;
-        	filter.maskBits = Const.MASK_PLAYER;
+        	filter.categoryBits = Const.CATEGORY_PLAYER_NORMAL;
+        	filter.maskBits = Const.MASK_PLAYER_NORMAL;
         }
         else if(type == Const.OBJ_BLOCK){
         	filter.categoryBits = Const.CATEGORY_BLOCK;
         	filter.maskBits = Const.MASK_BLOCK;
         }
         else if(type == Const.OBJ_STAIRS){
-        	filter.categoryBits = Const.CATEGORY_INTERACTABLE;
+        	filter.categoryBits = Const.CATEGORY_INTERACT;
         	filter.maskBits = Const.MASK_INTERACT;
         }
         

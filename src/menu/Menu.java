@@ -17,11 +17,11 @@ public final class Menu extends Scene {
 
 	private BitmapFont font;
 	private Music music;
+	private MenuAnimation logo;
 
 	public Menu() {
 		setUI(Const.UI_MENU);
 		MenuUiLoader.load(getUI());
-		
 		initAssets();
 	}
 	
@@ -36,13 +36,21 @@ public final class Menu extends Scene {
 	@Override
 	public void event(final int code) {
 		if(code == Event.SCENE_LOAD){
+			// set defaults params
 			Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 			GameAPI.camera().zoom = 1.0f;
+			GameAPI.camera().position.set(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, 0.0f);
+			logo = new MenuAnimation();
 			music.play();
 		}
 		else if(code == Event.SCENE_CLOSE){
 			music.stop();
 		}
+	}
+	
+	@Override
+	protected void draw(SpriteBatch batch) {
+		logo.draw(batch, Gdx.graphics.getDeltaTime());
 	}
 	
 	@Override

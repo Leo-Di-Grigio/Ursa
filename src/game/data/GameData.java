@@ -66,7 +66,7 @@ public final class GameData implements Disposable {
 		new ObjBuilder();
 		
 		//
-		world = new World(new Vector2(0.0f, -140f), true);
+		world = new World(new Vector2(Const.PHYSICS_GRAVITY_X, Const.PHYSICS_GRAVITY_Y), true);
 		world.setContactListener(new GameContactListener(this));
 		
 		if(Config.debug()){
@@ -95,7 +95,7 @@ public final class GameData implements Disposable {
 		}
 	}
 
-	public void draw(SpriteBatch batch) {
+	public void draw(SpriteBatch batch) {		
 		loc.draw(batch);
 	}
 	
@@ -178,15 +178,15 @@ public final class GameData implements Disposable {
 	public void playerInteract(Fixture objectFixture, ObjData data, boolean value) {
 		switch (data.type) {
 			case Const.OBJ_STAIRS:
-				player.interactStair(value);
+				player.interactStair(value, loc.getObj(data.id));
 				break;
 				
 			case Const.OBJ_WATER:
-				player.interactWater(value);
+				player.interactWater(value, loc.getObj(data.id));
 				break;
 				
 			case Const.OBJ_BLOCK:
-				player.interactBlock(value, objectFixture, loc.getObj(data.id));
+				player.interactBlock(value, loc.getObj(data.id));
 				break;
 
 			default:
@@ -246,6 +246,7 @@ public final class GameData implements Disposable {
 		
 		if(this.editMode){
 			Gdx.gl.glClearColor(0.18431f, 0.30588f, 0.50588f, 1.0f); // blueprint color
+			world.setGravity(world.getGravity().set(0.0f, 0.0f));
 		}
 		else{
 			editSelectMapPart = false;
@@ -254,6 +255,7 @@ public final class GameData implements Disposable {
 			selectedObj = null;
 			GameAPI.camera().zoom = 0.13f;
 			Gdx.gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+			world.setGravity(world.getGravity().set(Const.PHYSICS_GRAVITY_X, Const.PHYSICS_GRAVITY_Y));
 		}
 	}
 

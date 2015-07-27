@@ -44,14 +44,14 @@
 		"content": "frame",
 		"title": "Editor_Frame",
 		
-		"alignment": "UP_RIGHT", "pos_x": -224, "pos_y": -38, "size_x": 76, "size_y": 200,
+		"alignment": "UP_RIGHT", "pos_x": -224, "pos_y": -38, "size_x": 76, "size_y": 240,
 		"visible": false,
 				
 		"background": [
 			{
 				"content": "image",
 				"title": "background",
-				"alignment": "ABSOLUTE", "pos_x": 0, "pos_y": 0, "size_x": 76, "size_y": 200,
+				"alignment": "ABSOLUTE", "pos_x": 0, "pos_y": 0, "size_x": 76, "size_y": 240,
 				"texture_normal": "assets/tex/ui/back_menu.png",
 				"texture_select": "assets/tex/ui/back_menu.png",
 				"visible": true,
@@ -104,6 +104,26 @@
 				"title": "button_editor_water",
 				"font": "assets/font/font.ttf", "text": "Water",
 				"alignment": "UP_LEFT", "pos_x": 2, "pos_y": -138, "size_x": 70, "size_y": 32,
+				"texture_normal": "assets/tex/ui/button_normal.png",
+				"texture_select": "assets/tex/ui/button_selected.png",
+				"visible": true,
+			},
+					
+			{
+				"content": "button",
+				"title": "button_editor_block_wall",
+				"font": "assets/font/font.ttf", "text": "Wall",
+				"alignment": "UP_LEFT", "pos_x": 2, "pos_y": -172, "size_x": 70, "size_y": 32,
+				"texture_normal": "assets/tex/ui/button_normal.png",
+				"texture_select": "assets/tex/ui/button_selected.png",
+				"visible": true,
+			},
+							
+			{
+				"content": "button",
+				"title": "button_editor_block_cube",
+				"font": "assets/font/font.ttf", "text": "Cube",
+				"alignment": "UP_LEFT", "pos_x": 2, "pos_y": -206, "size_x": 70, "size_y": 32,
 				"texture_normal": "assets/tex/ui/button_normal.png",
 				"texture_select": "assets/tex/ui/button_selected.png",
 				"visible": true,

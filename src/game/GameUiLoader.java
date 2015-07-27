@@ -153,7 +153,7 @@ final class GameUiLoader {
 			Log.err("Game.initEditFrame(): button button_editor_stair is null ");
 		}
 		
-		// Stair
+		// Water
 		button = (Button)ui.getWidget("button_editor_water");
 		if(button != null){
 			button.setScriptOnAction(new Script() {
@@ -171,6 +171,46 @@ final class GameUiLoader {
 		}
 		else{
 			Log.err("Game.initEditFrame(): button button_editor_water is null ");
+		}
+		
+		// Wall
+		button = (Button)ui.getWidget("button_editor_block_wall");
+		if(button != null){
+			button.setScriptOnAction(new Script() {
+				
+				@Override
+				public void execute(String key) {
+					
+				}
+				
+				@Override
+				public void execute() {
+					gamedata.setEditObject(Const.OBJ_BLOCK_VERTICAL);
+				}
+			});
+		}
+		else{
+			Log.err("Game.initEditFrame(): button button_editor_wall is null ");
+		}
+		
+		// Cube
+		button = (Button)ui.getWidget("button_editor_block_cube");
+		if(button != null){
+			button.setScriptOnAction(new Script() {
+				
+				@Override
+				public void execute(String key) {
+					
+				}
+				
+				@Override
+				public void execute() {
+					gamedata.setEditObject(Const.OBJ_BLOCK_CUBE);
+				}
+			});
+		}
+		else{
+			Log.err("Game.initEditFrame(): button button_editor_block_cube is null ");
 		}
 	}
 }
