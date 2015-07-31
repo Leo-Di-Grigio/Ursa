@@ -24,7 +24,6 @@ public class Const {
 	// textures background
 	public static final String TEX_BACKGROUND_LAYER_1 = "assets/tex/location/back/bg-1.png";
 	public static final String TEX_BACKGROUND_LAYER_2 = "assets/tex/location/back/bg-2.png";
-	public static final String TEX_BACKGROUND_LAYER_3 = "assets/tex/location/back/bg-3.png";
 	
 	// textures creatures
 	public static final String TEX_PLAYER = "assets/tex/creatures/player.png";
@@ -53,6 +52,8 @@ public class Const {
 	public static final int OBJ_WATER = 5;
 	public static final int OBJ_BLOCK_VERTICAL = 6;
 	public static final int OBJ_BLOCK_CUBE = 7;
+	public static final int OBJ_NPC_WOMAN = 8;
+	public static final int OBJ_BACKGROUND_HOUSE1 = 9;
 	
 	// Animation
 	public static final int ANIMATION_DIRECT_LEFT = 0;
@@ -91,12 +92,12 @@ public class Const {
 	public static final short CATEGORY_15 = 0x4000;
 	
 	// Collide FilterMask
-	public static final short MASK_NULL     = CATEGORY_NULL;
-	public static final short MASK_PLAYER_NORMAL = CATEGORY_BLOCK | CATEGORY_INTERACT;
-	public static final short MASK_PLAYER_GHOST  = CATEGORY_INTERACT;
-	public static final short MASK_NPC      = CATEGORY_BLOCK | CATEGORY_PLAYER_NORMAL | CATEGORY_PLAYER_GHOST;
-	public static final short MASK_BLOCK    = CATEGORY_PLAYER_NORMAL | CATEGORY_NPC;
-	public static final short MASK_INTERACT = CATEGORY_PLAYER_NORMAL | CATEGORY_PLAYER_GHOST;
+	public static final short MASK_NULL          = CATEGORY_NULL;
+	public static final short MASK_PLAYER_NORMAL = CATEGORY_BLOCK | CATEGORY_INTERACT | CATEGORY_NPC | CATEGORY_BULLET_NPC;
+	public static final short MASK_PLAYER_GHOST  = CATEGORY_INTERACT | CATEGORY_NPC | CATEGORY_BULLET_NPC;
+	public static final short MASK_NPC           = CATEGORY_BLOCK | CATEGORY_PLAYER_NORMAL | CATEGORY_PLAYER_GHOST;
+	public static final short MASK_BLOCK         = CATEGORY_PLAYER_NORMAL | CATEGORY_NPC;
+	public static final short MASK_INTERACT      = CATEGORY_PLAYER_NORMAL | CATEGORY_PLAYER_GHOST;
 	public static final short MASK_BULLET_PLAYER = CATEGORY_BLOCK | CATEGORY_NPC;
 	public static final short MASK_BULLET_NPC    = CATEGORY_BLOCK | CATEGORY_PLAYER_NORMAL | CATEGORY_PLAYER_GHOST;
 	
@@ -105,11 +106,31 @@ public class Const {
 
 	public static final float BEAR_SPEED = 30.0f;
 	public static final float BEAR_SPEED_JUMP = 50.0f;
-	public static final float BEAR_JUMP_IMPULSE = 2000.0f;
 	
 	// Map blocks
 	public static final int MAP_NULL = 0;
 	public static final int MAP_BLOCK = 1;
+	
+	// Weapon
+	public static final int WEAPON_MAIN_NONE = 0;
+	public static final int WEAPON_MAIN_PISTOL_SINGLE = 1;
+	public static final int WEAPON_MAIN_PISTOL_DOUBLE = 2;
+	public static final int WEAPON_MAIN_REVOLVER = 3;
+	public static final int WEAPON_MAIN_SHOTGUN = 4;
+	public static final int WEAPON_MAIN_MACHINE_GUN = 5;
+	
+	public static final int WEAPON_USABLE_NONE = 0;
+	public static final int WEAPON_MAIN_RAKE = 1;
+	public static final int WEAPON_USABLE_GRENADE = 2;
+	public static final int WEAPON_USABLE_MOLOTOV = 3;
+	public static final int WEAPON_USABLE_BAZOOKA = 4;
+	public static final int WEAPON_USABLE_SLOWMO = 5;
+	public static final int WEAPON_USABLE_MEDICINE = 6;
+	public static final int WEAPON_USABLE_DEAD_RING = 7;
+	public static final int WEAPON_USABLE_FIRE_PILLS = 8;
+	
+	// AI
+	public static final float AI_CONTACT_RADIUS = 10.0f;
 	
 	public static int getBodyType(final String type) {
 		

@@ -1,6 +1,7 @@
 package game.data.objects;
 
 import game.data.BackgroundWall;
+import game.data.objects.creatures.NpcWoman;
 import game.data.objects.creatures.Player;
 import game.data.objects.statics.Block;
 import game.data.objects.statics.Stairs;
@@ -48,8 +49,9 @@ public final class ObjBuilder {
 			case Const.OBJ_BLOCK_CUBE:
 				object = new Block();
 				break;
-				
+			
 			case Const.OBJ_BACKGROUND_WALL:
+			case Const.OBJ_BACKGROUND_HOUSE1:
 				object = new BackgroundWall();
 				break;
 				
@@ -59,6 +61,10 @@ public final class ObjBuilder {
 				
 			case Const.OBJ_WATER:
 				object = new Water();
+				break;
+				
+			case Const.OBJ_NPC_WOMAN:
+				object = new NpcWoman();
 				break;
 				
 			case Const.OBJ_NULL:

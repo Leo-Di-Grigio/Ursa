@@ -1,14 +1,10 @@
 package game.data.objects.creatures;
 
-import java.util.HashSet;
-
 import game.data.objects.Creature;
-import game.data.objects.Obj;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.Filter;
 
 import tools.Const;
 
@@ -27,22 +23,12 @@ public final class Player extends Creature {
 	
 	private TextureRegion [][] texAtlas;
 	
-	// Physic
-	private HashSet<Obj> blocks;
-	private HashSet<Obj> stairs;
-	private HashSet<Obj> waters;
+	// Weapon
+	private int weaponModeMain;
+	private int weaponModeUsable;
 
-	// Modes
-	private Filter filter;
-	private boolean stairMode;
-	
 	public Player() {
 		super(Const.OBJ_PLAYER);
-		blocks = new HashSet<Obj>();
-		stairs = new HashSet<Obj>();
-		waters = new HashSet<Obj>();
-		
-		filter = new Filter();
 	}
 	
 	@Override
@@ -59,163 +45,21 @@ public final class Player extends Creature {
 	public void setDirect(int direct){
 		this.direct = direct;
 	}
-
-	@Override
-	public boolean isGrounded() {
-		for(Obj obj: blocks){
-			if(obj.getBody().getPosition().y + obj.sizeY()/2 <= y()){
-				return true;
-			}
-		}
-		
-		return false;
+	
+	public void setWeaponMain(final int weaponMode){
+		this.weaponModeMain = weaponMode;
 	}
 	
-	public void interactStair(boolean value, Obj obj) {
-		if(value){
-			stairs.add(obj);
-		}
-		else{
-			stairs.remove(obj);
-			
-			if(stairs.size() <= 0){
-				setStairMode(false);
-			}
-		}
+	public void setWeaponUsable(final int weaponMode){
+		this.weaponModeUsable = weaponMode;
 	}
 	
-	public void interactBlock(boolean value, Obj obj) {
-		if(value){
-			blocks.add(obj);
-		}
-		else{
-			blocks.remove(obj);
-		}
+	public int getWeaponMain(){
+		return weaponModeMain;
 	}
 	
-	public void interactWater(boolean value, Obj obj) {
-		if(value){
-			waters.add(obj);
-		}
-		else{
-			waters.add(obj);
-		}
-	}
-	
-
-	//(int)(obj.y() + obj.sizeY()/2) 
-	//(int)(obj.y() - obj.sizeY()/2)
-	//(int)(y() + sizeY()/2)
-	//(int)(y() - sizeY()/2)
-	
-	@Override
-	public void moveUp() {
-		if(stairMode){
-			body.setLinearVelocity(body.getLinearVelocity().x, Const.BEAR_SPEED);
-		}
-		else{
-			if(stairs.size() > 0){
-				boolean jump = false;
-				
-				for(Obj obj: stairs){
-					// check stairs top
-					if((int)(obj.y() + obj.sizeY()/2) == (int)(y() - sizeY()/2)){
-						jump = true;
-						break;
-					}
-				}
-				
-				if(jump){
-					super.moveUp();
-				}
-				else{
-					setStairMode(true);	
-				}
-			}
-			else{
-				super.moveUp();
-			}
-		}
-	}
-	
-	@Override
-	public void moveDown() {		
-		if(stairMode){
-			boolean floorContact = false;
-			
-			for(Obj obj: stairs){
-				// check stairs bottom
-				if((int)(obj.y() - obj.sizeY()/2) == (int)(y() - sizeY()/2)){
-					floorContact = true;
-					break;
-				}
-			}
-			
-			if(floorContact){
-				setStairMode(false);
-			}
-			else{
-				body.setLinearVelocity(body.getLinearVelocity().x, -Const.BEAR_SPEED);
-			}
-		}
-		else{
-			if(stairs.size() > 0){
-				// check stair bottom
-				for(Obj obj: stairs){
-					if((int)(obj.y() - obj.sizeY()/2) < (int)(y() - sizeY()/2)){
-						setStairMode(true);
-					}
-				}
-			}
-			else{
-				super.moveDown();
-			}
-		}
-	}
-
-	public void moveStopY() {
-		if(stairMode){
-			body.setLinearVelocity(body.getLinearVelocity().x, 0.0f);
-		}
-	}
-	
-	private void setStairMode(boolean value){
-		stairMode = value;
-		
-		if(stairMode){
-        	filter.categoryBits = Const.CATEGORY_PLAYER_GHOST;
-        	filter.maskBits = Const.MASK_PLAYER_GHOST;        	
-			fixture.setFilterData(filter);
-			body.setGravityScale(0.0f);
-		}
-		else{
-        	filter.categoryBits = Const.CATEGORY_PLAYER_NORMAL;
-        	filter.maskBits = Const.MASK_PLAYER_NORMAL;
-			fixture.setFilterData(filter);
-			body.setGravityScale(1.0f);
-		}
-	}
-	
-	@Override
-	public void moveLeft() {
-		if(stairMode){
-			setStairMode(false);
-			super.moveLeft();
-		}
-		else{
-			super.moveLeft();
-		}
-	}
-	
-	@Override
-	public void moveRight() {
-		if(stairMode){
-			setStairMode(false);
-			super.moveRight();
-		}
-		else{
-			super.moveRight();
-		}
+	public int getWeaponUsable(){
+		return weaponModeUsable;
 	}
 	
 	@Override

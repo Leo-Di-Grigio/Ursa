@@ -1,6 +1,7 @@
 package cycle;
 
 import game.Game;
+import game.data.objects.creatures.Player;
 import tools.Const;
 import menu.Menu;
 
@@ -53,6 +54,10 @@ public final class GameAPI {
 	}
 	
 	//
+	public static Player getPlayer(){
+		return sceneGame.getPlayer();
+	}
+	
 	public static OrthographicCamera camera(){
 		return camera;
 	}

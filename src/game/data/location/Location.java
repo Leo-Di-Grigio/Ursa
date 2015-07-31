@@ -2,6 +2,7 @@ package game.data.location;
 
 import game.data.objects.Obj;
 import game.data.objects.ObjBuilder;
+import game.data.objects.creatures.NPC;
 import game.data.sql.Database;
 
 import java.util.Comparator;
@@ -20,6 +21,21 @@ import com.owlengine.tools.Log;
 
 public final class Location {
 
+	private float colorR = 183.0f;
+	private float colorG = 207.0f;
+	private float colorB = 208.0f;
+	
+	// Data
+	private HashMap<Integer, Obj> objects;
+	private HashMap<Integer, NPC> npc;
+	private TreeMap<Integer, HashSet<Obj>> draw;
+	
+	// Background
+	private ScrollBackground [] background;
+	
+	// Tmp
+	private Set<Obj> set;
+	
 	private class DrawSort implements Comparator<Integer>{
 
 		@Override
@@ -39,32 +55,18 @@ public final class Location {
 		}
 	}
 	
-	// Data
-	private HashMap<Integer, Obj> objects;
-	private TreeMap<Integer, HashSet<Obj>> draw;
-	
-	// Tmp
-	private Set<Obj> set;
-	
-	// Background
-	private float colorR = 183.0f;
-	private float colorG = 207.0f;
-	private float colorB = 208.0f;
-	private ScrollBackground [] background;
-	
 	public Location() {
 		objects = new HashMap<Integer, Obj>();
+		npc = new HashMap<Integer, NPC>();
 		draw = new TreeMap<Integer, HashSet<Obj>>(new DrawSort());
 		
 		// background
 		Assets.loadTex(Const.TEX_BACKGROUND_LAYER_1);
 		Assets.loadTex(Const.TEX_BACKGROUND_LAYER_2);
-		Assets.loadTex(Const.TEX_BACKGROUND_LAYER_3);
 		
-		background = new ScrollBackground[3];
+		background = new ScrollBackground[2];
 		background[0] = new ScrollBackground(Const.TEX_BACKGROUND_LAYER_1, 0.85f, 0.0f, 0.1f);
 		background[1] = new ScrollBackground(Const.TEX_BACKGROUND_LAYER_2, 0.76f, 0.0f, 0.1f);
-		background[2] = new ScrollBackground(Const.TEX_BACKGROUND_LAYER_3, 0.0f,  0.0f, 0.1f);
 		
 		// tmp
 		set = new HashSet<Obj>();
@@ -79,6 +81,10 @@ public final class Location {
 		}
 		else{
 			objects.put(object.id, object);
+			
+			if(object.npc){
+				npc.put(object.id, (NPC)object);
+			}
 			
 			// draw sort
 			final int layer = Database.getObject(object.type).drawLayer;
@@ -97,6 +103,10 @@ public final class Location {
 	public void removeObj(World world, Obj object) {
 		world.destroyBody(object.getBody());
 		objects.remove(object.id);
+		
+		if(object.npc){
+			npc.remove(object.id);
+		}
 		
 		final int layer = Database.getObject(object.type).drawLayer;
 		draw.get(layer).remove(object);
@@ -136,6 +146,24 @@ public final class Location {
 	public void drawBackGround(SpriteBatch batch){
 		for(int i = 0; i < background.length; ++i){
 			background[i].draw(batch);
+		}
+	}
+	
+	public void interactBlock(int id, boolean value, Obj obj) {
+		npc.get(id).interactBlock(value, obj);
+	}
+	
+	public void interactStair(int id, boolean value, Obj obj) {
+		npc.get(id).interactStair(value, obj);
+	}
+
+	public void interactWater(int id, boolean value, Obj obj) {
+		npc.get(id).interactWater(value, obj);
+	}
+	
+	public void update(){
+		for(NPC unit: npc.values()){
+			unit.updateAI();
 		}
 	}
 	

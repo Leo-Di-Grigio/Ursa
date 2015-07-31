@@ -60,8 +60,16 @@ public final class Database {
 				
 				String texture = result.getString("texture");
 				
+				boolean go = result.getBoolean("go");
+				boolean player = result.getBoolean("player");
+				boolean npc = result.getBoolean("npc");
+				
+				int maxHp = result.getInt("max_hp");
+				
 				//
-				ObjectProperties property = new ObjectProperties(id, title, type, bodyType, interact, dencity, friction, mass, drawLayer, sizex, sizey, texture);
+				ObjectProperties property = new ObjectProperties(id, title, type, bodyType, interact, dencity, 
+																 friction, mass, drawLayer, sizex, sizey, texture,
+																 go, player, npc, maxHp);
 				objects.put(property.typeId, property);
 			}
 			

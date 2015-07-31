@@ -1,6 +1,7 @@
 package game;
 
 import game.data.GameData;
+import game.data.objects.creatures.Player;
 import game.data.sql.Database;
 import tools.Const;
 
@@ -37,6 +38,10 @@ public final class Game extends Scene {
 	private void initAssets() {		
 		// fonts
 		font = Assets.getFont(Const.FONT_DEFAULT);
+	}
+	
+	public Player getPlayer() {
+		return gamedata.getPlayer();
 	}
 	
 	@Override

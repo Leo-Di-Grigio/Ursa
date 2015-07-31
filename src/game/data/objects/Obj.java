@@ -29,6 +29,11 @@ abstract public class Obj {
 	// Graphics
 	protected Texture tex;
 	
+	// flags
+	public final boolean go;
+	public final boolean player;
+	public final boolean npc;
+	
 	static {
 		ID = 0;
 	}
@@ -36,8 +41,13 @@ abstract public class Obj {
 	public Obj(final int type) {
 		this.id = ID++;
 		this.type = type;
+		
+		final ObjectProperties properties = Database.getObject(type);
+		this.go = properties.go;
+		this.player = properties.player;
+		this.npc = properties.npc;
 	}
-
+	
 	public final void setBody(Body body, float sizex, float sizey){
 		this.body = body;
 		this.body.setUserData(new ObjData(id, type));
@@ -65,6 +75,10 @@ abstract public class Obj {
         if(type == Const.OBJ_PLAYER){
         	filter.categoryBits = Const.CATEGORY_PLAYER_NORMAL;
         	filter.maskBits = Const.MASK_PLAYER_NORMAL;
+        }
+        else if(type == Const.OBJ_NPC_WOMAN){
+        	filter.categoryBits = Const.CATEGORY_NPC;
+        	filter.maskBits = Const.MASK_NPC;
         }
         else if(type == Const.OBJ_BLOCK){
         	filter.categoryBits = Const.CATEGORY_BLOCK;
@@ -102,32 +116,6 @@ abstract public class Obj {
 
 	public final float sizeY() {
 		return sizey;
-	}
-	
-	public void moveUp() {
-		if(isGrounded()){
-			body.setLinearVelocity(body.getLinearVelocity().x, Const.BEAR_SPEED_JUMP);
-		}
-	}
-	
-	public void moveDown(){
-		
-	}
-
-	public void moveLeft() {
-		body.setLinearVelocity(-Const.BEAR_SPEED, body.getLinearVelocity().y);
-	}
-
-	public void moveRight() {
-		body.setLinearVelocity( Const.BEAR_SPEED, body.getLinearVelocity().y);
-	}
-
-	public final void moveStopX(){
-		body.setLinearVelocity(   0.0f, body.getLinearVelocity().y);
-	}
-	
-	public boolean isGrounded(){		
-		return false;
 	}
 	
 	public final Vector2 getSpeed(){

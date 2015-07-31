@@ -1,6 +1,8 @@
 package game;
 
 import game.data.GameData;
+import game.data.sql.Database;
+import game.data.sql.properties.ObjectProperties;
 import tools.Const;
 
 import com.owlengine.interfaces.Script;
@@ -8,6 +10,7 @@ import com.owlengine.tools.Log;
 import com.owlengine.ui.Frame;
 import com.owlengine.ui.UI;
 import com.owlengine.ui.widgets.Button;
+import com.owlengine.ui.widgets.ProgressBar;
 
 import cycle.GameAPI;
 
@@ -16,6 +19,7 @@ final class GameUiLoader {
 	public static void load(final UI ui, final GameData gamedata){
 		initToolFrame(ui, gamedata);
 		initEditFrame(ui, gamedata);
+		initPlayerFrame(ui, gamedata);
 	}
 	
 	private static void initToolFrame(final UI ui, final GameData gamedata) {
@@ -211,6 +215,60 @@ final class GameUiLoader {
 		}
 		else{
 			Log.err("Game.initEditFrame(): button button_editor_block_cube is null ");
+		}
+		
+		// Background House1
+		button = (Button)ui.getWidget("button_editor_background_house1");
+		if(button != null){
+			button.setScriptOnAction(new Script() {
+				
+				@Override
+				public void execute(String key) {
+					
+				}
+				
+				@Override
+				public void execute() {
+					gamedata.setEditObject(Const.OBJ_BACKGROUND_HOUSE1);
+				}
+			});
+		}
+		else{
+			Log.err("Game.initEditFrame(): button button_editor_background_house1 is null ");
+		}
+		
+		// Cяся
+		button = (Button)ui.getWidget("button_editor_npc_woman");
+		if(button != null){
+			button.setScriptOnAction(new Script() {
+				
+				@Override
+				public void execute(String key) {
+					
+				}
+				
+				@Override
+				public void execute() {
+					gamedata.setEditObject(Const.OBJ_NPC_WOMAN);
+				}
+			});
+		}
+		else{
+			Log.err("Game.initEditFrame(): button button_editor_npc_woman is null ");
+		}
+	}
+	
+	private static void initPlayerFrame(final UI ui, final GameData gamedata) {
+		ProgressBar bar = null;
+		
+		bar = (ProgressBar)ui.getWidget("player_hpbar");
+		if(bar != null){
+			ObjectProperties property = Database.getObject(gamedata.getPlayer().type);
+			bar.setValue(property.maxHp);
+			bar.setMax(property.maxHp);
+		}
+		else{
+			Log.err("Game.initPlayerFrame(): progress bar player_hpbar is null ");
 		}
 	}
 }

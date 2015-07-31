@@ -87,13 +87,24 @@ public final class GameData implements Disposable {
 	}
 	
 	public void update(OrthographicCamera camera) {
-		world.step(Gdx.graphics.getDeltaTime(), 8, 3);
-		
 		if(!editMode){
+			world.step(Gdx.graphics.getDeltaTime(), 8, 3);
+			loc.update();
+			
 			float deltax = player.x() - camera.position.x;
 			float deltay = player.y() - camera.position.y;
 			camera.translate(deltax, deltay);
 			loc.scroll(deltax, deltay);
+		}
+		else{
+			shapeBatch.setProjectionMatrix(GameAPI.camera().combined);
+			shapeBatch.begin(ShapeType.Line);
+			drawEditGrid();
+			shapeBatch.end();
+		}
+		
+		if(Config.debug() && debugRenderer != null){
+			debugRenderer.render(world, GameAPI.camera().combined);
 		}
 	}
 
@@ -122,18 +133,12 @@ public final class GameData implements Disposable {
 		if(editMode){
 			drawEdit();
 		}
-		
-		if(Config.debug() && debugRenderer != null){
-			debugRenderer.render(world, GameAPI.camera().combined);
-		}
 	}
 	
 	private void drawEdit() {
 		shapeBatch.setProjectionMatrix(GameAPI.camera().combined);
 		shapeBatch.begin(ShapeType.Line);
 
-		drawEditGrid();
-		
 		if(editMode && editObjProto != null){
 			drawEditObj();
 		}
@@ -199,6 +204,25 @@ public final class GameData implements Disposable {
 				player.interactBlock(value, loc.getObj(data.id));
 				break;
 
+			default:
+				break;
+		}
+	}
+
+	public void interact(int id, Fixture fixture, ObjData data, boolean value) {
+		switch (data.type) {
+			case Const.OBJ_STAIRS:
+				loc.interactStair(id, value, loc.getObj(data.id));
+				break;
+				
+			case Const.OBJ_WATER:
+				loc.interactWater(id, value, loc.getObj(data.id));
+				break;
+				
+			case Const.OBJ_BLOCK:
+				loc.interactBlock(id, value, loc.getObj(data.id));
+				break;
+			
 			default:
 				break;
 		}
@@ -328,10 +352,11 @@ public final class GameData implements Disposable {
 					this.editSelectMapPart = true;
 
 					for(Obj obj: objects){
-						select1.set(obj.x() - obj.sizeX()/2, obj.y() -obj.sizeY()/2, 0.0f);
+						// pick last (upper) layer
 						selectedObj = obj; 
-						break;
 					}
+					
+					select1.set(selectedObj.x() - selectedObj.sizeX()/2, selectedObj.y() -selectedObj.sizeY()/2, 0.0f);
 				}
 				else{
 					this.editSelectMapPart = false;
@@ -367,5 +392,9 @@ public final class GameData implements Disposable {
 
 	public void setLocColor() {
 		loc.setLocColor();
+	}
+
+	public Player getPlayer() {
+		return player;
 	}
 }

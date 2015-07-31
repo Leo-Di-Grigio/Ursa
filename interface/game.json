@@ -3,14 +3,14 @@
 		"content": "frame",
 		"title": "Toolbar_Frame",
 		
-		"alignment": "UP_RIGHT", "pos_x": 0, "pos_y": 0, "size_x": 300, "size_y": 36,
+		"alignment": "UP_RIGHT", "pos_x": 0, "pos_y": 0, "size_x": 331, "size_y": 36,
 		"visible": true,
 		
 		"background": [
 			{
 				"content": "image",
 				"title": "toolbar_background",
-				"alignment": "ABSOLUTE", "pos_x": 0, "pos_y": 0, "size_x": 300, "size_y": 36,
+				"alignment": "ABSOLUTE", "pos_x": 0, "pos_y": 0, "size_x": 331, "size_y": 36,
 				"texture_normal": "assets/tex/ui/back_menu.png",
 				"texture_select": "assets/tex/ui/back_menu.png",
 				"visible": true,
@@ -32,7 +32,7 @@
 				"content": "button",
 				"title": "toolbar_button_exit",
 				"font": "assets/font/font.ttf", "text": "Exit",
-				"alignment": "RIGHT", "pos_x": -1, "pos_y": -1, "size_x": 64, "size_y": 32,
+				"alignment": "LEFT", "pos_x": 265, "pos_y": -1, "size_x": 64, "size_y": 32,
 				"texture_normal": "assets/tex/ui/button_normal.png",
 				"texture_select": "assets/tex/ui/button_selected.png",
 				"visible": true,
@@ -44,14 +44,14 @@
 		"content": "frame",
 		"title": "Editor_Frame",
 		
-		"alignment": "UP_RIGHT", "pos_x": -224, "pos_y": -38, "size_x": 76, "size_y": 240,
+		"alignment": "UP_RIGHT", "pos_x": -255, "pos_y": -38, "size_x": 76, "size_y": 314,
 		"visible": false,
 				
 		"background": [
 			{
 				"content": "image",
 				"title": "background",
-				"alignment": "ABSOLUTE", "pos_x": 0, "pos_y": 0, "size_x": 76, "size_y": 240,
+				"alignment": "ABSOLUTE", "pos_x": 0, "pos_y": 0, "size_x": 76, "size_y": 314,
 				"texture_normal": "assets/tex/ui/back_menu.png",
 				"texture_select": "assets/tex/ui/back_menu.png",
 				"visible": true,
@@ -126,6 +126,57 @@
 				"alignment": "UP_LEFT", "pos_x": 2, "pos_y": -206, "size_x": 70, "size_y": 32,
 				"texture_normal": "assets/tex/ui/button_normal.png",
 				"texture_select": "assets/tex/ui/button_selected.png",
+				"visible": true,
+			},
+	
+			{
+				"content": "button",
+				"title": "button_editor_background_house1",
+				"font": "assets/font/font.ttf", "text": "House1",
+				"alignment": "UP_LEFT", "pos_x": 2, "pos_y": -240, "size_x": 70, "size_y": 32,
+				"texture_normal": "assets/tex/ui/button_normal.png",
+				"texture_select": "assets/tex/ui/button_selected.png",
+				"visible": true,
+			},
+			
+			{
+				"content": "button",
+				"title": "button_editor_npc_woman",
+				"font": "assets/font/font.ttf", "text": "Ñÿñÿ",
+				"alignment": "UP_LEFT", "pos_x": 2, "pos_y": -274, "size_x": 70, "size_y": 32,
+				"texture_normal": "assets/tex/ui/button_normal.png",
+				"texture_select": "assets/tex/ui/button_selected.png",
+				"visible": true,
+			},
+		],
+	},
+	
+	{
+		"content": "frame",
+		"title": "Player_Frame",
+		
+		"alignment": "DOWN", "pos_x": 0, "pos_y": 0, "size_x": 250, "size_y": 40,
+		"visible": true,
+				
+		"background": [
+			{
+				"content": "image",
+				"title": "background",
+				"alignment": "ABSOLUTE", "pos_x": 0, "pos_y": 0, "size_x": 250, "size_y": 40,
+				"texture_normal": "assets/tex/ui/back_menu.png",
+				"texture_select": "assets/tex/ui/back_menu.png",
+				"visible": true,
+			},
+		],
+		
+		"highlight": [	
+			{
+				"content": "progress_bar",
+				"title": "player_hpbar",
+				"alignment": "DOWN", "pos_x": 0, "pos_y": 2, "size_x": 240, "size_y": 16,
+				"texture_normal": "assets/tex/ui/hp_bar.png",
+				"max": 100,
+				"value": 100,
 				"visible": true,
 			},
 		],

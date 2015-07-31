@@ -22,6 +22,12 @@ public final class ObjectProperties {
 	
 	public final String texture;
 	
+	public final boolean go;
+	public final boolean player;
+	public final boolean npc;
+	
+	public final int maxHp;
+	
 	public ObjectProperties(int typeId, 
 							String title, 
 							int objType, 
@@ -33,7 +39,11 @@ public final class ObjectProperties {
 							int drawLayer, 
 							int sizex, 
 							int sizey, 
-							String texture)
+							String texture,
+							boolean go,
+							boolean player,
+							boolean npc,
+							int maxHp)
 	{
 		this.typeId = typeId;
 		this.title = title;
@@ -47,6 +57,11 @@ public final class ObjectProperties {
 		this.sizex = sizex;
 		this.sizey = sizey;
 		this.texture = texture;
+		this.go = go;
+		this.player = player;
+		this.npc = npc;
+		
+		this.maxHp = maxHp;
 		
 		//
 		Assets.loadTex(this.texture);
