@@ -23,6 +23,7 @@ public final class ObjectProperties {
 	public final String texture;
 	
 	public final boolean go;
+	public final boolean creature;
 	public final boolean player;
 	public final boolean npc;
 	
@@ -57,10 +58,18 @@ public final class ObjectProperties {
 		this.sizex = sizex;
 		this.sizey = sizey;
 		this.texture = texture;
+		
 		this.go = go;
 		this.player = player;
 		this.npc = npc;
 		
+		if(this.npc || this.player){
+			this.creature = true;
+		}
+		else{
+			this.creature = false;
+		}
+
 		this.maxHp = maxHp;
 		
 		//

@@ -31,6 +31,7 @@ abstract public class Obj {
 	
 	// flags
 	public final boolean go;
+	public final boolean creature;
 	public final boolean player;
 	public final boolean npc;
 	
@@ -44,6 +45,7 @@ abstract public class Obj {
 		
 		final ObjectProperties properties = Database.getObject(type);
 		this.go = properties.go;
+		this.creature = properties.creature;
 		this.player = properties.player;
 		this.npc = properties.npc;
 	}

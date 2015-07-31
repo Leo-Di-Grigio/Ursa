@@ -24,7 +24,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
 
@@ -188,43 +187,16 @@ public final class GameData implements Disposable {
 			debugRenderer.dispose();
 		}
 	}
-
-	// Player interact
-	public void playerInteract(Fixture objectFixture, ObjData data, boolean value) {
-		switch (data.type) {
-			case Const.OBJ_STAIRS:
-				player.interactStair(value, loc.getObj(data.id));
-				break;
-				
-			case Const.OBJ_WATER:
-				player.interactWater(value, loc.getObj(data.id));
-				break;
-				
-			case Const.OBJ_BLOCK:
-				player.interactBlock(value, loc.getObj(data.id));
-				break;
-
-			default:
-				break;
+	
+	public void interact(ObjData dataA, ObjData dataB, boolean value) {
+		if(dataA.type == Const.OBJ_STAIRS || dataB.type == Const.OBJ_STAIRS){
+			loc.npcInteractStair(dataA, dataB, value);	
 		}
-	}
-
-	public void interact(int id, Fixture fixture, ObjData data, boolean value) {
-		switch (data.type) {
-			case Const.OBJ_STAIRS:
-				loc.interactStair(id, value, loc.getObj(data.id));
-				break;
-				
-			case Const.OBJ_WATER:
-				loc.interactWater(id, value, loc.getObj(data.id));
-				break;
-				
-			case Const.OBJ_BLOCK:
-				loc.interactBlock(id, value, loc.getObj(data.id));
-				break;
-			
-			default:
-				break;
+		else if(dataA.type == Const.OBJ_WATER || dataB.type == Const.OBJ_WATER){
+			loc.npcInteractWater(dataA, dataB, value);
+		}
+		else if(dataA.type == Const.OBJ_BLOCK || dataB.type == Const.OBJ_BLOCK){
+			loc.npcInteractBlock(dataA, dataB, value);
 		}
 	}
 	

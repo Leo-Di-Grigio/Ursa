@@ -187,4 +187,8 @@ abstract public class Creature extends Obj {
 			body.setGravityScale(1.0f);
 		}
 	}
+
+	public void update() {
+		
+	}
 }

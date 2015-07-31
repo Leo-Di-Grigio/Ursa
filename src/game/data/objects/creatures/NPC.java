@@ -20,15 +20,20 @@ abstract public class NPC extends Creature {
 		}
 	}
 	
+	@Override
+	public void update() {
+		updateAI();
+	}
+	
 	public void updateAI(){
-		if(target.y() > y()){
+		if((int)target.y() > (int)y()){
 			moveUp();
 		}
 		
-		if(target.x() + Const.AI_CONTACT_RADIUS < x()){
+		if((int)target.x() + Const.AI_CONTACT_RADIUS < (int)x()){
 			moveLeft();
 		}
-		else if(target.x() - Const.AI_CONTACT_RADIUS > x()){
+		else if((int)target.x() - Const.AI_CONTACT_RADIUS > (int)x()){
 			moveRight();
 		}
 	}

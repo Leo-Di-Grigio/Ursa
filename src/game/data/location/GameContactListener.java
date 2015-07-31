@@ -1,9 +1,7 @@
 package game.data.location;
 
-import tools.Const;
 import game.data.GameData;
 import game.data.objects.ObjData;
-import game.data.sql.Database;
 
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -20,26 +18,16 @@ public class GameContactListener implements ContactListener {
 	
 	@Override
 	public void beginContact(Contact contact) {
-		ObjData dataA = (ObjData)contact.getFixtureA().getBody().getUserData();
-		
-		if(dataA.type == Const.OBJ_PLAYER){
-			gamedata.playerInteract(contact.getFixtureB(), (ObjData)contact.getFixtureB().getBody().getUserData(), true);
-		}
-		else if(Database.getObject(dataA.type).npc){
-			gamedata.interact(dataA.id, contact.getFixtureB(), (ObjData)contact.getFixtureB().getBody().getUserData(), true);
-		}
+		gamedata.interact((ObjData)contact.getFixtureA().getBody().getUserData(),
+						  (ObjData)contact.getFixtureB().getBody().getUserData(),
+						  true);
 	}
 
 	@Override
 	public void endContact(Contact contact) {
-		ObjData dataA = (ObjData)contact.getFixtureA().getBody().getUserData();
-		
-		if(dataA.type == Const.OBJ_PLAYER){
-			gamedata.playerInteract(contact.getFixtureB(), (ObjData)contact.getFixtureB().getBody().getUserData(), false);
-		}
-		else if(Database.getObject(dataA.type).npc){
-			gamedata.interact(dataA.id, contact.getFixtureB(), (ObjData)contact.getFixtureB().getBody().getUserData(), false);
-		}
+		gamedata.interact((ObjData)contact.getFixtureA().getBody().getUserData(),
+				  		  (ObjData)contact.getFixtureB().getBody().getUserData(),
+				  		  false);
 	}
 	
 	@Override

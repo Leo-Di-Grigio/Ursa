@@ -130,7 +130,7 @@ public class Const {
 	public static final int WEAPON_USABLE_FIRE_PILLS = 8;
 	
 	// AI
-	public static final float AI_CONTACT_RADIUS = 10.0f;
+	public static final int AI_CONTACT_RADIUS = 10;
 	
 	public static int getBodyType(final String type) {
 		

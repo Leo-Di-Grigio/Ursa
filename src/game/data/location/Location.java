@@ -1,8 +1,9 @@
 package game.data.location;
 
+import game.data.objects.Creature;
 import game.data.objects.Obj;
 import game.data.objects.ObjBuilder;
-import game.data.objects.creatures.NPC;
+import game.data.objects.ObjData;
 import game.data.sql.Database;
 
 import java.util.Comparator;
@@ -27,7 +28,7 @@ public final class Location {
 	
 	// Data
 	private HashMap<Integer, Obj> objects;
-	private HashMap<Integer, NPC> npc;
+	private HashMap<Integer, Creature> creatures;
 	private TreeMap<Integer, HashSet<Obj>> draw;
 	
 	// Background
@@ -57,7 +58,7 @@ public final class Location {
 	
 	public Location() {
 		objects = new HashMap<Integer, Obj>();
-		npc = new HashMap<Integer, NPC>();
+		creatures = new HashMap<Integer, Creature>();
 		draw = new TreeMap<Integer, HashSet<Obj>>(new DrawSort());
 		
 		// background
@@ -82,8 +83,8 @@ public final class Location {
 		else{
 			objects.put(object.id, object);
 			
-			if(object.npc){
-				npc.put(object.id, (NPC)object);
+			if(object.creature){
+				creatures.put(object.id, (Creature)object);
 			}
 			
 			// draw sort
@@ -104,8 +105,8 @@ public final class Location {
 		world.destroyBody(object.getBody());
 		objects.remove(object.id);
 		
-		if(object.npc){
-			npc.remove(object.id);
+		if(object.creature){
+			creatures.remove(object.id);
 		}
 		
 		final int layer = Database.getObject(object.type).drawLayer;
@@ -149,21 +150,42 @@ public final class Location {
 		}
 	}
 	
-	public void interactBlock(int id, boolean value, Obj obj) {
-		npc.get(id).interactBlock(value, obj);
+	public void npcInteractBlock(ObjData idA, ObjData idB, boolean value) {
+		Obj objA = getObj(idA.id);
+		
+		if(objA.creature){
+			creatures.get(idA.id).interactBlock(value, getObj(idB.id));
+		}
+		else{
+			creatures.get(idB.id).interactBlock(value, getObj(idA.id));
+		}
 	}
 	
-	public void interactStair(int id, boolean value, Obj obj) {
-		npc.get(id).interactStair(value, obj);
+	public void npcInteractStair(ObjData idA, ObjData idB, boolean value) {
+		Obj objA = getObj(idA.id);
+		
+		if(objA.creature){
+			creatures.get(idA.id).interactStair(value, getObj(idB.id));
+		}
+		else{
+			creatures.get(idB.id).interactStair(value, getObj(idA.id));
+		}
 	}
 
-	public void interactWater(int id, boolean value, Obj obj) {
-		npc.get(id).interactWater(value, obj);
+	public void npcInteractWater(ObjData idA, ObjData idB, boolean value) {
+		Obj objA = getObj(idA.id);
+		
+		if(objA.creature){
+			creatures.get(idA.id).interactWater(value, getObj(idB.id));
+		}
+		else{
+			creatures.get(idB.id).interactWater(value, getObj(idA.id));
+		}
 	}
 	
 	public void update(){
-		for(NPC unit: npc.values()){
-			unit.updateAI();
+		for(Creature unit: creatures.values()){
+			unit.update();
 		}
 	}
 	
