@@ -1,5 +1,7 @@
 package game.data.objects;
 
+import game.data.location.Location;
+
 import java.util.HashSet;
 
 import com.badlogic.gdx.physics.box2d.Filter;
@@ -36,7 +38,7 @@ abstract public class Creature extends Obj {
 
 	public boolean isGrounded() {
 		for(Obj obj: blocks){
-			if(obj.getBody().getPosition().y + obj.sizeY()/2 <= y()){
+			if((int)(obj.y() + obj.sizeY()/2) <= (int)y()){
 				return true;
 			}
 		}
@@ -73,6 +75,10 @@ abstract public class Creature extends Obj {
 		else{
 			waters.add(obj);
 		}
+	}
+	
+	public void attack(Location loc) {
+		
 	}
 	
 	//obj-top: (int)(obj.y() + obj.sizeY()/2) 
@@ -175,20 +181,36 @@ abstract public class Creature extends Obj {
 		stairMode = value;
 		
 		if(stairMode){
-        	filter.categoryBits = Const.CATEGORY_PLAYER_GHOST;
-        	filter.maskBits = Const.MASK_PLAYER_GHOST;        	
-			fixture.setFilterData(filter);
-			body.setGravityScale(0.0f);
+			if(player){
+				filter.categoryBits = Const.CATEGORY_PLAYER_GHOST;
+        		filter.maskBits = Const.MASK_PLAYER_GHOST;        	
+				fixture.setFilterData(filter);
+				body.setGravityScale(0.0f);
+			}
+			else if(npc){
+				filter.categoryBits = Const.CATEGORY_NPC_GHOST;
+        		filter.maskBits = Const.MASK_NPC_GHOST;        	
+				fixture.setFilterData(filter);
+				body.setGravityScale(0.0f);
+			}
 		}
 		else{
-        	filter.categoryBits = Const.CATEGORY_PLAYER_NORMAL;
-        	filter.maskBits = Const.MASK_PLAYER_NORMAL;
-			fixture.setFilterData(filter);
-			body.setGravityScale(1.0f);
+			if(player){
+				filter.categoryBits = Const.CATEGORY_PLAYER_NORMAL;
+        		filter.maskBits = Const.MASK_PLAYER_NORMAL;
+				fixture.setFilterData(filter);
+				body.setGravityScale(1.0f);
+			}
+			else if(npc){
+				filter.categoryBits = Const.CATEGORY_NPC_NORMAL;
+        		filter.maskBits = Const.MASK_NPC_NORMAL;
+				fixture.setFilterData(filter);
+				body.setGravityScale(1.0f);
+			}
 		}
 	}
 
-	public void update() {
+	public void update(Location loc) {
 		
 	}
 }

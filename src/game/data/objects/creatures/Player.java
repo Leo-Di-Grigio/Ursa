@@ -1,5 +1,6 @@
 package game.data.objects.creatures;
 
+import game.data.location.Location;
 import game.data.objects.Creature;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -60,6 +61,11 @@ public final class Player extends Creature {
 	
 	public int getWeaponUsable(){
 		return weaponModeUsable;
+	}
+	
+	@Override
+	public void attack(Location loc) {
+		
 	}
 	
 	@Override

@@ -126,6 +126,7 @@ public final class GameData implements Disposable {
 		font.draw(batch, Version.TITLE_VERSION, 5, 15);
 		font.draw(batch, "Game", 5, 30);
 		font.draw(batch, "FPS: "+Gdx.graphics.getFramesPerSecond(), 5, 45);
+		font.draw(batch, "Weapon: "+ player.getWeaponMain(), 5, 60);
 	}
 	
 	public void postUpdate() {
@@ -245,6 +246,10 @@ public final class GameData implements Disposable {
 
 	public void playerStopY() {
 		player.moveStopY();
+	}
+	
+	public void playerAttack() {
+		player.attack(loc);
 	}
 
 	public void setEditMode(boolean value) {

@@ -35,7 +35,7 @@ public final class Location {
 	private ScrollBackground [] background;
 	
 	// Tmp
-	private Set<Obj> set;
+	private Set<Obj> tmpSet;
 	
 	private class DrawSort implements Comparator<Integer>{
 
@@ -70,7 +70,7 @@ public final class Location {
 		background[1] = new ScrollBackground(Const.TEX_BACKGROUND_LAYER_2, 0.76f, 0.0f, 0.1f);
 		
 		// tmp
-		set = new HashSet<Obj>();
+		tmpSet = new HashSet<Obj>();
 	}
 	
 	public Obj addObj(World world, int type, float x, float y){
@@ -118,7 +118,7 @@ public final class Location {
 	}
 
 	public Set<Obj> searchObj(float x, float y) {
-		set.clear();
+		tmpSet.clear();
 		
 		for(Obj obj: objects.values()){
 			
@@ -127,11 +127,11 @@ public final class Location {
 			   y >= obj.y() - obj.sizeY()/2 &&
 			   y <= obj.y() + obj.sizeY()/2)
 			{
-				set.add(obj);
+				tmpSet.add(obj);
 			}
 		}
 		
-		return set;
+		return tmpSet;
 	}
 	
 	public void setLocColor() {
@@ -185,7 +185,7 @@ public final class Location {
 	
 	public void update(){
 		for(Creature unit: creatures.values()){
-			unit.update();
+			unit.update(this);
 		}
 	}
 	

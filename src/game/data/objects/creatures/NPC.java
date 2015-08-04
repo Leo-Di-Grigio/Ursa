@@ -5,7 +5,9 @@ import tools.Const;
 import com.owlengine.tools.Log;
 
 import cycle.GameAPI;
+import game.data.location.Location;
 import game.data.objects.Creature;
+import game.data.objects.Obj;
 
 abstract public class NPC extends Creature {
 
@@ -21,20 +23,67 @@ abstract public class NPC extends Creature {
 	}
 	
 	@Override
-	public void update() {
-		updateAI();
+	public void update(Location loc) {
+		updateAI(loc);
 	}
 	
-	public void updateAI(){
-		if((int)target.y() > (int)y()){
-			moveUp();
+	public void updateAI(Location loc){
+		if(canAttack()){
+			attack(loc);
 		}
-		
-		if((int)target.x() + Const.AI_CONTACT_RADIUS < (int)x()){
-			moveLeft();
+		else{
+			if(stairs.size() > 0){
+				if((int)target.y() > (int)y()){
+					moveUp();
+				}
+				else if((int)target.y() < (int)y()){
+					moveDown();
+				}
+			}
+			
+			if(!stairMode){
+				if((int)target.x() + Const.AI_CONTACT_RADIUS < (int)x()){
+					
+					if(isGrounded() && isStretched()){
+						moveUp();
+					}
+					
+					moveLeft();
+				}
+				else if((int)target.x() - Const.AI_CONTACT_RADIUS > (int)x()){
+					
+					if(isGrounded() && isStretched()){
+						moveUp();
+					}
+					
+					moveRight();
+				}
+			}
 		}
-		else if((int)target.x() - Const.AI_CONTACT_RADIUS > (int)x()){
-			moveRight();
+	}
+	
+	private boolean canAttack() {
+		return false;
+	}
+
+	private boolean isStretched() {
+		if(blocks.size() > 0 ){
+			
+			for(Obj obj: blocks){
+				if(((int)(obj.x() + obj.sizeX()/2) > (int)(x() + sizeX()/2) &&
+				    (int)(obj.y() + obj.sizeY()/2) > (int)(y() - sizeY()/2)) // right
+				   ||
+				   ((int)(obj.x() - obj.sizeX()/2) < (int)(x() - sizeX()/2) &&
+				    (int)(obj.y() + obj.sizeY()/2) > (int)(y() - sizeY()/2))) // left
+				{
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		else{
+			return false;
 		}
 	}
 }

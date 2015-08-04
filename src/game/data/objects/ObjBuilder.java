@@ -98,8 +98,8 @@ public final class ObjBuilder {
 			
 			def.position.set(x, y);
 			
-			object.setTex(Assets.getTex(property.texture));
 			object.setBody(world.createBody(def), property.sizex, property.sizey);
+			object.setTex(Assets.getTex(property.texture));
 			
 			return object;
 		}

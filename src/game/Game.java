@@ -46,7 +46,7 @@ public final class Game extends Scene {
 	
 	@Override
 	protected void update(OrthographicCamera camera) {
-		if(UserInput.key(Keys.SPACE) || UserInput.key(Keys.W)){
+		if(UserInput.key(Keys.W)){
 			gamedata.playerMoveUp();
 		}
 		else if(UserInput.key(Keys.S)){
@@ -64,6 +64,10 @@ public final class Game extends Scene {
 		}
 		else{
 			gamedata.playerStopX();
+		}
+		
+		if(UserInput.key(Keys.SPACE)){
+			gamedata.playerAttack();
 		}
 		
 		gamedata.update(camera);
@@ -92,7 +96,10 @@ public final class Game extends Scene {
 			gamedata.cameraZoom(data);
 		}
 		else if(code == Event.KEY_DOWN){
-			if(data == Keys.ESCAPE){
+			if(data == Keys.SPACE){
+				gamedata.playerAttack();
+			}
+			else if(data == Keys.ESCAPE){
 				gamedata.sceneEscape();
 			}
 			else if(data == Keys.FORWARD_DEL){

@@ -79,8 +79,8 @@ abstract public class Obj {
         	filter.maskBits = Const.MASK_PLAYER_NORMAL;
         }
         else if(type == Const.OBJ_NPC_WOMAN){
-        	filter.categoryBits = Const.CATEGORY_NPC;
-        	filter.maskBits = Const.MASK_NPC;
+        	filter.categoryBits = Const.CATEGORY_NPC_NORMAL;
+        	filter.maskBits = Const.MASK_NPC_NORMAL;
         }
         else if(type == Const.OBJ_BLOCK){
         	filter.categoryBits = Const.CATEGORY_BLOCK;
