@@ -1,6 +1,5 @@
 package game.data.objects.creatures;
 
-import game.data.location.Location;
 import game.data.objects.Creature;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -18,15 +17,9 @@ public final class Player extends Creature {
 	
 	// Graphics
 	private int animationTimer = 0;
-	
-	private int direct = Const.ANIMATION_DIRECT_LEFT;
 	private int animation = Const.ANIMATION_IDLE_0;
 	
 	private TextureRegion [][] texAtlas;
-	
-	// Weapon
-	private int weaponModeMain;
-	private int weaponModeUsable;
 
 	public Player() {
 		super(Const.OBJ_PLAYER);
@@ -41,31 +34,6 @@ public final class Player extends Creature {
 				texAtlas[i][j] = new TextureRegion(tex, PLAYER_SIZE_X*i, PLAYER_SIZE_Y*j, PLAYER_SIZE_X, PLAYER_SIZE_Y);
 			}
 		}
-	}
-	
-	public void setDirect(int direct){
-		this.direct = direct;
-	}
-	
-	public void setWeaponMain(final int weaponMode){
-		this.weaponModeMain = weaponMode;
-	}
-	
-	public void setWeaponUsable(final int weaponMode){
-		this.weaponModeUsable = weaponMode;
-	}
-	
-	public int getWeaponMain(){
-		return weaponModeMain;
-	}
-	
-	public int getWeaponUsable(){
-		return weaponModeUsable;
-	}
-	
-	@Override
-	public void attack(Location loc) {
-		
 	}
 	
 	@Override

@@ -36,6 +36,9 @@ public final class Game extends Scene {
 	}
 
 	private void initAssets() {		
+		// Textures
+		Assets.loadTex(Const.TEX_BULLET);
+		
 		// fonts
 		font = Assets.getFont(Const.FONT_DEFAULT);
 	}

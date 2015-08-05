@@ -1,7 +1,5 @@
 package game.data.objects;
 
-import game.data.location.Location;
-
 import java.util.HashSet;
 
 import com.badlogic.gdx.physics.box2d.Filter;
@@ -20,12 +18,18 @@ abstract public class Creature extends Obj {
 	protected boolean stairMode;
 	
 	// Movement
+	protected int direct = Const.ANIMATION_DIRECT_LEFT;
 	protected float movementSpeed = Const.BEAR_SPEED;
 	protected float movementJumpSpeed = Const.BEAR_SPEED_JUMP;
 	
 	// Heals
 	protected int hp;
 	protected int maxHp;
+	
+	// Weapon
+	private long lastAttackTime;
+	private int weaponModeMain;
+	private int weaponModeUsable;
 	
 	public Creature(final int type) {
 		super(type);
@@ -77,14 +81,44 @@ abstract public class Creature extends Obj {
 		}
 	}
 	
-	public void attack(Location loc) {
-		
+	// Weapon
+	public boolean canAttack() {
+		if(System.currentTimeMillis() - lastAttackTime > Const.WEAPON_SHOOT_DELAY){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public void attack() {
+		lastAttackTime = System.currentTimeMillis();
+	}
+	
+	public void setWeaponMain(final int weaponMode){
+		this.weaponModeMain = weaponMode;
+	}
+	
+	public void setWeaponUsable(final int weaponMode){
+		this.weaponModeUsable = weaponMode;
+	}
+	
+	public int getWeaponMain(){
+		return weaponModeMain;
+	}
+	
+	public int getWeaponUsable(){
+		return weaponModeUsable;
 	}
 	
 	//obj-top: (int)(obj.y() + obj.sizeY()/2) 
 	//obj-bottom: (int)(obj.y() - obj.sizeY()/2)
 	//this-top: (int)(y() + sizeY()/2)
 	//this-bottom: (int)(y() - sizeY()/2)
+	public void setDirect(int direct){
+		this.direct = direct;
+	}
+	
 	public void moveUp() {
 		if(stairMode){
 			body.setLinearVelocity(body.getLinearVelocity().x, movementSpeed);
@@ -148,6 +182,8 @@ abstract public class Creature extends Obj {
 	}
 	
 	public void moveLeft() {
+		setDirect(Const.ANIMATION_DIRECT_LEFT);
+		
 		if(stairMode){
 			setStairMode(false);
 			body.setLinearVelocity(-movementSpeed, body.getLinearVelocity().y);
@@ -158,6 +194,8 @@ abstract public class Creature extends Obj {
 	}
 	
 	public void moveRight() {
+		setDirect(Const.ANIMATION_DIRECT_RIGHT);
+		
 		if(stairMode){
 			setStairMode(false);
 			body.setLinearVelocity(movementSpeed, body.getLinearVelocity().y);
@@ -210,7 +248,11 @@ abstract public class Creature extends Obj {
 		}
 	}
 
-	public void update(Location loc) {
+	public int direct() {
+		return direct;
+	}
+	
+	public void update() {
 		
 	}
 }

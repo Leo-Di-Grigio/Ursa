@@ -89,7 +89,7 @@ public final class Cycle implements ApplicationListener {
 
 	@Override
 	public void resize(int w, int h) {
-
+	
 	}
 
 	@Override

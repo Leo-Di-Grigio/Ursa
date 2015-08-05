@@ -28,6 +28,9 @@ public class Const {
 	// textures creatures
 	public static final String TEX_PLAYER = "assets/tex/creatures/player.png";
 	
+	// textures ammo
+	public static final String TEX_BULLET = "assets/tex/bullet.png";
+	
 	// font
 	public static final String FONT_DEFAULT = "assets/font/font.ttf";
 	
@@ -44,6 +47,7 @@ public class Const {
 	public static final int OBJ_TYPE_CREATURE = 2;
 	
 	// Objects ID's
+	public static final int OBJ_BULLET = -1;
 	public static final int OBJ_NULL = 0;
 	public static final int OBJ_PLAYER = 1;
 	public static final int OBJ_BLOCK = 2;
@@ -81,8 +85,8 @@ public class Const {
 	public static final short CATEGORY_NPC_GHOST = 0x0008;
 	public static final short CATEGORY_BLOCK = 0x0010;
 	public static final short CATEGORY_INTERACT = 0x0020;
-	public static final short CATEGORY_BULLET_PLAYER = 0x0040;
-	public static final short CATEGORY_BULLET_NPC = 0x0080;
+	public static final short CATEGORY_BULLET = 0x0040;
+	public static final short CATEGORY_8 = 0x0080;
 	public static final short CATEGORY_9 = 0x0100;
 	public static final short CATEGORY_10 = 0x0200;
 	public static final short CATEGORY_11 = 0x0400;
@@ -93,18 +97,19 @@ public class Const {
 	
 	// Collide FilterMask
 	public static final short MASK_NULL          = CATEGORY_NULL;
-	public static final short MASK_PLAYER_NORMAL = CATEGORY_BLOCK | CATEGORY_INTERACT | CATEGORY_NPC_NORMAL | CATEGORY_BULLET_NPC;
-	public static final short MASK_PLAYER_GHOST  = CATEGORY_INTERACT | CATEGORY_NPC_NORMAL | CATEGORY_BULLET_NPC;
-	public static final short MASK_NPC_NORMAL    = CATEGORY_PLAYER_NORMAL | CATEGORY_PLAYER_GHOST | CATEGORY_INTERACT | CATEGORY_BLOCK;
-	public static final short MASK_NPC_GHOST     = CATEGORY_PLAYER_NORMAL | CATEGORY_PLAYER_GHOST | CATEGORY_INTERACT;
-	public static final short MASK_BLOCK         = CATEGORY_PLAYER_NORMAL | CATEGORY_NPC_NORMAL;
+	public static final short MASK_PLAYER_NORMAL = CATEGORY_BLOCK | CATEGORY_INTERACT | CATEGORY_NPC_NORMAL | CATEGORY_BULLET;
+	public static final short MASK_PLAYER_GHOST  = CATEGORY_INTERACT | CATEGORY_NPC_NORMAL | CATEGORY_BULLET;
+	public static final short MASK_NPC_NORMAL    = CATEGORY_PLAYER_NORMAL | CATEGORY_PLAYER_GHOST | CATEGORY_INTERACT | CATEGORY_BULLET | CATEGORY_BLOCK;
+	public static final short MASK_NPC_GHOST     = CATEGORY_PLAYER_NORMAL | CATEGORY_PLAYER_GHOST | CATEGORY_INTERACT | CATEGORY_BULLET;
+	public static final short MASK_BLOCK         = CATEGORY_PLAYER_NORMAL | CATEGORY_NPC_NORMAL | CATEGORY_BULLET;
 	public static final short MASK_INTERACT      = CATEGORY_PLAYER_NORMAL | CATEGORY_PLAYER_GHOST | CATEGORY_NPC_NORMAL | CATEGORY_NPC_GHOST;
-	public static final short MASK_BULLET_PLAYER = CATEGORY_BLOCK | CATEGORY_NPC_NORMAL;
-	public static final short MASK_BULLET_NPC    = CATEGORY_BLOCK | CATEGORY_PLAYER_NORMAL | CATEGORY_PLAYER_GHOST;
+	public static final short MASK_BULLET        = CATEGORY_PLAYER_NORMAL | CATEGORY_PLAYER_GHOST | CATEGORY_NPC_NORMAL | CATEGORY_NPC_GHOST | CATEGORY_BLOCK;
 	
+	// Location gravity
 	public static final float PHYSICS_GRAVITY_X =  0.0f;
 	public static final float PHYSICS_GRAVITY_Y = -140.0f;
 
+	// Bear data
 	public static final float BEAR_SPEED = 30.0f;
 	public static final float BEAR_SPEED_JUMP = 50.0f;
 	
@@ -129,9 +134,19 @@ public class Const {
 	public static final int WEAPON_USABLE_MEDICINE = 6;
 	public static final int WEAPON_USABLE_DEAD_RING = 7;
 	public static final int WEAPON_USABLE_FIRE_PILLS = 8;
+
+	// Shoot delay
+	public static final long WEAPON_SHOOT_DELAY = 100;
+	
+	// Bullet impulse
+	public static final float WEAPON_BULLET_IMPULSE_X = 300.0f;
+
+	// Bullets lifetime
+	public static final int BULLET_LIFETIME = 100;
 	
 	// AI
 	public static final int AI_CONTACT_RADIUS = 12;
+	
 	
 	public static int getBodyType(final String type) {
 		

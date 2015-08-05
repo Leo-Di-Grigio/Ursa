@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 abstract public class Obj {
@@ -67,8 +68,12 @@ abstract public class Obj {
         ObjectProperties property = Database.getObject(type);
         fixtureDef.density = property.dencity;
         fixtureDef.friction = property.friction;
-        fixtureDef.isSensor = property.interact;        
+        fixtureDef.isSensor = property.interact;     
         
+        MassData massData = new MassData();
+		massData.mass = property.mass;
+		this.body.setMassData(massData);
+		
         this.fixture = this.body.createFixture(fixtureDef);
         
         // Collide filter
@@ -77,14 +82,17 @@ abstract public class Obj {
         if(type == Const.OBJ_PLAYER){
         	filter.categoryBits = Const.CATEGORY_PLAYER_NORMAL;
         	filter.maskBits = Const.MASK_PLAYER_NORMAL;
+        	body.setBullet(true);
         }
         else if(type == Const.OBJ_NPC_WOMAN){
         	filter.categoryBits = Const.CATEGORY_NPC_NORMAL;
         	filter.maskBits = Const.MASK_NPC_NORMAL;
+        	body.setBullet(true);
         }
         else if(type == Const.OBJ_BLOCK){
         	filter.categoryBits = Const.CATEGORY_BLOCK;
         	filter.maskBits = Const.MASK_BLOCK;
+        	body.setBullet(true);
         }
         else if(type == Const.OBJ_STAIRS){
         	filter.categoryBits = Const.CATEGORY_INTERACT;

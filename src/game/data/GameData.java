@@ -73,7 +73,7 @@ public final class GameData implements Disposable {
 		}
 		
 		//
-		loc = new Location();
+		loc = new Location(world);
 		
 		// objects
 		this.player = (Player)loc.addObj(world, Const.OBJ_PLAYER, 0, Database.getObject(Const.OBJ_PLAYER).sizey);
@@ -190,8 +190,11 @@ public final class GameData implements Disposable {
 	}
 	
 	public void interact(ObjData dataA, ObjData dataB, boolean value) {
-		if(dataA.type == Const.OBJ_STAIRS || dataB.type == Const.OBJ_STAIRS){
-			loc.npcInteractStair(dataA, dataB, value);	
+		if(dataA.type == Const.OBJ_BULLET || dataB.type == Const.OBJ_BULLET){
+			loc.bulletInteract(dataA, dataB, value); 
+		}
+		else if(dataA.type == Const.OBJ_STAIRS || dataB.type == Const.OBJ_STAIRS){
+			loc.npcInteractStair(dataA, dataB, value);
 		}
 		else if(dataA.type == Const.OBJ_WATER || dataB.type == Const.OBJ_WATER){
 			loc.npcInteractWater(dataA, dataB, value);
@@ -249,7 +252,7 @@ public final class GameData implements Disposable {
 	}
 	
 	public void playerAttack() {
-		player.attack(loc);
+		loc.attack(player.id);
 	}
 
 	public void setEditMode(boolean value) {
