@@ -29,8 +29,11 @@ public final class ObjectProperties {
 	
 	public final int maxHp;
 	
+	public final boolean planEditorIgnore;
+	public final int planEditorColor;
+	
 	public ObjectProperties(int typeId, 
-							String title, 
+							String title,
 							int objType, 
 							int bodyType,
 							boolean interact,
@@ -44,7 +47,12 @@ public final class ObjectProperties {
 							boolean go,
 							boolean player,
 							boolean npc,
-							int maxHp)
+							int maxHp, 
+							boolean planEditorIgnore,
+							int planEditorA, 
+							int planEditorR,
+							int planEditorG, 
+							int planEditorB)
 	{
 		this.typeId = typeId;
 		this.title = title;
@@ -74,5 +82,9 @@ public final class ObjectProperties {
 		
 		//
 		Assets.loadTex(this.texture);
+		
+		// plan editor
+		this.planEditorIgnore = planEditorIgnore;
+		this.planEditorColor = (planEditorA << 24) | (planEditorR << 16) | (planEditorG << 8) | planEditorB;
 	}
 }

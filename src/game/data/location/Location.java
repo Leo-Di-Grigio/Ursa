@@ -1,5 +1,6 @@
 package game.data.location;
 
+import game.data.location.loader.LocationMng;
 import game.data.objects.Creature;
 import game.data.objects.Obj;
 import game.data.objects.ObjBuilder;
@@ -287,5 +288,9 @@ public final class Location {
 			bullet.update(this);
 			bullet.draw(batch);
 		}
+	}
+
+	public void buildPlan() {
+		LocationMng.buildPlan(draw, "levelPlan.png");
 	}
 }

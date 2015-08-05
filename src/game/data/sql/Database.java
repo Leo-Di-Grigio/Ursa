@@ -66,10 +66,18 @@ public final class Database {
 				
 				int maxHp = result.getInt("max_hp");
 				
+				boolean planEditorIgnore = result.getBoolean("plan_builder_ignore");
+				int planEditorA = result.getInt("plan_builder_a");
+				int planEditorR = result.getInt("plan_builder_r");
+				int planEditorG = result.getInt("plan_builder_g");
+				int planEditorB = result.getInt("plan_builder_b");
+				
+				
 				//
 				ObjectProperties property = new ObjectProperties(id, title, type, bodyType, interact, dencity, 
 																 friction, mass, drawLayer, sizex, sizey, texture,
-																 go, player, npc, maxHp);
+																 go, player, npc, maxHp,
+																 planEditorIgnore, planEditorA, planEditorR, planEditorG, planEditorB);
 				objects.put(property.typeId, property);
 			}
 			

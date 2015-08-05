@@ -79,7 +79,7 @@ public final class Game extends Scene {
 	@Override
 	public void event(final int code) {
 		if(code == Event.SCENE_LOAD){
-			GameAPI.camera().zoom = 0.13f;
+			GameAPI.camera().zoom = 0.125f;
 			gamedata.setLocColor();
 		}
 		else if(code == Event.MOUSE_KEY_LEFT){

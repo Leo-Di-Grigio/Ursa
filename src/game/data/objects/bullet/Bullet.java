@@ -81,7 +81,7 @@ public class Bullet implements Poolable {
 	}
 	
 	public void setImpulse(final float px, final float py){
-		body.applyLinearImpulse(px, py, 0.0f, 0.0f, true);
+		body.setLinearVelocity(px, py);
 	}
 	
 	@Override

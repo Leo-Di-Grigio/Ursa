@@ -53,6 +53,26 @@ final class GameUiLoader {
 			Log.err("Game.initToolFrame(): button toolbar_button_editor is null ");
 		}
 		
+		// Build plan
+		button = (Button)ui.getWidget("toolbar_button_build_plan");
+		if(button != null){
+			button.setScriptOnAction(new Script() {
+				
+				@Override
+				public void execute(String key) {
+					
+				}
+				
+				@Override
+				public void execute() {
+					gamedata.buildPlan();
+				}
+			});
+		}
+		else{
+			Log.err("Game.initToolFrame(): button toolbar_button_build_plan is null ");
+		}
+		
 		// Exit
 		button = (Button)ui.getWidget("toolbar_button_exit");
 		if(button != null){

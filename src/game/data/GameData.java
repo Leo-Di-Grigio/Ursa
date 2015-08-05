@@ -76,13 +76,11 @@ public final class GameData implements Disposable {
 		loc = new Location(world);
 		
 		// objects
-		this.player = (Player)loc.addObj(world, Const.OBJ_PLAYER, 0, Database.getObject(Const.OBJ_PLAYER).sizey);
+		this.player = (Player)loc.addObj(world, Const.OBJ_PLAYER, 10, Database.getObject(Const.OBJ_PLAYER).sizey);
 		GameAPI.camera().position.set(player.x(), player.y(), 0.0f);
 		
 		// location test
-		for(int i = -50; i < 50; ++i){
-			loc.addObj(world, Const.OBJ_BLOCK, Database.getObject(Const.OBJ_BLOCK).sizex*i, -2.0f);
-		}
+		loc.addObj(world, Const.OBJ_BLOCK, Database.getObject(Const.OBJ_BLOCK).sizex/2, -2.0f);
 	}
 	
 	public void update(OrthographicCamera camera) {
@@ -295,7 +293,6 @@ public final class GameData implements Disposable {
 
 	public void sceneEscape() {
 		if(editMode && editObjProto != null){
-			cancelEdit();
 			editSelect = false;
 		}
 	}
@@ -312,10 +309,6 @@ public final class GameData implements Disposable {
 		if(editMode && editObjProto != null){
 			pickPixel(select1);
 		}
-	}
-	
-	private void cancelEdit() {
-		
 	}
 
 	public void sceneLeftClick() {
@@ -376,5 +369,9 @@ public final class GameData implements Disposable {
 
 	public Player getPlayer() {
 		return player;
+	}
+
+	public void buildPlan() {
+		loc.buildPlan();
 	}
 }

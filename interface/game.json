@@ -27,6 +27,16 @@
 				"texture_select": "assets/tex/ui/button_selected.png",
 				"visible": true,
 			},
+						
+			{
+				"content": "button",
+				"title": "toolbar_button_build_plan",
+				"font": "assets/font/font.ttf", "text": "Build plan",
+				"alignment": "LEFT", "pos_x": 67, "pos_y": -1, "size_x": 74, "size_y": 32,
+				"texture_normal": "assets/tex/ui/button_normal.png",
+				"texture_select": "assets/tex/ui/button_selected.png",
+				"visible": true,
+			},
 			
 			{
 				"content": "button",
