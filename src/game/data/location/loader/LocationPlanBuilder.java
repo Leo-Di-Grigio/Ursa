@@ -50,34 +50,41 @@ final class LocationPlanBuilder {
 		Log.debug("min:(" + minX + ":" + minY + ") max:(" + maxX + ":" + maxY + ")");
 		Log.debug("sizex: " + imgSizeX + " sizey: " + imgSizeY + " objects: " + draw.size());
 		Log.debug("Image pixels: " + (imgSizeX*imgSizeY));
-	    Log.debug("-----------------------------\n");
 	    
 	    try {
-		    File file = new File(filePath);
+		    File file = null;
+		    int counter = 0;
 		    
-		    if(file.exists()){
-			    // build image
-			    BufferedImage img = new BufferedImage(imgSizeX, imgSizeY, BufferedImage.TYPE_INT_ARGB);
+		    while(counter < 1024){
+			    file = new File(filePath + counter + ".png");
 			    
-			    // write images to image			    
-				for(HashSet<Obj> layer: draw.values()){
-					for(Obj object: layer){
-						placeObject(img, object, imgSizeY, minX, minY);
-					}
+			    if(!file.exists()){
+			    	file.createNewFile();
+			    	break;
 			    }
-			    
-			    // write image to file
-		    	ImageIO.write(resize(img, img.getWidth()*8, img.getHeight()*8), "png", file);
-				Log.debug("Done. Image builded.");
+			    else{
+			    	counter++;
+			    }
 		    }
-		    else{
-		    	Log.err("LocationPlanBuilder.buildPlan(): File \"" + filePath + "\" is not exist");
+		    
+		    // build image
+		    BufferedImage img = new BufferedImage(imgSizeX, imgSizeY, BufferedImage.TYPE_INT_ARGB);
+		    
+		    // write images to image			    
+			for(HashSet<Obj> layer: draw.values()){
+				for(Obj object: layer){
+					placeObject(img, object, imgSizeY, minX, minY);
+				}
 		    }
+		    
+		    // write image to file
+	    	ImageIO.write(resize(img, img.getWidth()*8, img.getHeight()*8), "png", file);
+			Log.debug("Done. Image saved at \"" + file.getAbsolutePath() + "\"");
 		}
 	    catch (IOException e) {
 	    	Log.err("LocationPlanBuilder.buildPlan(): IOException");
-			e.printStackTrace();
 		}
+	    Log.debug("\n-----------------------------\n");
 	}
 
 	private static void placeObject(BufferedImage img, Obj object, final int imgHeigth, final int imgMinX, final int imgMinY) {
@@ -99,13 +106,42 @@ final class LocationPlanBuilder {
 			
 			for(int i = xmin; i < xmax; ++i){
 				for(int j = yMinDraw; j > yMaxDraw; --j){
-					img.setRGB(i, j, properties.planEditorColor);
+					img.setRGB(i, j, getBlendARGBColor(img.getRGB(i, j), properties.planEditorColor));
 				}
 			}
 			
 			//System.out.println("x: " + x + " y: " + y + " sizex: " + sizex + " sizey: " + sizey + " imageMin: " + imgMinX + ": " + imgMinY);
 			//System.out.println("min(" + xmin + ":" + ymin + ") max(" + xmax + ":" + ymax + ")");
 		}
+	}
+	
+	private static int getBlendARGBColor(int A, int B){
+		if(getA(A) == 0){
+			return B;
+		}
+		else{
+			int r = (getR(B) * getA(B)) + (getR(A) * (1 - getA(B)));
+			int g = (getG(B) * getA(B)) + (getG(A) * (1 - getA(B)));
+			int b = (getB(B) * getA(B)) + (getB(A) * (1 - getA(B)));
+			
+			return (getA(B) << 24) | (r << 16) | (g << 8) | b;
+		}
+	}
+
+	private static int getA(int color){
+		return (color >> 24) & 0xFF;
+	}
+
+	private static int getR(int color){
+		return (color >> 16) & 0xFF;
+	}
+	
+	private static int getG(int color){
+		return (color >> 8) & 0xFF;
+	}
+	
+	private static int getB(int color){
+		return (color >> 0) & 0xFF;
 	}
 	
 	public static BufferedImage resize(BufferedImage img, int newW, int newH) { 

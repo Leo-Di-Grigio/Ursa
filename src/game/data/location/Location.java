@@ -8,6 +8,7 @@ import game.data.objects.ObjData;
 import game.data.objects.bullet.Bullet;
 import game.data.sql.Database;
 
+import java.io.File;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -291,6 +292,12 @@ public final class Location {
 	}
 
 	public void buildPlan() {
-		LocationMng.buildPlan(draw, "levelPlan.png");
+		File foler = new File(Const.PLANS_FOLDER);
+		
+		if(!foler.exists()){
+			foler.mkdirs();
+		}
+		
+		LocationMng.buildPlan(draw, Const.PLANS_FOLDER + "/" + Const.PLANS_FILE);
 	}
 }

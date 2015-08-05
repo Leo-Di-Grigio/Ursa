@@ -147,6 +147,10 @@ public class Const {
 	// AI
 	public static final int AI_CONTACT_RADIUS = 12;
 	
+	// Editor plan-save folder
+	public static final String PLANS_FOLDER = "plans";
+	public static final String PLANS_FILE = "levelPlan";
+	
 	
 	public static int getBodyType(final String type) {
 		
