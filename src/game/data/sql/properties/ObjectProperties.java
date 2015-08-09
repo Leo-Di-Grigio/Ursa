@@ -32,6 +32,8 @@ public final class ObjectProperties {
 	public final boolean planEditorIgnore;
 	public final int planEditorColor;
 	
+	public final boolean editorWrite;
+	
 	public ObjectProperties(int typeId, 
 							String title,
 							int objType, 
@@ -52,7 +54,8 @@ public final class ObjectProperties {
 							int planEditorA, 
 							int planEditorR,
 							int planEditorG, 
-							int planEditorB)
+							int planEditorB,
+							boolean editorWrite)
 	{
 		this.typeId = typeId;
 		this.title = title;
@@ -86,5 +89,7 @@ public final class ObjectProperties {
 		// plan editor
 		this.planEditorIgnore = planEditorIgnore;
 		this.planEditorColor = (planEditorA << 24) | (planEditorR << 16) | (planEditorG << 8) | planEditorB;
+		
+		this.editorWrite = editorWrite;
 	}
 }

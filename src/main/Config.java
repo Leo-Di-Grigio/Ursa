@@ -9,8 +9,11 @@ public final class Config {
 
 	private static boolean debug;
 	private static boolean fullscreen;
+	
 	private static int frameHight;
 	private static int frameWidth;
+	
+	private static String map;
 	
 	public Config() {
 		try {
@@ -26,6 +29,8 @@ public final class Config {
 				out.println("fullscreen: false");
 				out.println();
 				out.println("debug: false");
+				out.println();
+				out.println("map: test.amf"); // .amf - awesome map format
 				
 				out.flush();
 				out.close();
@@ -58,6 +63,10 @@ public final class Config {
 								case "debug":
 									debug = Boolean.parseBoolean(arr[1]);
 									break;
+									
+								case "map":
+									map = arr[1];
+									break;
 							}
 						}
 					}
@@ -89,5 +98,9 @@ public final class Config {
 	
 	public static boolean debug(){
 		return debug;
+	}
+	
+	public static String map(){
+		return map;
 	}
 }

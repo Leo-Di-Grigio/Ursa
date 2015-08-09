@@ -151,6 +151,8 @@ public class Const {
 	public static final String PLANS_FOLDER = "plans";
 	public static final String PLANS_FILE = "levelPlan";
 	
+	public static final String MAPS_FOLDER = "maps";
+	
 	
 	public static int getBodyType(final String type) {
 		

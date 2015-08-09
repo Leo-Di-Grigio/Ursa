@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeMap;
 
+import main.Config;
 import tools.Const;
 
 import com.badlogic.gdx.Gdx;
@@ -299,5 +300,15 @@ public final class Location {
 		}
 		
 		LocationMng.buildPlan(draw, Const.PLANS_FOLDER + "/" + Const.PLANS_FILE);
+	}
+
+	public void saveLocation() {
+		File folder = new File(Const.MAPS_FOLDER);
+		
+		if(!folder.exists()){
+			folder.mkdirs();
+		}
+		
+		LocationMng.writeLocation(this, objects, Config.map());
 	}
 }

@@ -115,16 +115,25 @@ final class LocationPlanBuilder {
 		}
 	}
 	
-	private static int getBlendARGBColor(int A, int B){
-		if(getA(A) == 0){
-			return B;
+	private static int getBlendARGBColor(int src, int dst){
+		if(getA(src) == 0){
+			return dst;
+		}
+		else if(getA(dst) == 0){
+			return 0; // no color
+		}
+		else if(getA(dst) == 255){
+			int a = 255;
+			int r = getR(src)*getA(src) + getR(dst)*(1 - getA(src));
+			int g = getG(src)*getA(src) + getG(dst)*(1 - getA(src));
+			int b = getB(src)*getA(src) + getB(dst)*(1 - getA(src));
+			return (a << 24) | (r << 16) | (g << 8) | b;
 		}
 		else{
-			int r = (getR(B) * getA(B)) + (getR(A) * (1 - getA(B)));
-			int g = (getG(B) * getA(B)) + (getG(A) * (1 - getA(B)));
-			int b = (getB(B) * getA(B)) + (getB(A) * (1 - getA(B)));
-			
-			return (getA(B) << 24) | (r << 16) | (g << 8) | b;
+			int r = (getR(dst) * getA(dst)) + (getR(src) * (1 - getA(dst)));
+			int g = (getG(dst) * getA(dst)) + (getG(src) * (1 - getA(dst)));
+			int b = (getB(dst) * getA(dst)) + (getB(src) * (1 - getA(dst)));
+			return (getA(src) << 24) | (r << 16) | (g << 8) | b;
 		}
 	}
 

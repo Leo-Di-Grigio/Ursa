@@ -72,12 +72,14 @@ public final class Database {
 				int planEditorG = result.getInt("plan_builder_g");
 				int planEditorB = result.getInt("plan_builder_b");
 				
+				boolean editorWrite = result.getBoolean("editor_write");
 				
 				//
 				ObjectProperties property = new ObjectProperties(id, title, type, bodyType, interact, dencity, 
 																 friction, mass, drawLayer, sizex, sizey, texture,
 																 go, player, npc, maxHp,
-																 planEditorIgnore, planEditorA, planEditorR, planEditorG, planEditorB);
+																 planEditorIgnore, planEditorA, planEditorR,
+																 planEditorG, planEditorB, editorWrite);
 				objects.put(property.typeId, property);
 			}
 			

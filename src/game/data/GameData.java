@@ -7,6 +7,7 @@ import tools.Version;
 import main.Config;
 import game.data.location.GameContactListener;
 import game.data.location.Location;
+import game.data.location.loader.LocationMng;
 import game.data.objects.Obj;
 import game.data.objects.ObjBuilder;
 import game.data.objects.ObjData;
@@ -73,14 +74,9 @@ public final class GameData implements Disposable {
 		}
 		
 		//
-		loc = new Location(world);
-		
-		// objects
+		loc = LocationMng.loadLocation(world, Const.MAPS_FOLDER + "/" + Config.map());
 		this.player = (Player)loc.addObj(world, Const.OBJ_PLAYER, 10, Database.getObject(Const.OBJ_PLAYER).sizey);
 		GameAPI.camera().position.set(player.x(), player.y(), 0.0f);
-		
-		// location test
-		loc.addObj(world, Const.OBJ_BLOCK, Database.getObject(Const.OBJ_BLOCK).sizex/2, -2.0f);
 	}
 	
 	public void update(OrthographicCamera camera) {
@@ -373,5 +369,9 @@ public final class GameData implements Disposable {
 
 	public void buildPlan() {
 		loc.buildPlan();
+	}
+
+	public void saveLocation() {
+		loc.saveLocation();
 	}
 }
