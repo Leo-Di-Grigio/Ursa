@@ -89,6 +89,58 @@ abstract public class Obj {
         	filter.maskBits = Const.MASK_NPC_NORMAL;
         	body.setBullet(true);
         }
+        else if(type == Const.OBJ_BLOCK || type == Const.OBJ_BLOCK_CUBE){
+        	filter.categoryBits = Const.CATEGORY_BLOCK;
+        	filter.maskBits = Const.MASK_BLOCK;
+        	body.setBullet(true);
+        }
+        else if(type == Const.OBJ_STAIRS){
+        	filter.categoryBits = Const.CATEGORY_INTERACT;
+        	filter.maskBits = Const.MASK_INTERACT;
+        }
+        
+        this.fixture.setFilterData(filter);
+        
+		shape.dispose();
+	}
+	
+	public void resizeBody(float sizex, float sizey){
+		this.body.setUserData(new ObjData(id, type));
+		
+		PolygonShape shape = new PolygonShape();
+		
+		this.sizex = sizex;
+		this.sizey = sizey;
+		shape.setAsBox(this.sizex/2, this.sizey/2);
+		
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.isSensor = false;
+        
+        ObjectProperties property = Database.getObject(type);
+        fixtureDef.density = property.dencity;
+        fixtureDef.friction = property.friction;
+        fixtureDef.isSensor = property.interact;     
+        
+        MassData massData = new MassData();
+		massData.mass = property.mass;
+		this.body.setMassData(massData);
+		
+        this.fixture = this.body.createFixture(fixtureDef);
+        
+        // Collide filter
+        Filter filter = new Filter();
+        
+        if(type == Const.OBJ_PLAYER){
+        	filter.categoryBits = Const.CATEGORY_PLAYER_NORMAL;
+        	filter.maskBits = Const.MASK_PLAYER_NORMAL;
+        	body.setBullet(true);
+        }
+        else if(type == Const.OBJ_NPC_WOMAN){
+        	filter.categoryBits = Const.CATEGORY_NPC_NORMAL;
+        	filter.maskBits = Const.MASK_NPC_NORMAL;
+        	body.setBullet(true);
+        }
         else if(type == Const.OBJ_BLOCK){
         	filter.categoryBits = Const.CATEGORY_BLOCK;
         	filter.maskBits = Const.MASK_BLOCK;

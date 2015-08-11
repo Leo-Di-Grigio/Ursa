@@ -27,6 +27,8 @@ public class Const {
 	
 	// textures creatures
 	public static final String TEX_PLAYER = "assets/tex/creatures/player.png";
+	public static final String TEX_PLAYER_STAND = "assets/tex/creatures/player_stand.png";
+	public static final String TEX_PLAYER_STAIRS = "assets/tex/creatures/player_stairs.png";
 	
 	// textures ammo
 	public static final String TEX_BULLET = "assets/tex/bullet.png";
@@ -58,11 +60,16 @@ public class Const {
 	public static final int OBJ_BLOCK_CUBE = 7;
 	public static final int OBJ_NPC_WOMAN = 8;
 	public static final int OBJ_BACKGROUND_HOUSE1 = 9;
+	public static final int OBJ_GRASS = 10;
+	public static final int OBJ_GRASS_L = 11;
+	public static final int OBJ_GRASS_R = 12;
+	public static final int OBJ_GRASS_LR = 13;
 	
 	// Animation
 	public static final int ANIMATION_DIRECT_LEFT = 0;
 	public static final int ANIMATION_DIRECT_RIGHT = 1;
 	
+	// Player animation normal movement
 	public static final int ANIMATION_ARRAY_SIZE = 7;
 	public static final int ANIMATION_IDLE_0 = 0;
 	public static final int ANIMATION_MOVE_1 = 1;
@@ -72,6 +79,33 @@ public class Const {
 	public static final int ANIMATION_MOVE_5 = 5;
 	public static final int ANIMATION_MOVE_6 = 6;
 
+	// Player animation stair
+	public static final int ANIMATION_STAIR_ARRAY_SIZE = 5;
+	public static final int ANIMATION_STAIR_STEP_0 = 0;
+	public static final int ANIMATION_STAIR_STEP_1 = 1;
+	public static final int ANIMATION_STAIR_STEP_2 = 2;
+	public static final int ANIMATION_STAIR_STEP_3 = 3;
+	public static final int ANIMATION_STAIR_STEP_4 = 4;
+	
+	// Player animation stand movement and upping
+	public static final int ANIMATION_STAND_MOVEMENT_ARRAY_SIZE = 8;
+	public static final int ANIMATION_STAND_GET_UP_ARRAY_SIZE = 4;
+	public static final int ANIMATION_STAND_ARRAY_SIZE = ANIMATION_STAND_MOVEMENT_ARRAY_SIZE + ANIMATION_STAND_GET_UP_ARRAY_SIZE;
+	
+	public static final int ANIMATION_STAND_MOVEMENT_IDLE_0 = 0;
+	public static final int ANIMATION_STAND_MOVEMENT_1 = 1;
+	public static final int ANIMATION_STAND_MOVEMENT_2 = 2;
+	public static final int ANIMATION_STAND_MOVEMENT_3 = 3;
+	public static final int ANIMATION_STAND_MOVEMENT_4 = 4;
+	public static final int ANIMATION_STAND_MOVEMENT_5 = 5;
+	public static final int ANIMATION_STAND_MOVEMENT_6 = 6;
+	public static final int ANIMATION_STAND_MOVEMENT_7 = 7;
+	
+	public static final int ANIMATION_STAND_GET_UP_0 = 8;
+	public static final int ANIMATION_STAND_GET_UP_1 = 9;
+	public static final int ANIMATION_STAND_GET_UP_2 = 10;
+	public static final int ANIMATION_STAND_GET_UP_3 = 11;
+	
 	// Physic
 	public static final int BODY_TYPE_STATIC = 0;
 	public static final int BODY_TYPE_DYNAMIC = 1;
@@ -152,7 +186,6 @@ public class Const {
 	public static final String PLANS_FILE = "levelPlan";
 	
 	public static final String MAPS_FOLDER = "maps";
-	
 	
 	public static int getBodyType(final String type) {
 		

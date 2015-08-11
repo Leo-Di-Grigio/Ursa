@@ -83,8 +83,13 @@ abstract public class Creature extends Obj {
 	
 	// Weapon
 	public boolean canAttack() {
-		if(System.currentTimeMillis() - lastAttackTime > Const.WEAPON_SHOOT_DELAY){
-			return true;
+		if(!stairMode){
+			if(System.currentTimeMillis() - lastAttackTime > Const.WEAPON_SHOOT_DELAY){
+				return true;
+			}
+			else{
+				return false;
+			}
 		}
 		else{
 			return false;
@@ -139,7 +144,7 @@ abstract public class Creature extends Obj {
 					body.setLinearVelocity(body.getLinearVelocity().x, movementJumpSpeed);
 				}
 				else{
-					setStairMode(true);	
+					setStairMode(true);
 				}
 			}
 			else{
@@ -153,16 +158,20 @@ abstract public class Creature extends Obj {
 	public void moveDown() {		
 		if(stairMode){
 			boolean floorContact = false;
+			boolean downStairContact = false;
 			
 			for(Obj obj: stairs){
 				// check stairs bottom
 				if((int)(obj.y() - obj.sizeY()/2) == (int)(y() - sizeY()/2)){
 					floorContact = true;
-					break;
+				}
+				
+				if((int)(obj.y() + obj.sizeY()/2) == (int)(y() - sizeY()/2)){
+					downStairContact = true;
 				}
 			}
 			
-			if(floorContact){
+			if(!downStairContact && floorContact){
 				setStairMode(false);
 			}
 			else{
@@ -230,6 +239,12 @@ abstract public class Creature extends Obj {
         		filter.maskBits = Const.MASK_NPC_GHOST;        	
 				fixture.setFilterData(filter);
 				body.setGravityScale(0.0f);
+			}
+			
+			// stair centring
+			for(Obj obj: stairs){
+				body.setTransform(obj.x() + obj.sizeX()/2, this.y(), 0.0f);
+				break;
 			}
 		}
 		else{

@@ -296,6 +296,86 @@ final class GameUiLoader {
 		else{
 			Log.err("Game.initEditFrame(): button button_editor_npc_woman is null ");
 		}
+
+		// Grass
+		button = (Button)ui.getWidget("button_editor_grass");
+		if(button != null){
+			button.setScriptOnAction(new Script() {
+				
+				@Override
+				public void execute(String key) {
+					
+				}
+				
+				@Override
+				public void execute() {
+					gamedata.setEditObject(Const.OBJ_GRASS);
+				}
+			});
+		}
+		else{
+			Log.err("Game.initEditFrame(): button button_editor_grass is null ");
+		}
+
+		// Grass L
+		button = (Button)ui.getWidget("button_editor_grass_L");
+		if(button != null){
+			button.setScriptOnAction(new Script() {
+				
+				@Override
+				public void execute(String key) {
+					
+				}
+				
+				@Override
+				public void execute() {
+					gamedata.setEditObject(Const.OBJ_GRASS_L);
+				}
+			});
+		}
+		else{
+			Log.err("Game.initEditFrame(): button button_editor_grass_L is null ");
+		}
+		
+		// Grass L
+		button = (Button)ui.getWidget("button_editor_grass_R");
+		if(button != null){
+			button.setScriptOnAction(new Script() {
+				
+				@Override
+				public void execute(String key) {
+					
+				}
+				
+				@Override
+				public void execute() {
+					gamedata.setEditObject(Const.OBJ_GRASS_R);
+				}
+			});
+		}
+		else{
+			Log.err("Game.initEditFrame(): button button_editor_grass_R is null ");
+		}
+		
+		// Grass LR
+		button = (Button)ui.getWidget("button_editor_grass_LR");
+		if(button != null){
+			button.setScriptOnAction(new Script() {
+				
+				@Override
+				public void execute(String key) {
+					
+				}
+				
+				@Override
+				public void execute() {
+					gamedata.setEditObject(Const.OBJ_GRASS_LR);
+				}
+			});
+		}
+		else{
+			Log.err("Game.initEditFrame(): button button_editor_grass_LR is null ");
+		}
 	}
 	
 	private static void initPlayerFrame(final UI ui, final GameData gamedata) {

@@ -196,6 +196,9 @@ public final class GameData implements Disposable {
 		else if(dataA.type == Const.OBJ_BLOCK || dataB.type == Const.OBJ_BLOCK){
 			loc.npcInteractBlock(dataA, dataB, value);
 		}
+		else if(dataA.type == Const.OBJ_BLOCK_CUBE || dataB.type == Const.OBJ_BLOCK_CUBE){
+			loc.npcInteractBlock(dataA, dataB, value);
+		}
 	}
 	
 	// Player movement
@@ -373,5 +376,9 @@ public final class GameData implements Disposable {
 
 	public void saveLocation() {
 		loc.saveLocation();
+	}
+
+	public void playerStand() {
+		player.stand();
 	}
 }

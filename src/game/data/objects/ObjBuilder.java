@@ -4,6 +4,8 @@ import game.data.BackgroundWall;
 import game.data.objects.creatures.NpcWoman;
 import game.data.objects.creatures.Player;
 import game.data.objects.statics.Block;
+import game.data.objects.statics.Cube;
+import game.data.objects.statics.Grass;
 import game.data.objects.statics.Stairs;
 import game.data.objects.statics.Water;
 import game.data.sql.Database;
@@ -46,8 +48,11 @@ public final class ObjBuilder {
 				
 			case Const.OBJ_BLOCK:
 			case Const.OBJ_BLOCK_VERTICAL:
-			case Const.OBJ_BLOCK_CUBE:
 				object = new Block();
+				break;
+				
+			case Const.OBJ_BLOCK_CUBE:
+				object = new Cube();
 				break;
 			
 			case Const.OBJ_BACKGROUND_WALL:
@@ -65,6 +70,22 @@ public final class ObjBuilder {
 				
 			case Const.OBJ_NPC_WOMAN:
 				object = new NpcWoman();
+				break;
+			
+			case Const.OBJ_GRASS:
+				object = new Grass(Const.OBJ_GRASS);
+				break;
+			
+			case Const.OBJ_GRASS_L:
+				object = new Grass(Const.OBJ_GRASS_L);
+				break;
+				
+			case Const.OBJ_GRASS_R:
+				object = new Grass(Const.OBJ_GRASS_R);
+				break;
+				
+			case Const.OBJ_GRASS_LR:
+				object = new Grass(Const.OBJ_GRASS_LR);
 				break;
 				
 			case Const.OBJ_NULL:

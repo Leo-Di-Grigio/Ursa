@@ -38,6 +38,8 @@ public final class Game extends Scene {
 	private void initAssets() {		
 		// Textures
 		Assets.loadTex(Const.TEX_BULLET);
+		Assets.loadTex(Const.TEX_PLAYER_STAND);
+		Assets.loadTex(Const.TEX_PLAYER_STAIRS);
 		
 		// fonts
 		font = Assets.getFont(Const.FONT_DEFAULT);
@@ -99,14 +101,25 @@ public final class Game extends Scene {
 			gamedata.cameraZoom(data);
 		}
 		else if(code == Event.KEY_DOWN){
-			if(data == Keys.SPACE){
-				gamedata.playerAttack();
-			}
-			else if(data == Keys.ESCAPE){
-				gamedata.sceneEscape();
-			}
-			else if(data == Keys.FORWARD_DEL){
-				gamedata.sceneDel();
+			switch (data) {
+				case Keys.SPACE:
+					gamedata.playerAttack();
+					break;
+
+				case Keys.ESCAPE:
+					gamedata.sceneEscape();
+					break;
+					
+				case Keys.FORWARD_DEL:
+					gamedata.sceneDel();
+					break;
+					
+				case Keys.E:
+					gamedata.playerStand();
+					break;
+					
+				default:
+					break;
 			}
 		}
 	}

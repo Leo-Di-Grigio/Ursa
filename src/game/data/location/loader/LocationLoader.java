@@ -42,6 +42,7 @@ final class LocationLoader {
 					loc.addObj(world, type, x, y);
 				}
 				
+				Log.debug("Location file \"" + filePath + "\" loaded");
 				in.close();
 			}
 			catch (FileNotFoundException e) {

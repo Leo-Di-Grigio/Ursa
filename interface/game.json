@@ -64,14 +64,14 @@
 		"content": "frame",
 		"title": "Editor_Frame",
 		
-		"alignment": "UP_RIGHT", "pos_x": -255, "pos_y": -38, "size_x": 76, "size_y": 314,
+		"alignment": "UP_RIGHT", "pos_x": -255, "pos_y": -38, "size_x": 76, "size_y": 450,
 		"visible": false,
 				
 		"background": [
 			{
 				"content": "image",
 				"title": "background",
-				"alignment": "ABSOLUTE", "pos_x": 0, "pos_y": 0, "size_x": 76, "size_y": 314,
+				"alignment": "ABSOLUTE", "pos_x": 0, "pos_y": 0, "size_x": 76, "size_y": 450,
 				"texture_normal": "assets/tex/ui/back_menu.png",
 				"texture_select": "assets/tex/ui/back_menu.png",
 				"visible": true,
@@ -164,6 +164,46 @@
 				"title": "button_editor_npc_woman",
 				"font": "assets/font/font.ttf", "text": "Ñÿñÿ",
 				"alignment": "UP_LEFT", "pos_x": 2, "pos_y": -274, "size_x": 70, "size_y": 32,
+				"texture_normal": "assets/tex/ui/button_normal.png",
+				"texture_select": "assets/tex/ui/button_selected.png",
+				"visible": true,
+			},
+			
+			{
+				"content": "button",
+				"title": "button_editor_grass",
+				"font": "assets/font/font.ttf", "text": "Grass",
+				"alignment": "UP_LEFT", "pos_x": 2, "pos_y": -308, "size_x": 70, "size_y": 32,
+				"texture_normal": "assets/tex/ui/button_normal.png",
+				"texture_select": "assets/tex/ui/button_selected.png",
+				"visible": true,
+			},
+			
+			{
+				"content": "button",
+				"title": "button_editor_grass_L",
+				"font": "assets/font/font.ttf", "text": "Grass-L",
+				"alignment": "UP_LEFT", "pos_x": 2, "pos_y": -342, "size_x": 70, "size_y": 32,
+				"texture_normal": "assets/tex/ui/button_normal.png",
+				"texture_select": "assets/tex/ui/button_selected.png",
+				"visible": true,
+			},
+			
+			{
+				"content": "button",
+				"title": "button_editor_grass_R",
+				"font": "assets/font/font.ttf", "text": "Grass-R",
+				"alignment": "UP_LEFT", "pos_x": 2, "pos_y": -376, "size_x": 70, "size_y": 32,
+				"texture_normal": "assets/tex/ui/button_normal.png",
+				"texture_select": "assets/tex/ui/button_selected.png",
+				"visible": true,
+			},
+			
+			{
+				"content": "button",
+				"title": "button_editor_grass_LR",
+				"font": "assets/font/font.ttf", "text": "Grass-LR",
+				"alignment": "UP_LEFT", "pos_x": 2, "pos_y": -410, "size_x": 70, "size_y": 32,
 				"texture_normal": "assets/tex/ui/button_normal.png",
 				"texture_select": "assets/tex/ui/button_selected.png",
 				"visible": true,
