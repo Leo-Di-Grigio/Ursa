@@ -120,7 +120,7 @@ public class Const {
 	public static final short CATEGORY_BLOCK = 0x0010;
 	public static final short CATEGORY_INTERACT = 0x0020;
 	public static final short CATEGORY_BULLET = 0x0040;
-	public static final short CATEGORY_8 = 0x0080;
+	public static final short CATEGORY_CORPSE = 0x0080;
 	public static final short CATEGORY_9 = 0x0100;
 	public static final short CATEGORY_10 = 0x0200;
 	public static final short CATEGORY_11 = 0x0400;
@@ -135,9 +135,10 @@ public class Const {
 	public static final short MASK_PLAYER_GHOST  = CATEGORY_INTERACT | CATEGORY_NPC_NORMAL | CATEGORY_BULLET;
 	public static final short MASK_NPC_NORMAL    = CATEGORY_PLAYER_NORMAL | CATEGORY_PLAYER_GHOST | CATEGORY_INTERACT | CATEGORY_BULLET | CATEGORY_BLOCK;
 	public static final short MASK_NPC_GHOST     = CATEGORY_PLAYER_NORMAL | CATEGORY_PLAYER_GHOST | CATEGORY_INTERACT | CATEGORY_BULLET;
-	public static final short MASK_BLOCK         = CATEGORY_PLAYER_NORMAL | CATEGORY_NPC_NORMAL | CATEGORY_BULLET;
+	public static final short MASK_BLOCK         = CATEGORY_PLAYER_NORMAL | CATEGORY_NPC_NORMAL   | CATEGORY_BULLET   | CATEGORY_CORPSE;
 	public static final short MASK_INTERACT      = CATEGORY_PLAYER_NORMAL | CATEGORY_PLAYER_GHOST | CATEGORY_NPC_NORMAL | CATEGORY_NPC_GHOST;
 	public static final short MASK_BULLET        = CATEGORY_PLAYER_NORMAL | CATEGORY_PLAYER_GHOST | CATEGORY_NPC_NORMAL | CATEGORY_NPC_GHOST | CATEGORY_BLOCK;
+	public static final short MASK_CORPSE        = CATEGORY_BLOCK | CATEGORY_CORPSE;
 	
 	// Location gravity
 	public static final float PHYSICS_GRAVITY_X =  0.0f;

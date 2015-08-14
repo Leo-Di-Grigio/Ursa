@@ -82,7 +82,7 @@ public final class GameData implements Disposable {
 	public void update(OrthographicCamera camera) {
 		if(!editMode){
 			world.step(Gdx.graphics.getDeltaTime(), 8, 3);
-			loc.update();
+			loc.update(world);
 			
 			float deltax = player.x() - camera.position.x;
 			float deltay = player.y() - camera.position.y;

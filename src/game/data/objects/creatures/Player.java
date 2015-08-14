@@ -11,6 +11,7 @@ import tools.Const;
 
 public final class Player extends Creature {
 
+	// Texture data regions
 	private static final int PLAYER_SIZE_X = 96;
 	private static final int PLAYER_SIZE_Y = 62;
 	
@@ -24,24 +25,23 @@ public final class Player extends Creature {
 	private static final int PLAYER_SIZE_STAIR_X = 64;
 	private static final int PLAYER_SIZE_STAIR_Y = 96;
 		
-	// Timing
+	// Timings
 	private static final int PLAYER_ANIMATION_STEP = 5;
 	private static final int PLAYER_ANIMATION_SWITCH = 7;
 	private static final int PLAYER_ANIMATION_SWITCH_TIME = Const.ANIMATION_STAND_GET_UP_ARRAY_SIZE * PLAYER_ANIMATION_SWITCH;
 	
-	// Graphics
+	// Animation
 	private int animationTimer = 0;
-	private int animation = Const.ANIMATION_IDLE_0;
-	
-	private int animationStandSwitchTimer = 0;
 	private int animationTimerStand = 0;
-	private int animationStand = Const.ANIMATION_STAND_MOVEMENT_IDLE_0;
-
 	private int animationTimerStairs = 0;
+	private int animationStandSwitchTimer = 0;
+	
+	private int animation = Const.ANIMATION_IDLE_0;
+	private int animationStand = Const.ANIMATION_STAND_MOVEMENT_IDLE_0;
 	private int animationStairs = Const.ANIMATION_STAIR_STEP_0;
 	
-	private boolean standSwitchMode;
 	private boolean standMode;
+	private boolean standSwitchMode;
 	
 	// Textures (static for loading all players)
 	private static TextureRegion [][] texAtlas;

@@ -1,5 +1,7 @@
 package game.data.objects;
 
+import game.data.sql.Database;
+
 import java.util.HashSet;
 
 import com.badlogic.gdx.physics.box2d.Filter;
@@ -23,6 +25,7 @@ abstract public class Creature extends Obj {
 	protected float movementJumpSpeed = Const.BEAR_SPEED_JUMP;
 	
 	// Heals
+	protected boolean dead;
 	protected int hp;
 	protected int maxHp;
 	
@@ -38,6 +41,9 @@ abstract public class Creature extends Obj {
 		stairs = new HashSet<Obj>();
 		waters = new HashSet<Obj>();
 		filter = new Filter();
+		
+		this.maxHp = Database.getObject(type).maxHp;
+		this.hp = maxHp;
 	}
 
 	public boolean isGrounded() {
@@ -79,6 +85,19 @@ abstract public class Creature extends Obj {
 		else{
 			waters.add(obj);
 		}
+	}
+	
+	@Override
+	public void bulletInteract(final int bulletType) {
+		this.hp -= 10; // 10 - test damage
+		
+		if(hp <= 0){
+			this.dead = true;
+		}
+	}
+	
+	public boolean isDead(){
+		return dead;
 	}
 	
 	// Weapon
@@ -269,5 +288,13 @@ abstract public class Creature extends Obj {
 	
 	public void update() {
 		
+	}
+
+	public void disactive() {
+		filter.categoryBits = Const.CATEGORY_CORPSE;
+		filter.maskBits = Const.MASK_CORPSE;
+		fixture.setFilterData(filter);
+		body.setGravityScale(1.0f);
+		body.setLinearVelocity(0.0f, 0.0f);
 	}
 }

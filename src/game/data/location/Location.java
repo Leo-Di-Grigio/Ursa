@@ -42,6 +42,8 @@ public final class Location {
 	
 	private HashMap<Integer, Bullet> activeBullets;
 	private Array<Bullet> drawBullets;
+	
+	// free data
 	private HashSet<Bullet> freeBullets;
 	
 	// Background
@@ -85,8 +87,10 @@ public final class Location {
 		draw = new TreeMap<Integer, HashSet<Obj>>(new DrawSort());
 		
 		drawBullets = new Array<Bullet>();
-		freeBullets = new HashSet<Bullet>();
 		activeBullets = new HashMap<Integer, Bullet>();
+		
+		// free data
+		freeBullets = new HashSet<Bullet>();
 		
 		// background
 		Assets.loadTex(Const.TEX_BACKGROUND_LAYER_1);
@@ -136,8 +140,7 @@ public final class Location {
 			creatures.remove(object.id);
 		}
 		
-		final int layer = Database.getObject(object.type).drawLayer;
-		draw.get(layer).remove(object);
+		draw.get(Database.getObject(object.type).drawLayer).remove(object);
 	}
 	
 	public Obj getObj(final int id) {
@@ -216,10 +219,27 @@ public final class Location {
 	
 	public void bulletInteract(ObjData dataA, ObjData dataB, boolean value) {
 		if(dataA.type == Const.OBJ_BULLET){
+			damage(dataB.id, dataA.type);
 			freeBullet(dataA.id);
 		}
 		else{
+			damage(dataA.id, dataB.type);
 			freeBullet(dataB.id);
+		}
+	}
+
+	private void damage(int targetId, int bulletType) {
+		Creature creature = creatures.get(targetId);
+		
+		if(creature == null){
+			Log.err("Location.damage(): creature is null");
+		}
+		else{
+			creature.bulletInteract(bulletType);
+			
+			if(creature.isDead()){
+				creature.disactive();
+			}
 		}
 	}
 
@@ -258,9 +278,11 @@ public final class Location {
 		}
 	}
 	
-	public void update(){
+	public void update(World world){
 		for(Creature unit: creatures.values()){
-			unit.update();
+			if(!unit.isDead()){
+				unit.update();
+			}
 		}
 		
 		// free Bullets

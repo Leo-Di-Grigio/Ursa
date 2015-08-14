@@ -191,4 +191,8 @@ abstract public class Obj {
 	public void draw(SpriteBatch batch) {
 		batch.draw(tex, x() - sizeX()/2, y() - sizeY()/2, sizeX(), sizeY());
 	}
+
+	public void bulletInteract(final int bulletType) {
+		
+	}
 }

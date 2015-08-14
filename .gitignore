@@ -57,6 +57,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+bin/
 build/
 plans/
 levelPlan.png
