@@ -56,7 +56,7 @@ abstract public class Creature extends Obj {
 		return false;
 	}
 	
-	public void interactStair(boolean value, Obj obj) {
+	public void collisionStair(boolean value, Obj obj) {
 		if(value){
 			stairs.add(obj);
 		}
@@ -69,7 +69,7 @@ abstract public class Creature extends Obj {
 		}
 	}
 	
-	public void interactBlock(boolean value, Obj obj) {
+	public void collisionBlock(boolean value, Obj obj) {
 		if(value){
 			blocks.add(obj);
 		}
@@ -78,7 +78,7 @@ abstract public class Creature extends Obj {
 		}
 	}
 	
-	public void interactWater(boolean value, Obj obj) {
+	public void collisionWater(boolean value, Obj obj) {
 		if(value){
 			waters.add(obj);
 		}
@@ -88,7 +88,7 @@ abstract public class Creature extends Obj {
 	}
 	
 	@Override
-	public void bulletInteract(final int bulletType) {
+	public void collisionBullet(final int bulletType) {
 		this.hp -= 10; // 10 - test damage
 		
 		if(hp <= 0){

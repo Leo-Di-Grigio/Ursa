@@ -192,7 +192,7 @@ abstract public class Obj {
 		batch.draw(tex, x() - sizeX()/2, y() - sizeY()/2, sizeX(), sizeY());
 	}
 
-	public void bulletInteract(final int bulletType) {
+	public void collisionBullet(final int bulletType) {
 		
 	}
 }

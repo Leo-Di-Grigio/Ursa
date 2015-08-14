@@ -18,14 +18,14 @@ public class GameContactListener implements ContactListener {
 	
 	@Override
 	public void beginContact(Contact contact) {
-		gamedata.interact((ObjData)contact.getFixtureA().getBody().getUserData(),
+		gamedata.collision((ObjData)contact.getFixtureA().getBody().getUserData(),
 						  (ObjData)contact.getFixtureB().getBody().getUserData(),
 						  true);
 	}
 
 	@Override
 	public void endContact(Contact contact) {
-		gamedata.interact((ObjData)contact.getFixtureA().getBody().getUserData(),
+		gamedata.collision((ObjData)contact.getFixtureA().getBody().getUserData(),
 				  		  (ObjData)contact.getFixtureB().getBody().getUserData(),
 				  		  false);
 	}

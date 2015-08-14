@@ -1,8 +1,10 @@
 package game;
 
 import game.data.GameData;
+import game.data.PlayerHandler;
 import game.data.objects.creatures.Player;
 import game.data.sql.Database;
+import game.editor.Editor;
 import tools.Const;
 
 import com.badlogic.gdx.Input.Keys;
@@ -23,16 +25,21 @@ public final class Game extends Scene {
 	
 	// Data
 	private GameData gamedata;
+	private PlayerHandler playerHandler;
 	
 	public Game() {
+		// Editor
+		new Editor();
+		
 		// Game data
 		new Database();
 		initAssets();
 		gamedata = new GameData();
+		playerHandler = gamedata.buildPlayerHandler();
 		
 		// UI
 		setUI(Const.UI_GAME);
-		GameUiLoader.load(getUI(), gamedata);
+		GameUiLoader.load(getUI(), gamedata, playerHandler);
 	}
 
 	private void initAssets() {		
@@ -46,36 +53,36 @@ public final class Game extends Scene {
 	}
 	
 	public Player getPlayer() {
-		return gamedata.getPlayer();
+		return playerHandler.getPlayer();
 	}
 	
 	@Override
 	protected void update(OrthographicCamera camera) {
 		if(UserInput.key(Keys.W)){
-			gamedata.playerMoveUp();
+			playerHandler.moveUp();
 		}
 		else if(UserInput.key(Keys.S)){
-			gamedata.playerMoveDown();
+			playerHandler.moveDown();
 		}
 		else {
-			gamedata.playerStopY();
+			playerHandler.moveStopY();
 		}
 		
 		if(UserInput.key(Keys.A)){
-			gamedata.playerMoveLeft();
+			playerHandler.moveLeft();
 		}
 		else if(UserInput.key(Keys.D)){
-			gamedata.playerMoveRight();
+			playerHandler.moveRight();
 		}
 		else{
-			gamedata.playerStopX();
+			playerHandler.moveStopX();
 		}
 		
 		if(UserInput.key(Keys.SPACE)){
-			gamedata.playerAttack();
+			playerHandler.attack();
 		}
 		
-		gamedata.update(camera);
+		gamedata.update(camera, playerHandler);
 	}
 	
 	@Override
@@ -85,10 +92,10 @@ public final class Game extends Scene {
 			gamedata.setLocColor();
 		}
 		else if(code == Event.MOUSE_KEY_LEFT){
-			gamedata.sceneLeftClick();
+			gamedata.eventLeftClick();
 		}
 		else if(code == Event.MOUSE_KEY_RIGHT){
-			gamedata.sceneRightClick();
+			gamedata.eventRightClick();
 		}
 		else if(code == Event.MOUSE_MOVE){
 			gamedata.sceneMouseMove();
@@ -98,24 +105,24 @@ public final class Game extends Scene {
 	@Override
 	public void event(int code, int data) {
 		if(code == Event.MOUSE_SCROLL){
-			gamedata.cameraZoom(data);
+			gamedata.eventMouseScroll(data);
 		}
 		else if(code == Event.KEY_DOWN){
 			switch (data) {
 				case Keys.SPACE:
-					gamedata.playerAttack();
+					playerHandler.attack();
 					break;
 
 				case Keys.ESCAPE:
-					gamedata.sceneEscape();
+					gamedata.eventEscape();
 					break;
 					
 				case Keys.FORWARD_DEL:
-					gamedata.sceneDel();
+					gamedata.eventDel();
 					break;
 					
 				case Keys.E:
-					gamedata.playerStand();
+					playerHandler.playerStand();
 					break;
 					
 				default:
@@ -131,7 +138,7 @@ public final class Game extends Scene {
 	
 	@Override
 	protected void drawHUD(SpriteBatch batch) {
-		gamedata.drawHUD(font, batch);
+		gamedata.drawHUD(font, batch, playerHandler);
 	}
 	
 	@Override
@@ -141,6 +148,7 @@ public final class Game extends Scene {
 	
 	@Override
 	public void dispose() {
+		Editor.dispose();
 		gamedata.dispose();
 	}
 }

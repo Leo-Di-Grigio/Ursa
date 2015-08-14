@@ -93,17 +93,21 @@ public final class Location {
 		freeBullets = new HashSet<Bullet>();
 		
 		// background
+		loadBackground();
+		
+		// tmp
+		tmpSet = new HashSet<Obj>();
+	}
+	
+	private void loadBackground() {
 		Assets.loadTex(Const.TEX_BACKGROUND_LAYER_1);
 		Assets.loadTex(Const.TEX_BACKGROUND_LAYER_2);
 		
 		background = new ScrollBackground[2];
 		background[0] = new ScrollBackground(Const.TEX_BACKGROUND_LAYER_1, 0.85f, 0.0f, 0.1f);
 		background[1] = new ScrollBackground(Const.TEX_BACKGROUND_LAYER_2, 0.76f, 0.0f, 0.1f);
-		
-		// tmp
-		tmpSet = new HashSet<Obj>();
 	}
-	
+
 	public Obj addObj(World world, int type, float x, float y){
 		Obj object = ObjBuilder.buildObj(world, type, x, y);
 		
@@ -184,40 +188,40 @@ public final class Location {
 		}
 	}
 	
-	public void npcInteractBlock(ObjData idA, ObjData idB, boolean value) {
+	public void npcCollisionBlock(ObjData idA, ObjData idB, boolean value) {
 		Obj objA = getObj(idA.id);
 		
 		if(objA.creature){
-			creatures.get(idA.id).interactBlock(value, getObj(idB.id));
+			creatures.get(idA.id).collisionBlock(value, getObj(idB.id));
 		}
 		else{
-			creatures.get(idB.id).interactBlock(value, getObj(idA.id));
+			creatures.get(idB.id).collisionBlock(value, getObj(idA.id));
 		}
 	}
 	
-	public void npcInteractStair(ObjData idA, ObjData idB, boolean value) {
+	public void npcCollisionStair(ObjData idA, ObjData idB, boolean value) {
 		Obj objA = getObj(idA.id);
 		
 		if(objA.creature){
-			creatures.get(idA.id).interactStair(value, getObj(idB.id));
+			creatures.get(idA.id).collisionStair(value, getObj(idB.id));
 		}
 		else{
-			creatures.get(idB.id).interactStair(value, getObj(idA.id));
+			creatures.get(idB.id).collisionStair(value, getObj(idA.id));
 		}
 	}
 
-	public void npcInteractWater(ObjData idA, ObjData idB, boolean value) {
+	public void npcCollisionWater(ObjData idA, ObjData idB, boolean value) {
 		Obj objA = getObj(idA.id);
 		
 		if(objA.creature){
-			creatures.get(idA.id).interactWater(value, getObj(idB.id));
+			creatures.get(idA.id).collisionWater(value, getObj(idB.id));
 		}
 		else{
-			creatures.get(idB.id).interactWater(value, getObj(idA.id));
+			creatures.get(idB.id).collisionWater(value, getObj(idA.id));
 		}
 	}
 	
-	public void bulletInteract(ObjData dataA, ObjData dataB, boolean value) {
+	public void bulletCollision(ObjData dataA, ObjData dataB, boolean value) {
 		if(dataA.type == Const.OBJ_BULLET){
 			damage(dataB.id, dataA.type);
 			freeBullet(dataA.id);
@@ -235,7 +239,7 @@ public final class Location {
 			Log.err("Location.damage(): creature is null");
 		}
 		else{
-			creature.bulletInteract(bulletType);
+			creature.collisionBullet(bulletType);
 			
 			if(creature.isDead()){
 				creature.disactive();

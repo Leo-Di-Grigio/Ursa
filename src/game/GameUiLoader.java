@@ -1,8 +1,11 @@
 package game;
 
 import game.data.GameData;
+import game.data.PlayerHandler;
+import game.data.objects.creatures.Player;
 import game.data.sql.Database;
 import game.data.sql.properties.ObjectProperties;
+import game.editor.Editor;
 import tools.Const;
 
 import com.owlengine.interfaces.Script;
@@ -10,19 +13,21 @@ import com.owlengine.tools.Log;
 import com.owlengine.ui.Frame;
 import com.owlengine.ui.UI;
 import com.owlengine.ui.widgets.Button;
+import com.owlengine.ui.widgets.Checkbox;
 import com.owlengine.ui.widgets.ProgressBar;
 
 import cycle.GameAPI;
 
 final class GameUiLoader {
 
-	public static void load(final UI ui, final GameData gamedata){
-		initToolFrame(ui, gamedata);
+	public static void load(final UI ui, final GameData gamedata, final PlayerHandler playerHandler){
+		initToolFrame(ui, gamedata, playerHandler);
 		initEditFrame(ui, gamedata);
-		initPlayerFrame(ui, gamedata);
+		initLayersFrame(ui, gamedata);
+		initPlayerFrame(ui, playerHandler.getPlayer());
 	}
-	
-	private static void initToolFrame(final UI ui, final GameData gamedata) {
+
+	private static void initToolFrame(final UI ui, final GameData gamedata, final PlayerHandler player) {
 		Button button = null;
 		
 		// Editor
@@ -37,15 +42,28 @@ final class GameUiLoader {
 				
 				@Override
 				public void execute() {
-					Frame frame = ui.getFrame("Editor_Frame");
+					// Elements
+					Frame frameElements = ui.getFrame("Editor_Frame");
 					
-					if(frame != null){
-						frame.setVisible(!frame.visible());
-						gamedata.setEditMode(frame.visible());
+					if(frameElements != null){
+						frameElements.setVisible(!frameElements.visible());
 					}
 					else{
 						Log.err("Game.initToolFrame(): frame Editor_Frame is null ");
 					}
+					
+					// Layers
+					Frame frameLayers = ui.getFrame("Editor_Layers");
+					
+					if(frameLayers != null){
+						frameLayers.setVisible(!frameLayers.visible());
+					}
+					else{
+						Log.err("Game.initToolFrame(): frame Editor_Layers is null ");
+					}
+					
+					// Switch game mode
+					gamedata.setEditMode(frameElements.visible(), player);
 				}
 			});
 		}
@@ -59,9 +77,7 @@ final class GameUiLoader {
 			button.setScriptOnAction(new Script() {
 				
 				@Override
-				public void execute(String key) {
-					
-				}
+				public void execute(String key) { }
 				
 				@Override
 				public void execute() {
@@ -79,9 +95,7 @@ final class GameUiLoader {
 			button.setScriptOnAction(new Script() {
 				
 				@Override
-				public void execute(String key) {
-					
-				}
+				public void execute(String key) { }
 				
 				@Override
 				public void execute() {
@@ -99,9 +113,7 @@ final class GameUiLoader {
 			button.setScriptOnAction(new Script() {
 				
 				@Override
-				public void execute(String key) {
-					
-				}
+				public void execute(String key) { }
 				
 				@Override
 				public void execute() {
@@ -123,13 +135,11 @@ final class GameUiLoader {
 			button.setScriptOnAction(new Script() {
 				
 				@Override
-				public void execute(String key) {
-					
-				}
+				public void execute(String key) { }
 				
 				@Override
 				public void execute() {
-					gamedata.setEditObject(Const.OBJ_NULL);
+					Editor.setEditObject(Const.OBJ_NULL);
 				}
 			});
 		}
@@ -143,13 +153,11 @@ final class GameUiLoader {
 			button.setScriptOnAction(new Script() {
 				
 				@Override
-				public void execute(String key) {
-					
-				}
+				public void execute(String key) { }
 				
 				@Override
 				public void execute() {
-					gamedata.setEditObject(Const.OBJ_BLOCK);
+					Editor.setEditObject(Const.OBJ_BLOCK);
 				}
 			});
 		}
@@ -163,13 +171,11 @@ final class GameUiLoader {
 			button.setScriptOnAction(new Script() {
 				
 				@Override
-				public void execute(String key) {
-					
-				}
+				public void execute(String key) { }
 				
 				@Override
 				public void execute() {
-					gamedata.setEditObject(Const.OBJ_BACKGROUND_WALL);
+					Editor.setEditObject(Const.OBJ_BACKGROUND_WALL);
 				}
 			});
 		}
@@ -183,13 +189,11 @@ final class GameUiLoader {
 			button.setScriptOnAction(new Script() {
 				
 				@Override
-				public void execute(String key) {
-					
-				}
+				public void execute(String key) { }
 				
 				@Override
 				public void execute() {
-					gamedata.setEditObject(Const.OBJ_STAIRS);
+					Editor.setEditObject(Const.OBJ_STAIRS);
 				}
 			});
 		}
@@ -203,13 +207,11 @@ final class GameUiLoader {
 			button.setScriptOnAction(new Script() {
 				
 				@Override
-				public void execute(String key) {
-					
-				}
+				public void execute(String key) { }
 				
 				@Override
 				public void execute() {
-					gamedata.setEditObject(Const.OBJ_WATER);
+					Editor.setEditObject(Const.OBJ_WATER);
 				}
 			});
 		}
@@ -223,13 +225,11 @@ final class GameUiLoader {
 			button.setScriptOnAction(new Script() {
 				
 				@Override
-				public void execute(String key) {
-					
-				}
+				public void execute(String key) { }
 				
 				@Override
 				public void execute() {
-					gamedata.setEditObject(Const.OBJ_BLOCK_VERTICAL);
+					Editor.setEditObject(Const.OBJ_BLOCK_VERTICAL);
 				}
 			});
 		}
@@ -243,13 +243,11 @@ final class GameUiLoader {
 			button.setScriptOnAction(new Script() {
 				
 				@Override
-				public void execute(String key) {
-					
-				}
+				public void execute(String key) { }
 				
 				@Override
 				public void execute() {
-					gamedata.setEditObject(Const.OBJ_BLOCK_CUBE);
+					Editor.setEditObject(Const.OBJ_BLOCK_CUBE);
 				}
 			});
 		}
@@ -263,13 +261,11 @@ final class GameUiLoader {
 			button.setScriptOnAction(new Script() {
 				
 				@Override
-				public void execute(String key) {
-					
-				}
+				public void execute(String key) { }
 				
 				@Override
 				public void execute() {
-					gamedata.setEditObject(Const.OBJ_BACKGROUND_HOUSE1);
+					Editor.setEditObject(Const.OBJ_BACKGROUND_HOUSE1);
 				}
 			});
 		}
@@ -283,13 +279,11 @@ final class GameUiLoader {
 			button.setScriptOnAction(new Script() {
 				
 				@Override
-				public void execute(String key) {
-					
-				}
+				public void execute(String key) { }
 				
 				@Override
 				public void execute() {
-					gamedata.setEditObject(Const.OBJ_NPC_WOMAN);
+					Editor.setEditObject(Const.OBJ_NPC_WOMAN);
 				}
 			});
 		}
@@ -303,13 +297,11 @@ final class GameUiLoader {
 			button.setScriptOnAction(new Script() {
 				
 				@Override
-				public void execute(String key) {
-					
-				}
+				public void execute(String key) { }
 				
 				@Override
 				public void execute() {
-					gamedata.setEditObject(Const.OBJ_GRASS);
+					Editor.setEditObject(Const.OBJ_GRASS);
 				}
 			});
 		}
@@ -323,13 +315,11 @@ final class GameUiLoader {
 			button.setScriptOnAction(new Script() {
 				
 				@Override
-				public void execute(String key) {
-					
-				}
+				public void execute(String key) { }
 				
 				@Override
 				public void execute() {
-					gamedata.setEditObject(Const.OBJ_GRASS_L);
+					Editor.setEditObject(Const.OBJ_GRASS_L);
 				}
 			});
 		}
@@ -343,13 +333,11 @@ final class GameUiLoader {
 			button.setScriptOnAction(new Script() {
 				
 				@Override
-				public void execute(String key) {
-					
-				}
+				public void execute(String key) { }
 				
 				@Override
-				public void execute() {
-					gamedata.setEditObject(Const.OBJ_GRASS_R);
+				public void execute() { 
+					Editor.setEditObject(Const.OBJ_GRASS_R);
 				}
 			});
 		}
@@ -363,13 +351,11 @@ final class GameUiLoader {
 			button.setScriptOnAction(new Script() {
 				
 				@Override
-				public void execute(String key) {
-					
-				}
+				public void execute(String key) { }
 				
 				@Override
-				public void execute() {
-					gamedata.setEditObject(Const.OBJ_GRASS_LR);
+				public void execute() { 
+					Editor.setEditObject(Const.OBJ_GRASS_LR);
 				}
 			});
 		}
@@ -377,13 +363,58 @@ final class GameUiLoader {
 			Log.err("Game.initEditFrame(): button button_editor_grass_LR is null ");
 		}
 	}
+
+	private static void initLayersFrame(UI ui, GameData gamedata) {
+		final Checkbox checkbox = (Checkbox)ui.getWidget("checkbox_editor_layers_graphics");
+		
+		if(checkbox != null){
+			Editor.setEditorShowModeGraphics(checkbox.value());
+			
+			checkbox.setScriptOnAction(new Script() {
+				
+				@Override
+				public void execute(String key) { }
+				
+				@Override
+				public void execute() { 
+					checkbox.switchValue();
+					Editor.setEditorShowModeGraphics(checkbox.value());
+				}
+			});
+		}
+		else{
+			Log.err("Game.initLayersFrame(): button checkbox_editor_layers_graphics is null ");
+		}
+		
+		// Physics
+		final Checkbox checkboxPhysics = (Checkbox)ui.getWidget("checkbox_editor_layers_physics");
+		
+		if(checkboxPhysics != null){
+			Editor.setEditorShowModePhysics(checkbox.value());
+			
+			checkboxPhysics.setScriptOnAction(new Script() {
+				
+				@Override
+				public void execute(String key) { }
+				
+				@Override
+				public void execute() { 
+					checkboxPhysics.switchValue();
+					Editor.setEditorShowModePhysics(checkboxPhysics.value());
+				}
+			});
+		}
+		else{
+			Log.err("Game.initLayersFrame(): button checkbox_editor_layers_physics is null ");
+		}
+	}
 	
-	private static void initPlayerFrame(final UI ui, final GameData gamedata) {
+	private static void initPlayerFrame(final UI ui, final Player player) {
 		ProgressBar bar = null;
 		
 		bar = (ProgressBar)ui.getWidget("player_hpbar");
 		if(bar != null){
-			ObjectProperties property = Database.getObject(gamedata.getPlayer().type);
+			ObjectProperties property = Database.getObject(player.type);
 			bar.setValue(property.maxHp);
 			bar.setMax(property.maxHp);
 		}

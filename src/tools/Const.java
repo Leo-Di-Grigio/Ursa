@@ -138,7 +138,7 @@ public class Const {
 	public static final short MASK_BLOCK         = CATEGORY_PLAYER_NORMAL | CATEGORY_NPC_NORMAL   | CATEGORY_BULLET   | CATEGORY_CORPSE;
 	public static final short MASK_INTERACT      = CATEGORY_PLAYER_NORMAL | CATEGORY_PLAYER_GHOST | CATEGORY_NPC_NORMAL | CATEGORY_NPC_GHOST;
 	public static final short MASK_BULLET        = CATEGORY_PLAYER_NORMAL | CATEGORY_PLAYER_GHOST | CATEGORY_NPC_NORMAL | CATEGORY_NPC_GHOST | CATEGORY_BLOCK;
-	public static final short MASK_CORPSE        = CATEGORY_BLOCK | CATEGORY_CORPSE;
+	public static final short MASK_CORPSE        = CATEGORY_BLOCK;
 	
 	// Location gravity
 	public static final float PHYSICS_GRAVITY_X =  0.0f;

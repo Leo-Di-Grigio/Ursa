@@ -211,6 +211,68 @@
 		],
 	},
 	
+	{	
+		"content": "frame",
+		"title": "Editor_Layers",
+		
+		"alignment": "UP_RIGHT", "pos_x": -335, "pos_y": -38, "size_x": 100, "size_y": 40,
+		
+		"background": [
+			{
+				"content": "image",
+				"title": "background",
+				"alignment": "ABSOLUTE", "pos_x": 0, "pos_y": 0, "size_x": 100, "size_y": 40,
+				"texture_normal": "assets/tex/ui/back_menu.png",
+				"texture_select": "assets/tex/ui/back_menu.png",
+				"visible": true,
+			},
+		],
+		
+		"highlight": [
+			{
+				"content": "checkbox",
+				"title": "checkbox_editor_layers_graphics",
+				"alignment": "UP_LEFT", "pos_x": 2, "pos_y": -2, "size_x": 17, "size_y": 17,
+				"texture_normal": "assets/tex/ui/checkbox_clear_normal.png",
+				"texture_select": "assets/tex/ui/checkbox_clear_selected.png",
+				"texture_check_normal": "assets/tex/ui/checkbox_check_normal.png",
+				"texture_check_selected": "assets/tex/ui/checkbox_check_selected.png",
+				"visible": true,
+				"value": true,
+			},
+						
+			{
+				"content": "label",
+				"title": "label_editor_layers_graphics",
+				"text": "Graphics",
+				"font": "assets/font/font.ttf", "text": "Graphics",
+				"alignment": "UP_LEFT", "pos_x": 10, "pos_y": -8, "size_x": 85, "size_y": 17,
+				"visible": true,
+			},
+			
+			{
+				"content": "checkbox",
+				"title": "checkbox_editor_layers_physics",
+				"alignment": "UP_LEFT", "pos_x": 2, "pos_y": -21, "size_x": 17, "size_y": 17,
+				"texture_normal": "assets/tex/ui/checkbox_clear_normal.png",
+				"texture_select": "assets/tex/ui/checkbox_clear_selected.png",
+				"texture_check_normal": "assets/tex/ui/checkbox_check_normal.png",
+				"texture_check_selected": "assets/tex/ui/checkbox_check_selected.png",
+				"visible": true,
+				"value": true,
+			},
+								
+			{
+				"content": "label",
+				"title": "label_editor_layers_physics",
+				"text": "Graphics",
+				"font": "assets/font/font.ttf", "text": "Physics",
+				"alignment": "UP_LEFT", "pos_x": 6, "pos_y": -26, "size_x": 85, "size_y": 17,
+				"visible": true,
+			},
+		]
+	},
+	
 	{
 		"content": "frame",
 		"title": "Player_Frame",
