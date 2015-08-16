@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.owlengine.tools.Log;
 
 import cycle.GameAPI;
 
@@ -27,6 +28,10 @@ public final class Editor {
 	private static ShapeRenderer shapeBatch;
 	private static Vector3 cameraResoultion;
 	
+	// mouse selecting
+	private static boolean editSelect;
+	private static boolean editSelectMapPart;
+	
 	// Render layers
 	private static boolean editorLayerGraphics;
 	private static boolean editorLayerPhysics;
@@ -34,17 +39,19 @@ public final class Editor {
 	//
 	private static ObjectProperties editObjProto = null;
 	
-	// mouse selecting
-	private static boolean editSelect;
-	private static boolean editSelectMapPart;
-	
 	// tmp data
 	private static Obj selectedObj;
 	private static Vector3 select1;
 	
+	// Logger
+	private static EventEditStack editLog;
+	
 	public Editor() {
 		debugRenderer = new Box2DDebugRenderer();
 		shapeBatch = new ShapeRenderer();
+		
+		// 
+		editLog = new EventEditStack();
 		
 		// temp
 		cameraResoultion = new Vector3();
@@ -149,31 +156,22 @@ public final class Editor {
 	public static void setEditorShowModePhysics(boolean value) {
 		editorLayerPhysics = value;
 	}
-
-	private static void placeObj(Location loc, World world) {
-		pickPixel(select1);
-		
-		final int posx = (int)select1.x;
-		final int posy = (int)select1.y;
-		
-		final int sizex = editObjProto.sizex;
-		final int sizey = editObjProto.sizey;
-		
-		loc.addObj(world, editObjProto.typeId, posx + sizex/2, posy + sizey/2);
-	}
-
-	private static void pickPixel(Vector3 vector){
-        vector.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-        GameAPI.camera().unproject(vector);
-	}
 	
 	// Events
 	public static void eventLeftClick(Location loc, World world) {
 		if(editObjProto != null && !editSelect){
-			placeObj(loc, world);
+			GameAPI.pickPixel(select1, Gdx.input.getX(), Gdx.input.getY());
+			
+			final int posx = (int)select1.x;
+			final int posy = (int)select1.y;
+			
+			final int sizex = editObjProto.sizex;
+			final int sizey = editObjProto.sizey;
+			
+			editAddObject(loc, world, editObjProto.typeId, posx + sizex/2, posy + sizey/2, true);
 		}
 		else{
-			pickPixel(select1);
+			GameAPI.pickPixel(select1, Gdx.input.getX(), Gdx.input.getY());
 			
 			Set<Obj> objects = loc.searchObj(select1.x, select1.y);
 			
@@ -214,16 +212,79 @@ public final class Editor {
 	}
 
 	public static void eventDel(Location loc, World world) {
-		if(editSelectMapPart && selectedObj != null){
-			loc.removeObj(world, selectedObj);
-			editSelectMapPart = false;
-			editSelect = false;	
+		if(editSelectMapPart){
+			editRemoveObject(loc, world, selectedObj, true);
 		}
 	}
 
 	public static void eventMouseMove() {
 		if(editObjProto != null){
-			pickPixel(select1);
+			GameAPI.pickPixel(select1, Gdx.input.getX(), Gdx.input.getY());
 		}
+	}
+	
+	// Edit
+	private static void editAddObject(Location loc, World world, int typeId, float x, float y, boolean log) {
+		Obj object = loc.addObj(world, typeId, x, y);
+		
+		// log
+		if(log){
+			if(object != null){
+				editLog.objAdd(object);	
+			}
+			else{
+				Log.err("Editor.editAddObject(): object is null");
+			}
+		}
+	}
+	
+	private static void editRemoveObject(Location loc, World world, Obj object, boolean log) {
+		if(object != null){
+			loc.removeObj(world, object);
+		
+			editSelectMapPart = false;
+			editSelect = false;
+			
+			// log
+			if(log){
+				editLog.objDel(object);
+			}
+		}
+		else{
+			Log.err("Editor.editRemoveObject(): object is null");
+		}
+	}
+	
+	// Edit revert
+	public static void revert(Location loc, World world){
+		if(!editLog.isEmpty()){
+			EventEdit event = editLog.pop();
+			
+			switch (event.type()) {
+				
+				case EventEditStack.OBJ_ADD:
+					cancelObjAdd(loc, world, event);
+					break;
+					
+				case EventEditStack.OBJ_DELETE:
+					cancelObjDel(loc, world, event);
+					break;
+
+				default:
+					break;
+			}
+			
+			editLog.free(event);
+		}
+	}
+
+	private static void cancelObjAdd(Location loc, World world, EventEdit event) {
+		Log.debug("Editor: revert obj_add");
+		editRemoveObject(loc, world, loc.getObj(event.data()), false);
+	}
+
+	private static void cancelObjDel(Location loc, World world, EventEdit event) {
+		Log.debug("Editor: revert obj_delete");
+		editAddObject(loc, world, event.data(), event.v1x(), event.v1y(), false);
 	}
 }

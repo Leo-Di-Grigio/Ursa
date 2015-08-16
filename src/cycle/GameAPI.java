@@ -7,6 +7,7 @@ import menu.Menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector3;
 import com.owlengine.resources.Assets;
 import com.owlengine.scenes.SceneMng;
 import com.owlengine.tools.Log;
@@ -60,5 +61,11 @@ public final class GameAPI {
 	
 	public static OrthographicCamera camera(){
 		return camera;
+	}
+	
+	// Pick camera pixel
+	public static void pickPixel(Vector3 vector, float x, float y){
+        vector.set(x, y, 0);
+        camera.unproject(vector);
 	}
 }

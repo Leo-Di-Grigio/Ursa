@@ -125,6 +125,12 @@ public final class Game extends Scene {
 					playerHandler.playerStand();
 					break;
 					
+				case Keys.Z:
+					if(UserInput.key(Keys.CONTROL_LEFT) || UserInput.key(Keys.CONTROL_RIGHT)){
+						gamedata.eventRevert();
+					}
+					break;
+					
 				default:
 					break;
 			}

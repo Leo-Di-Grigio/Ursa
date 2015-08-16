@@ -178,7 +178,13 @@ public final class GameData implements Disposable {
 			Editor.eventRightClick();
 		}
 	}
-
+	
+	public void eventRevert() {
+		if(editMode){
+			Editor.revert(loc, world);
+		}
+	}
+	
 	public void setLocColor() {
 		loc.setLocColor();
 	}
